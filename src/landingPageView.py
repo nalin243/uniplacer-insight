@@ -17,18 +17,18 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout,
     QLabel, QMainWindow, QPushButton, QRadioButton,
-    QSizePolicy, QStackedWidget, QVBoxLayout, QWidget)
+    QSizePolicy, QStackedWidget, QVBoxLayout, QWidget, QGraphicsBlurEffect,QGraphicsOpacityEffect)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1920, 1080)
+        MainWindow.setMinimumSize(1920, 1080)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setStyleSheet(u"#centralwidget {\n"
-"	background-image: url(\"C:/Users/msubh/Documents/uniplacer-insight/assets/bg.png\");\n"
+"	background-image: url(\"../uniplacer-insight/assets/bg.png\");\n"
 "}\n"
 "")
         self.verticalLayout = QVBoxLayout(self.centralwidget)
@@ -40,14 +40,13 @@ class Ui_MainWindow(object):
         self.blueCard = QFrame(self.widget)
         self.blueCard.setObjectName(u"blueCard")
         self.blueCard.setEnabled(True)
+
+
         self.blueCard.setMinimumSize(QSize(1279, 725))
         self.blueCard.setMaximumSize(QSize(1279, 725))
-        self.blueCard.setStyleSheet(u"#blueCard {\n"
-"background-color: qlineargradient(spread:pad, x1:0, y1:0, x1:1, y2:0, stop:0 rgba(48, 149, 143, 0.40), stop:1 rgba(0, 0, 0, 0.03));\n"
-"border-radius: 34px 34px;\n"
-"}")
         self.blueCard.setFrameShape(QFrame.StyledPanel)
         self.blueCard.setFrameShadow(QFrame.Raised)
+
         self.title = QLabel(self.blueCard)
         self.title.setObjectName(u"title")
         self.title.setGeometry(QRect(30, 230, 591, 271))
@@ -55,6 +54,7 @@ class Ui_MainWindow(object):
         self.title.setPixmap(QPixmap(u"../uniplacer-insight/assets/title.png"))
         self.title.setScaledContents(True)
         self.title.setAlignment(Qt.AlignCenter)
+
         self.stackedWidgetForCards = QStackedWidget(self.blueCard)
         self.stackedWidgetForCards.setObjectName(u"stackedWidgetForCards")
         self.stackedWidgetForCards.setGeometry(QRect(685, 32, 554, 664))
@@ -69,7 +69,7 @@ class Ui_MainWindow(object):
         self.studentPlacementStatCard.setCursor(QCursor(Qt.ArrowCursor))
         self.studentPlacementStatCard.setStyleSheet(u"#studentPlacementStatCard {\n"
 "\n"
-"border-radius: 35px 35px;\n"
+"border-radius: 20px 20px;\n"
 "background-color: rgb(255, 255, 255);\n"
 "\n"
 "}")
@@ -167,7 +167,7 @@ class Ui_MainWindow(object):
         self.companyPlacementStatCard.setCursor(QCursor(Qt.ArrowCursor))
         self.companyPlacementStatCard.setStyleSheet(u"\n"
 "\n"
-"	border-radius: 35px 35px;\n"
+"	border-radius: 20px 20px;\n"
 "	background-color: rgb(255, 255, 255);\n"
 "")
         self.companyPlacementStatCard.setFrameShape(QFrame.StyledPanel)
@@ -263,7 +263,7 @@ class Ui_MainWindow(object):
         self.performanceCard.setCursor(QCursor(Qt.ArrowCursor))
         self.performanceCard.setStyleSheet(u"\n"
 "\n"
-"	border-radius: 35px 35px;\n"
+"	border-radius: 20px 20px;\n"
 "	background-color: rgb(255, 255, 255);\n"
 "")
         self.performanceCard.setFrameShape(QFrame.StyledPanel)
@@ -354,7 +354,7 @@ class Ui_MainWindow(object):
         self.stackedWidgetForCards.addWidget(self.page_3)
         self.fileButton = QPushButton(self.blueCard)
         self.fileButton.setObjectName(u"fileButton")
-        self.fileButton.setGeometry(QRect(30, 22, 50, 50))
+        self.fileButton.setGeometry(QRect(22, 22, 50, 50))
         self.fileButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.fileButton.setStyleSheet(u"")
         icon = QIcon()
@@ -365,7 +365,7 @@ class Ui_MainWindow(object):
         self.fileButton.setFlat(True)
         self.label = QLabel(self.blueCard)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(40, 32, 30, 30))
+        self.label.setGeometry(QRect(32, 32, 30, 30))
         self.label.setPixmap(QPixmap(u"../uniplacer-insight/assets/files1.png"))
         self.label.setScaledContents(True)
 
