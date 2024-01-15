@@ -25,8 +25,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.setMinimumSize(QSize(1920, 1080))
-        MainWindow.setMaximumSize(QSize(1920, 1080))
+        MainWindow.setMinimumSize(QSize(1440, 800))
+        MainWindow.setMaximumSize(QSize(1440, 800))
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -128,13 +128,14 @@ class Ui_MainWindow(object):
         self.radioButton_11 = QRadioButton(self.studentPlacementStatCardRButtons_2)
         self.radioButton_11.setObjectName(u"radioButton_11")
         self.radioButton_11.setCursor(QCursor(Qt.PointingHandCursor))
-        self.radioButton_11.setChecked(False)
+        self.radioButton_11.setCheckable(False)
 
         self.horizontalLayout_8.addWidget(self.radioButton_11, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
         self.radioButton_12 = QRadioButton(self.studentPlacementStatCardRButtons_2)
         self.radioButton_12.setObjectName(u"radioButton_12")
         self.radioButton_12.setCursor(QCursor(Qt.PointingHandCursor))
+        self.radioButton_12.setCheckable(False)
 
         self.horizontalLayout_8.addWidget(self.radioButton_12, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
@@ -212,6 +213,7 @@ class Ui_MainWindow(object):
         self.radioButton_4 = QRadioButton(self.companyPlacementStatCardRButtons)
         self.radioButton_4.setObjectName(u"radioButton_4")
         self.radioButton_4.setCursor(QCursor(Qt.PointingHandCursor))
+        self.radioButton_4.setCheckable(False)
 
         self.horizontalLayout_4.addWidget(self.radioButton_4, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
@@ -225,6 +227,7 @@ class Ui_MainWindow(object):
         self.radioButton_6 = QRadioButton(self.companyPlacementStatCardRButtons)
         self.radioButton_6.setObjectName(u"radioButton_6")
         self.radioButton_6.setCursor(QCursor(Qt.PointingHandCursor))
+        self.radioButton_6.setCheckable(False)
 
         self.horizontalLayout_4.addWidget(self.radioButton_6, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
@@ -304,12 +307,14 @@ class Ui_MainWindow(object):
         self.radioButton_7 = QRadioButton(self.performanceCardRButtons)
         self.radioButton_7.setObjectName(u"radioButton_7")
         self.radioButton_7.setCursor(QCursor(Qt.PointingHandCursor))
+        self.radioButton_7.setCheckable(False)
 
         self.horizontalLayout_6.addWidget(self.radioButton_7)
 
         self.radioButton_8 = QRadioButton(self.performanceCardRButtons)
         self.radioButton_8.setObjectName(u"radioButton_8")
         self.radioButton_8.setCursor(QCursor(Qt.PointingHandCursor))
+        self.radioButton_8.setCheckable(False)
 
         self.horizontalLayout_6.addWidget(self.radioButton_8)
 
