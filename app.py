@@ -11,23 +11,40 @@ from controllers.studentPlacementStatPageController import StudentPlacementStatP
 
 class Application(QApplication):
 
-	__currentPage = -1# -1 indidcates that current page is landing page
+	_currentPage = -1      # -1 indidcates that current page is landing page
 
 	def __init__(self):
 		super(Application,self).__init__([])
 
 		#instantiating the controllers
-		self.landingpagecontroller = LandingPageController(Application)
-		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(Application)
+		self.landingpagecontroller = LandingPageController(self)
+		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(self)
 
 		#instantiating all the views
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
 		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller)
 
+		
+
 		self.exec()#start the event loop
 
 	def displayView(self,viewIndex):
 		#use this function to show appropriate view
-		pass
+			self._currentPage = viewIndex
+			match self._currentPage:
+				case -1:
+					self.landingpageview.show()
+					self.studentplacementstatpageview.close()
+					# for other views to be added and closed later...
+
+				case 0:
+					self.studentplacementstatpageview.show()
+					self.landingpageview.close()
+					
+				case 1:
+					pass
+				case 2:
+					pass
+
 
 app = Application()
