@@ -9,6 +9,8 @@ from views.studentPlacementStatPageView import StudentPlacementStatPageView
 from controllers.landingPageController import LandingPageController
 from controllers.studentPlacementStatPageController import StudentPlacementStatPageController
 
+from models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
+
 class Application(QApplication):
 
 	__currentPage = -1# -1 indidcates that current page is landing page
@@ -16,13 +18,16 @@ class Application(QApplication):
 	def __init__(self):
 		super(Application,self).__init__([])
 
+		#instantiating the models
+		self.studentplacementstatpageviewmodel = StudentPlacementStatPageViewModel()
+
 		#instantiating the controllers
 		self.landingpagecontroller = LandingPageController(Application)
-		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(Application)
+		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(Application,self.studentplacementstatpageviewmodel)
 
 		#instantiating all the views
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
-		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller)
+		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller,self.studentplacementstatpageviewmodel)
 
 		self.exec()#start the event loop
 
