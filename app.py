@@ -23,13 +23,11 @@ class Application(QApplication):
 
 		#instantiating the controllers
 		self.landingpagecontroller = LandingPageController(self)
-		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(self)
+		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(self,self.studentplacementstatpageviewmodel)
 
 		#instantiating all the views
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
 		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller,self.studentplacementstatpageviewmodel)
-
-		
 
 		self.exec()#start the event loop
 

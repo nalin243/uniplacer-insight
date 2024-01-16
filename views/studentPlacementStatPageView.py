@@ -33,9 +33,6 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.courseComboBox.currentTextChanged.connect(self.filterChanged)
 		self.genderComboBox.currentTextChanged.connect(self.filterChanged)
 
-		self.show()
-
-
 	def filterChanged(self):
 		self.campusFilter = self.campusComboBox.currentText()
 		self.batchFitler = self.batchComboBox.currentText()
