@@ -8,6 +8,8 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
+from PySide6 import QtCore
+
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -16,9 +18,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel,
-    QMainWindow, QRadioButton, QSizePolicy, QStackedWidget,
-    QVBoxLayout, QWidget)
+    QMainWindow, QPushButton, QRadioButton, QSizePolicy, QVBoxLayout, QWidget)
 import images
+
+from resources.customstackedwidget import QStackedWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -27,6 +30,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(1440, 810)
         MainWindow.setMinimumSize(QSize(1440, 810))
         MainWindow.setMaximumSize(QSize(1440, 810))
+        MainWindow.setFocusPolicy(Qt.StrongFocus)
         MainWindow.setStyleSheet(u"")
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -42,12 +46,39 @@ class Ui_MainWindow(object):
         self.widget.setObjectName(u"widget")
         self.widget.setMinimumSize(QSize(850, 505))
         self.widget.setMaximumSize(QSize(850, 505))
-        self.stackedWidgetForCards = QStackedWidget(self.widget)
+        self.title = QLabel(self.widget)
+        self.title.setObjectName(u"title")
+        self.title.setGeometry(QRect(30, 170, 381, 171))
+        self.title.setMaximumSize(QSize(16777215, 16777215))
+        self.title.setCursor(QCursor(Qt.PointingHandCursor))
+        self.title.setPixmap(QPixmap(u":/icons/title.png"))
+        self.title.setScaledContents(True)
+        self.title.setAlignment(Qt.AlignCenter)
+        self.CardOutline = QWidget(self.widget)
+        self.CardOutline.setObjectName(u"CardOutline")
+        self.CardOutline.setGeometry(QRect(468, 52, 334, 404))
+        self.CardOutline.setMinimumSize(QSize(334, 404))
+        self.CardOutline.setMaximumSize(QSize(334, 404))
+        self.CardOutline.setStyleSheet(u"#CardOutline:hover{\n"
+"	border: 20px solid;\n"
+"	border-color: rgba(217, 217, 217,200);\n"
+"	border-top-right-radius: 34px;\n"
+"}")
+        self.stackedWidgetForCards = QStackedWidget(self.CardOutline)
         self.stackedWidgetForCards.setObjectName(u"stackedWidgetForCards")
-        self.stackedWidgetForCards.setGeometry(QRect(480, 52, 330, 360))
+        self.stackedWidgetForCards.setGeometry(QRect(2, 2, 330, 360))
         self.stackedWidgetForCards.setMinimumSize(QSize(330, 360))
         self.stackedWidgetForCards.setMaximumSize(QSize(330, 360))
-        self.stackedWidgetForCards.setStyleSheet(u"")
+        self.stackedWidgetForCards.setStyleSheet(u"QStackedWidget#stackedWidgetforCards{\n"
+"	border: 5px solid;\n"
+"	border-color: rgb(0, 0, 0);\n"
+"}")
+        self.stackedWidgetForCards.setTransitionDirection(QtCore.Qt.Horizontal)
+        self.stackedWidgetForCards.setTransitionSpeed(500)
+        self.stackedWidgetForCards.setTransitionEasingCurve(QtCore.QEasingCurve.Linear)
+        self.stackedWidgetForCards.setSlideTransition(True)
+
+
         self.page = QWidget()
         self.page.setObjectName(u"page")
         self.studentPlacementStatCard = QWidget(self.page)
@@ -60,9 +91,9 @@ class Ui_MainWindow(object):
 "\n"
 "border-top-right-radius: 34px;\n"
 "background-color: rgb(255, 255, 255);\n"
+"}\n"
 "\n"
-"}")
-
+"")
         self.verticalLayout_3 = QVBoxLayout(self.studentPlacementStatCard)
         self.verticalLayout_3.setSpacing(20)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
@@ -102,7 +133,6 @@ class Ui_MainWindow(object):
 "	border-top-right-radius: 34px;\n"
 "	background-color: rgb(255, 255, 255);\n"
 "")
-
         self.verticalLayout_4 = QVBoxLayout(self.companyPlacementStatCard)
         self.verticalLayout_4.setSpacing(20)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -141,7 +171,6 @@ class Ui_MainWindow(object):
 "	border-top-right-radius: 34px;\n"
 "	background-color: rgb(255, 255, 255);\n"
 "")
-
         self.verticalLayout_5 = QVBoxLayout(self.performanceCard)
         self.verticalLayout_5.setSpacing(20)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
@@ -149,7 +178,7 @@ class Ui_MainWindow(object):
         self.performanceCardImage = QLabel(self.performanceCard)
         self.performanceCardImage.setObjectName(u"performanceCardImage")
         self.performanceCardImage.setMinimumSize(QSize(305, 241))
-        self.performanceCardImage.setMaximumSize(QSize(305, 341))
+        self.performanceCardImage.setMaximumSize(QSize(305, 241))
         self.performanceCardImage.setPixmap(QPixmap(u":/icons/card3.png"))
         self.performanceCardImage.setScaledContents(True)
         self.performanceCardImage.setAlignment(Qt.AlignCenter)
@@ -168,26 +197,12 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.addWidget(self.performanceCardTitle, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
         self.stackedWidgetForCards.addWidget(self.page_3)
-        self.title = QLabel(self.widget)
-        self.title.setObjectName(u"title")
-        self.title.setGeometry(QRect(30, 170, 381, 171))
-        self.title.setMaximumSize(QSize(16777215, 16777215))
-        self.title.setPixmap(QPixmap(u":/icons/title.png"))
-        self.title.setScaledContents(True)
-        self.title.setAlignment(Qt.AlignCenter)
-        self.uploadButton = QLabel(self.widget)
-        self.uploadButton.setObjectName(u"uploadButton")
-        self.uploadButton.setGeometry(QRect(30, 30, 30, 30))
-        self.uploadButton.setCursor(QCursor(Qt.PointingHandCursor))
-        self.uploadButton.setPixmap(QPixmap(u":/icons/files1.png"))
-        self.uploadButton.setScaledContents(True)
-        self.CardButtons = QWidget(self.widget)
+        self.CardButtons = QWidget(self.CardOutline)
         self.CardButtons.setObjectName(u"CardButtons")
-        self.CardButtons.setGeometry(QRect(480, 410, 330, 40))
+        self.CardButtons.setGeometry(QRect(2, 360, 330, 40))
         self.CardButtons.setMinimumSize(QSize(330, 40))
         self.CardButtons.setMaximumSize(QSize(330, 40))
         self.CardButtons.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-
         self.horizontalLayout_3 = QHBoxLayout(self.CardButtons)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
@@ -212,14 +227,14 @@ class Ui_MainWindow(object):
         self.radio1 = QRadioButton(self.StatCardRadioButtons)
         self.radio1.setObjectName(u"radio1")
         self.radio1.setCursor(QCursor(Qt.PointingHandCursor))
-        self.radio1.setCheckable(False)
+        self.radio1.setCheckable(True)
 
         self.horizontalLayout_4.addWidget(self.radio1, 0, Qt.AlignRight|Qt.AlignVCenter)
 
         self.radio2 = QRadioButton(self.StatCardRadioButtons)
         self.radio2.setObjectName(u"radio2")
         self.radio2.setCursor(QCursor(Qt.PointingHandCursor))
-        self.radio2.setCheckable(False)
+        self.radio2.setChecked(True)
 
         self.horizontalLayout_4.addWidget(self.radio2, 0, Qt.AlignRight|Qt.AlignVCenter)
 
@@ -231,19 +246,40 @@ class Ui_MainWindow(object):
         self.horizontalLayout_4.addWidget(self.radio3, 0, Qt.AlignRight|Qt.AlignVCenter)
 
 
-        self.horizontalLayout_3.addWidget(self.StatCardRadioButtons, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+        self.horizontalLayout_3.addWidget(self.StatCardRadioButtons)
 
         self.CardNextButton = QLabel(self.CardButtons)
         self.CardNextButton.setObjectName(u"CardNextButton")
         self.CardNextButton.setMaximumSize(QSize(30, 16777215))
         self.CardNextButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.CardNextButton.setStyleSheet(u"")
         self.CardNextButton.setPixmap(QPixmap(u":/icons/arrow.png"))
         self.CardNextButton.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_3.addWidget(self.CardNextButton, 0, Qt.AlignRight|Qt.AlignVCenter)
 
+        self.fileButton = QPushButton(self.widget)
+        self.fileButton.setObjectName(u"fileButton")
+        self.fileButton.setGeometry(QRect(25, 25, 45, 45))
+        self.fileButton.setMinimumSize(QSize(45, 45))
+        self.fileButton.setMaximumSize(QSize(45, 45))
+        self.fileButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.fileButton.setFocusPolicy(Qt.NoFocus)
+        self.fileButton.setStyleSheet(u"QPushButton#pushButton:pressed{\n"
+"	padding: 10px;\n"
+"}")
+        icon = QIcon()
+        iconThemeName = u"accessories-calculator"
+        if QIcon.hasThemeIcon(iconThemeName):
+            icon = QIcon.fromTheme(iconThemeName)
+        else:
+            icon.addFile(u":/icons/files1.png", QSize(), QIcon.Normal, QIcon.Off)
 
-        self.verticalLayout.addWidget(self.widget, 0, Qt.AlignHCenter|Qt.AlignVCenter)
+        self.fileButton.setIcon(icon)
+        self.fileButton.setIconSize(QSize(30, 30))
+        self.fileButton.setFlat(True)
+
+        self.verticalLayout.addWidget(self.widget, 0, Qt.AlignHCenter)
 
         MainWindow.setCentralWidget(self.centralwidget)
 
@@ -257,18 +293,18 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.title.setText("")
         self.studentPlacementStatCardImage_2.setText("")
         self.studentPlacementStatCardTitle_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:700;\">STUDENT PLACEMENT STATISTICS</span></p></body></html>", None))
         self.companyPlacementStatCardImage.setText("")
         self.companyPlacementStatCardTitle.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:700;\">COMPANY PLACEMENT STATISTICS</span></p></body></html>", None))
         self.performanceCardImage.setText("")
         self.performanceCardTitle.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:16pt; font-weight:700;\">STUDENT PERFORMANCE REPORT</span></p></body></html>", None))
-        self.title.setText("")
-        self.uploadButton.setText("")
         self.CardPrevButton.setText("")
         self.radio1.setText("")
         self.radio2.setText("")
         self.radio3.setText("")
         self.CardNextButton.setText("")
+        self.fileButton.setText("")
     # retranslateUi
 

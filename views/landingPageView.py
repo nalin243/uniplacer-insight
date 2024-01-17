@@ -29,13 +29,15 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 
 	def nextModuleCard(self, event):
 		self.controller.setCurrentCardIndex(self.controller.getCurrentCardIndex()+1)
-		self.stackedWidgetForCards.setCurrentIndex(self.controller.getCurrentCardIndex())
+		# self.stackedWidgetForCards.setCurrentIndex(self.controller.getCurrentCardIndex())
 		#contains code to move to the next card
+		self.stackedWidgetForCards.slideToNextWidget()
 
-	def previousModuleCard(self,event):
+	def previousModuleCard(self, event):
 		self.controller.setCurrentCardIndex(self.controller.getCurrentCardIndex()-1)
-		self.stackedWidgetForCards.setCurrentIndex(self.controller.getCurrentCardIndex())
+		# self.stackedWidgetForCards.setCurrentIndex(self.controller.getCurrentCardIndex())
 		#contains code to move to the previous card
+		self.stackedWidgetForCards.slideToPreviousWidget()
 
 	def updatePageStatus(self):
 		match self.controller.getCurrentCardIndex():
