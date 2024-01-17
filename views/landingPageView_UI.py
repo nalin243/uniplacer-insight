@@ -74,7 +74,7 @@ class Ui_MainWindow(object):
 "	border-color: rgb(0, 0, 0);\n"
 "}")
         self.stackedWidgetForCards.setTransitionDirection(QtCore.Qt.Horizontal)
-        self.stackedWidgetForCards.setTransitionSpeed(500)
+        self.stackedWidgetForCards.setTransitionSpeed(100)
         self.stackedWidgetForCards.setTransitionEasingCurve(QtCore.QEasingCurve.Linear)
         self.stackedWidgetForCards.setSlideTransition(True)
 
