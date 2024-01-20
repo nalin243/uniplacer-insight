@@ -2,12 +2,12 @@
 
 class StudentPlacementStatPageViewModel():
 
-	_totalStudents = 0
-	_totalEligibleStudents = 0
-	_totalStudentsApplied = 0
-	_totalCompanies = 0
-	_totalStudentsNotApplied = 0
-	_totalStudentsPlaced = 0
+	totalStudents = 0
+	totalEligibleStudents = 0
+	totalStudentsApplied = 0
+	totalCompanies = 0
+	totalStudentsNotApplied = 0
+	totalStudentsPlaced = 0
 
 	def __init__(self):
 		pass
