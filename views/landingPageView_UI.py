@@ -9,9 +9,8 @@
 ################################################################################
 
 from PySide6 import QtCore
-
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
+    QMetaObject, QObject, QPoint, QRect,QPropertyAnimation,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
@@ -22,6 +21,7 @@ from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel,
 import images
 
 from resources.customstackedwidget import QStackedWidget
+from resources.customcardoutlinewidget import CardOutLineWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -54,19 +54,15 @@ class Ui_MainWindow(object):
         self.title.setPixmap(QPixmap(u":/icons/title.png"))
         self.title.setScaledContents(True)
         self.title.setAlignment(Qt.AlignCenter)
-        self.CardOutline = QWidget(self.widget)
+        self.CardOutline = CardOutLineWidget(self.widget)
         self.CardOutline.setObjectName(u"CardOutline")
-        self.CardOutline.setGeometry(QRect(468, 52, 334, 404))
+        self.CardOutline.setGeometry(QRect(468, 62, 334, 404))
         self.CardOutline.setMinimumSize(QSize(334, 404))
         self.CardOutline.setMaximumSize(QSize(334, 404))
-        self.CardOutline.setStyleSheet(u"#CardOutline:hover{\n"
-"	border: 20px solid;\n"
-"	border-color: rgba(217, 217, 217,200);\n"
-"	border-top-right-radius: 34px;\n"
-"}")
+
         self.stackedWidgetForCards = QStackedWidget(self.CardOutline)
         self.stackedWidgetForCards.setObjectName(u"stackedWidgetForCards")
-        self.stackedWidgetForCards.setGeometry(QRect(2, 2, 330, 360))
+        self.stackedWidgetForCards.setGeometry(QRect(2, 2, 330, 360))###############stackedgeometry
         self.stackedWidgetForCards.setMinimumSize(QSize(330, 360))
         self.stackedWidgetForCards.setMaximumSize(QSize(330, 360))
         self.stackedWidgetForCards.setStyleSheet(u"QStackedWidget#stackedWidgetforCards{\n"
@@ -104,6 +100,7 @@ class Ui_MainWindow(object):
         self.studentPlacementStatCardImage_2.setMaximumSize(QSize(305, 241))
         self.studentPlacementStatCardImage_2.setPixmap(QPixmap(u":/icons/land-graph.png"))
         self.studentPlacementStatCardImage_2.setScaledContents(True)
+        self.studentPlacementStatCard.setCursor(QCursor(Qt.PointingHandCursor))
         self.studentPlacementStatCardImage_2.setAlignment(Qt.AlignCenter)
 
         self.verticalLayout_3.addWidget(self.studentPlacementStatCardImage_2)
@@ -127,7 +124,7 @@ class Ui_MainWindow(object):
         self.companyPlacementStatCard.setGeometry(QRect(0, 0, 330, 360))
         self.companyPlacementStatCard.setMinimumSize(QSize(330, 360))
         self.companyPlacementStatCard.setMaximumSize(QSize(330, 360))
-        self.companyPlacementStatCard.setCursor(QCursor(Qt.ArrowCursor))
+        self.companyPlacementStatCard.setCursor(QCursor(Qt.PointingHandCursor))
         self.companyPlacementStatCard.setStyleSheet(u"\n"
 "\n"
 "	border-top-right-radius: 34px;\n"
@@ -166,7 +163,7 @@ class Ui_MainWindow(object):
         self.performanceCard.setGeometry(QRect(0, 0, 330, 360))
         self.performanceCard.setMinimumSize(QSize(330, 360))
         self.performanceCard.setMaximumSize(QSize(330, 360))
-        self.performanceCard.setCursor(QCursor(Qt.ArrowCursor))
+        self.performanceCard.setCursor(QCursor(Qt.PointingHandCursor))
         self.performanceCard.setStyleSheet(u"\n"
 "	border-top-right-radius: 34px;\n"
 "	background-color: rgb(255, 255, 255);\n"
@@ -250,7 +247,8 @@ class Ui_MainWindow(object):
 
         self.CardNextButton = QLabel(self.CardButtons)
         self.CardNextButton.setObjectName(u"CardNextButton")
-        self.CardNextButton.setMaximumSize(QSize(30, 16777215))
+        self.CardNextButton.setMinimumSize(QSize(30, 30))
+        self.CardNextButton.setMaximumSize(QSize(30, 30))
         self.CardNextButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.CardNextButton.setStyleSheet(u"")
         self.CardNextButton.setPixmap(QPixmap(u":/icons/arrow.png"))
