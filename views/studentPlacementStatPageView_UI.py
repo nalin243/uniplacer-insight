@@ -8,7 +8,7 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCharts import QChartView
+from PySide6.QtCharts import QChartView,QChart
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -183,7 +183,8 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
-        self.barGraph = QChartView(self.dashContainer)
+
+        self.barGraph = QChartView()
         self.barGraph.setObjectName(u"barGraph")
         self.barGraph.setMinimumSize(QSize(0, 300))
 
@@ -343,10 +344,13 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_3.addLayout(self.verticalLayoutLeftSide)
 
-        self.pieChart = QChartView(self.dashContainer)
-        self.pieChart.setObjectName(u"pieChart")
 
-        self.horizontalLayout_3.addWidget(self.pieChart)
+        self.pieChart = QChart()
+
+        self.pieChartDisplay = QChartView(self.pieChart)
+        self.pieChartDisplay.setObjectName(u"pieChartDisplay")
+
+        self.horizontalLayout_3.addWidget(self.pieChartDisplay)
 
         self.verticalLayoutRightSide = QVBoxLayout()
         self.verticalLayoutRightSide.setSpacing(72)
