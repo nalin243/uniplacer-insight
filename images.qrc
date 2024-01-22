@@ -6,13 +6,13 @@
     <file alias="arrow2.png">assets/arrow2.png</file>
     <file alias="card2.png">assets/card2.png</file>
     <file alias="card3.png">assets/card3.png</file>
-    <file alias="checked.png">assets/checked.png</file>
+    <file alias="no.png">assets/no.png</file>
     <file alias="databaseUpload.png">assets/databaseUpload.png</file>
     <file alias="delete.png">assets/delete.png</file>
     <file alias="email.png">assets/email.png</file>
     <file alias="files1.png">assets/files1.png</file>
     <file alias="graduating-student.png">assets/graduating-student.png</file>
-    <file alias="job.png">assets/job.png</file>
+    <file alias="ban-user.png">assets/ban-user.png</file>
     <file alias="land-graph.png">assets/land-graph.png</file>
     <file alias="list.png">assets/list.png</file>
     <file alias="moduleCard.png">assets/moduleCard.png</file>
