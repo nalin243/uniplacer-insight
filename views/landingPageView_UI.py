@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel,
     QMainWindow, QRadioButton, QSizePolicy, QStackedWidget,
-    QVBoxLayout, QWidget)
+    QVBoxLayout, QWidget,QFileDialog)
 import images
 
 class Ui_MainWindow(object):
@@ -175,6 +175,10 @@ class Ui_MainWindow(object):
         self.title.setPixmap(QPixmap(u":/icons/title.png"))
         self.title.setScaledContents(True)
         self.title.setAlignment(Qt.AlignCenter)
+
+        self.dialog = QFileDialog(MainWindow,caption="Select folder for excel files",options=QFileDialog.ShowDirsOnly)
+        self.dialog.setFileMode(QFileDialog.Directory)
+
         self.uploadButton = QLabel(self.widget)
         self.uploadButton.setObjectName(u"uploadButton")
         self.uploadButton.setGeometry(QRect(30, 30, 30, 30))

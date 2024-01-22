@@ -19,12 +19,11 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.controller = controller
 		self.viewmodel = viewmodel
 
-		self.totalStudentsNumber.setText(str(self.viewmodel.totalStudents))
-		self.studentsEligibleNumber.setText(str(self.viewmodel.totalEligibleStudents))
-		self.studentsAppliedNumber.setText(str(self.viewmodel.totalStudentsApplied))
-		self.studentsNotAppliedNumber.setText(str(self.viewmodel.totalStudentsNotApplied))
-		self.totalCompaniesNumber.setText(str(self.viewmodel.totalCompanies))
-		self.studentsPlacedNumber.setText(str(self.viewmodel.totalStudentsPlaced))
+		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.batchFitler = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
+		self.departmentFilter = None if self.departmentComboBox.currentText()=="All" else self.departmentComboBox.currentText()
+		self.courseFilter = None if self.courseComboBox.currentText()=="All" else self.courseComboBox.currentText()
+		self.genderFilter = None if self.genderComboBox.currentText()=="All" else self.genderComboBox.currentText()
 
 		self.studentsEligiblePercent = 0
 		self.studentsAppliedPercent = 0
@@ -39,11 +38,6 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		except:
 			pass
 
-		self.campusFilter = self.campusComboBox.currentText()
-		self.batchFitler = self.batchComboBox.currentText()
-		self.departmentFilter = self.departmentComboBox.currentText()
-		self.courseFilter = self.courseComboBox.currentText()
-		self.genderFilter = self.genderComboBox.currentText()
 
 		self.campusComboBox.currentTextChanged.connect(self.filterChanged)
 		self.batchComboBox.currentTextChanged.connect(self.filterChanged)
@@ -102,11 +96,31 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 	# 		pieSlice.setExplodeDistanceFactor(0.05)
 
 
-	def filterChanged(self):
-		self.campusFilter = self.campusComboBox.currentText()
-		self.batchFitler = self.batchComboBox.currentText()
-		self.departmentFilter = self.departmentComboBox.currentText()
-		self.courseFilter = self.courseComboBox.currentText()
-		self.genderFilter = self.genderComboBox.currentText()
+	def show(self):
 
 		self.controller.changeFilter(self.campusFilter,self.batchFitler,self.departmentFilter,self.courseFilter,self.genderFilter)
+
+		self.totalStudentsNumber.setText(str(self.viewmodel.getAggregates()[0]))
+		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getAggregates()[4]))
+		self.studentsEnrolledNumber.setText(str(self.viewmodel.getAggregates()[1]))
+		self.studentsNotEnrolledNumber.setText(str(self.viewmodel.getAggregates()[2]))
+		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getAggregates()[5]))
+		self.studentsPlacedNumber.setText(str(self.viewmodel.getAggregates()[3]))
+
+		super().show()	
+
+	def filterChanged(self):
+		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.batchFitler = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
+		self.departmentFilter = None if self.departmentComboBox.currentText()=="All" else self.departmentComboBox.currentText()
+		self.courseFilter = None if self.courseComboBox.currentText()=="All" else self.courseComboBox.currentText()
+		self.genderFilter = None if self.genderComboBox.currentText()=="All" else self.genderComboBox.currentText()
+
+		self.controller.changeFilter(self.campusFilter,self.batchFitler,self.departmentFilter,self.courseFilter,self.genderFilter)
+
+		self.totalStudentsNumber.setText(str(self.viewmodel.getAggregates()[0]))
+		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getAggregates()[4]))
+		self.studentsEnrolledNumber.setText(str(self.viewmodel.getAggregates()[1]))
+		self.studentsNotEnrolledNumber.setText(str(self.viewmodel.getAggregates()[2]))
+		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getAggregates()[5]))
+		self.studentsPlacedNumber.setText(str(self.viewmodel.getAggregates()[3]))
