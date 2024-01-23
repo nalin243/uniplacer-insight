@@ -13,6 +13,7 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 		super().__init__()
 
 		self.setupUi(self)
+		self.setWindowTitle("Uniplacer Insight")
 
 		self.controller = controller
 

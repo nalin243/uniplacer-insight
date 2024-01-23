@@ -32,6 +32,9 @@ class Ui_MainWindow(object):
         MainWindow.setMaximumSize(QSize(1440, 810))
         MainWindow.setFocusPolicy(Qt.StrongFocus)
         MainWindow.setStyleSheet(u"")
+
+        MainWindow.setWindowIcon(QIcon(":/icons/iconlogo.png"))
+
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMinimumSize(QSize(1440, 810))
