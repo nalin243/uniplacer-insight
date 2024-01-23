@@ -299,6 +299,6 @@ class Ui_MainWindow(object):
         self.radio2.setText("")
         self.radio3.setText("")
         self.CardNextButton.setText("")
-        self.fileButton.setText("")
+        self.uploadButton.setText("")
     # retranslateUi
 
