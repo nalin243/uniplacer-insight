@@ -100,12 +100,12 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 		self.controller.changeFilter(self.campusFilter,self.batchFitler,self.departmentFilter,self.courseFilter,self.genderFilter)
 
-		self.totalStudentsNumber.setText(str(self.viewmodel.getAggregates()[0]))
-		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getAggregates()[4]))
-		self.studentsEnrolledNumber.setText(str(self.viewmodel.getAggregates()[1]))
-		self.studentsNotEnrolledNumber.setText(str(self.viewmodel.getAggregates()[2]))
-		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getAggregates()[5]))
-		self.studentsPlacedNumber.setText(str(self.viewmodel.getAggregates()[3]))
+		self.totalStudentsNumber.setText(str(self.viewmodel.getStudentAggregates()[0]))
+		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[4]))
+		self.studentsEnrolledNumber.setText(str(self.viewmodel.getStudentAggregates()[1]))
+		self.studentsNotEnrolledNumber.setText(str(self.viewmodel.getStudentAggregates()[2]))
+		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getStudentAggregates()[5]))
+		self.studentsPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[3]))
 
 		super().show()	
 
@@ -118,9 +118,9 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 		self.controller.changeFilter(self.campusFilter,self.batchFitler,self.departmentFilter,self.courseFilter,self.genderFilter)
 
-		self.totalStudentsNumber.setText(str(self.viewmodel.getAggregates()[0]))
-		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getAggregates()[4]))
-		self.studentsEnrolledNumber.setText(str(self.viewmodel.getAggregates()[1]))
-		self.studentsNotEnrolledNumber.setText(str(self.viewmodel.getAggregates()[2]))
-		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getAggregates()[5]))
-		self.studentsPlacedNumber.setText(str(self.viewmodel.getAggregates()[3]))
+		self.totalStudentsNumber.setText(str(self.viewmodel.getStudentAggregates()[0]))
+		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[4]))
+		self.studentsEnrolledNumber.setText(str(self.viewmodel.getStudentAggregates()[1]))
+		self.studentsNotEnrolledNumber.setText(str(self.viewmodel.getStudentAggregates()[2]))
+		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getStudentAggregates()[5]))
+		self.studentsPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[3]))

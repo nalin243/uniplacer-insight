@@ -25,10 +25,11 @@ class DataManager():
 
 		self._coeFilePath = ""
 		self._placementFilePath = ""
+		self._companyFilePath = ""
 
 		self.folderPath = ""
 
-		self.threadpool = QThreadPool()
+		self._threadpool = QThreadPool()
 
 	def setFolderPath(self,path):
 		self.folderPath = path
@@ -39,6 +40,7 @@ class DataManager():
 
 		coeFilePath = ""
 		placementFilePath = ""
+		companyFilePath = ""
 
 		try:
 			folderList = os.listdir(self.folderPath)
@@ -48,22 +50,27 @@ class DataManager():
 					coeFilePath = self.folderPath+"/"+file
 				if "DB_Batch_" in str(file):
 					placementFilePath = self.folderPath+"/"+file
+				if "PLACEMENT_JOB_PROFILE" in str(file):
+					companyFilePath = self.folderPath+"/"+file
+
 		except Exception as e:
 			print(e)
 
 		self._coeFilePath = coeFilePath
 		self._placementFilePath = placementFilePath
+		self._companyFilePath = companyFilePath
 
 		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.tableExists,self.setExcelFilePaths,self.app)
-		self.threadpool.start(normalizeworker)
+		self._threadpool.start(normalizeworker)
 
 	def normalizeAndPushToSql(self):
 		try:
+			
 			engine = create_engine("mysql+mysqlconnector://{}:{}@{}/{}".format(self._dbUsername,self._dbPassword,self._dbHost,self._dbName))
 
 			placementData = pandas.read_excel("{}".format(self._placementFilePath),"Single",usecols=["Roll No","Placed","CTC","Stipend","Type","Category","Bi Weekly","IT/ Non IT","Enrolled in SS"])
 			overallData = pandas.read_excel("{}".format(self._coeFilePath),"Overall")
-			companyData = pandas.read_excel("PLACEMENT_JOB_PROFILE_REPORT_for_CSH_Campus_Placement_for_2024_Batch.xlsx","Sheet0",usecols=["Title","Company Name","Position Type","Source","Date of Visit","Job sector","Placement category","Status","Location","CTC Currency","CTC Minnimum","CTC Maximum","Number of Students Eligible","Number of Students Applied","Number of Select Students","Average Package Offered"])
+			companyData = pandas.read_excel("{}".format(self._companyFilePath),"Sheet0",usecols=["Title","Company Name","Position Type","Source","Date of Visit","Job sector","Placement category","Status","Location","CTC Currency","CTC Minnimum","CTC Maximum","Number of Students Eligible","Number of Students Applied","Number of Select Students","Average Package Offered"])
 
 			#cleaning up data
 			overallData.drop(columns=["Date of Birth","Address","Semester","PIN Code","Contact No.","History of Arrear","E-Mail","GPA1","GPA2","GPA3","GPA4","GPA5","GPA6","GPA7","GPA8","GPA9","GPA10"],axis=1,inplace=True)
@@ -77,11 +84,12 @@ class DataManager():
 			#converting dataframe to sql table and putting in database
 			combinedData.to_sql("students",con=engine,if_exists='replace',index=False)
 			companyData.to_sql("profiles",con=engine,if_exists='replace',index=False)
+
 		except Error as e:
 			print(e)
 
 
-	def getAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
+	def getStudentAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
 		totalStudents = 0
 		totalEnrolled = 0
 		totalNotEnrolled = 0
