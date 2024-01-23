@@ -45,11 +45,13 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		# self.outerSeries.setPieSize(0.71)
 
 		self.innerSeries = QPieSeries()
-		self.innerSeries.setHoleSize(0.3)
-		self.innerSeries.setPieSize(0.35)
+		self.innerSeries.setHoleSize(0.60)
+		self.innerSeries.setPieSize(0.70)
+
+		self.sliceshovered = []
 
 		self.outerColors = ["#2ecc71","#e67e22","#e74c3c"]
-		self.innerColors = ["black","red"]
+		self.innerColors = ["#3498db","#808080"]
 
 		for self.item in enrolledData:
 			self.outerSeries.append(QPieSlice(self.item[0],self.item[1]))
@@ -61,39 +63,55 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 			self.color = QColor(self.outerColors[index])
 
-			self.slice.setLabel("{:.2f}%".format(round(self.slice.percentage()*100),2))
+			if(self.slice.label() == "Enrolled"):
+				self.innerSeries.setPieEndAngle(self.slice.percentage()*360)
+				self.slice.setLabelPosition(QPieSlice.LabelInsideNormal)
+				self.slice.setLabel("{:.0f}%".format(round(self.slice.percentage()*100),2))
+				self.slice.setLabelBrush(QColor("#006400"))
+				self.slice.setColor(self.color)
+				self.slice.setLabelVisible(True)
+				self.slice.setLabelFont(QFont("Serif", 13, QFont.Medium))
+				continue
+
+			self.slice.setLabel("{:.0f}%".format(round(self.slice.percentage()*100),2))
+			self.slice.setLabelArmLengthFactor(0.05)
 			self.slice.setLabelBrush(self.color)
 			self.slice.setColor(self.color)
 			self.slice.setBorderWidth(1)
-			self.color.setAlpha(100)
-			print(self.slice.label())
+			# self.color.setAlpha(100)
 			self.slice.setBorderColor(QColor("black"))
 			self.slice.setExplodeDistanceFactor(0.001)
 			self.slice.setExploded(True)
 			self.slice.setLabelVisible(True)
-			self.slice.setLabelFont(QFont("Serif", 11, QFont.Medium))
-			self.slice.hovered.connect(functools.partial(self.pieSliceHovered,self.slice))
+			self.slice.setLabelFont(QFont("Serif", 13, QFont.Medium))
+			# self.slice.hovered.connect(functools.partial(self.pieSliceHovered,self.slice))
 
 		for index,self.slice in enumerate(self.innerSeries.slices()):
 
 			self.color = QColor(self.innerColors[index])
-
 			self.slice.setLabel("{:.2f}%".format(round(self.slice.percentage()*100),2))
+			self.slice.setLabelArmLengthFactor(0.05)
 			self.slice.setLabelBrush(self.color)
+			self.slice.setExploded(True)
+			self.slice.setLabelVisible(True)
+			self.slice.setExplodeDistanceFactor(0.001)
+			self.slice.setLabelFont(QFont("Serif", 13, QFont.Medium))
 			self.slice.setColor(self.color)
+			self.slice.hovered.connect(functools.partial(self.pieSliceHovered,self.slice))
 
-		self.pieChart.addSeries(self.innerSeries)
 		self.pieChart.addSeries(self.outerSeries)
+		self.pieChart.addSeries(self.innerSeries)
 		
 
 		self.pieChart.legend().setFont(QFont("Serif", 20, QFont.Normal))
 		self.pieChart.legend().setMarkerShape(QLegend.MarkerShapeCircle)
 
-		# for index,marker in enumerate(self.pieChart.legend().markers()):
-		# 	if index<2:
-		# 		marker.setLabel(self.enrolledData[index][0])
-		# 	else:
-		# 		marker.setLabel(self.placedData[index][0])
+		self.pieChart.legend().markers()[3].setLabel(self.placedData[0][0])
+		self.pieChart.legend().markers()[4].setLabel(self.placedData[1][0])
+
+		self.pieChart.legend().markers()[0].setLabel(self.enrolledData[0][0])
+		self.pieChart.legend().markers()[1].setLabel(self.enrolledData[1][0])
+		self.pieChart.legend().markers()[2].setLabel(self.enrolledData[2][0])
 
 
 		self.pieChart.legend().setAlignment(Qt.AlignRight)
