@@ -18,5 +18,6 @@
     <file alias="moduleCard.png">assets/moduleCard.png</file>
     <file alias="studentStatbg.png">assets/studentStatbg.png</file>
     <file alias="title.png">assets/title.png</file>
+    <file alias="iconlogo.png">assets/iconlogo.png</file>
 </qresource>
 </RCC>

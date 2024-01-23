@@ -32,6 +32,8 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet(u"#MainWindow{\n"
 "	background-color:#D9D9D9; \n"
 "}")
+        MainWindow.setWindowIcon(QIcon(":/icons/iconlogo.png"))
+
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.centralwidget.setMaximumSize(QSize(1920, 1080))
