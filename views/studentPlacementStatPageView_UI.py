@@ -27,8 +27,8 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1920, 1082)
-        MainWindow.setMinimumSize(QSize(0, 0))
-        MainWindow.setMaximumSize(QSize(1920, 1080))
+        MainWindow.setMinimumSize(QSize(1920, 1060))
+        MainWindow.setMaximumSize(QSize(1920, 1060))
         MainWindow.setStyleSheet(u"#MainWindow{\n"
 "	background-color:#D9D9D9; \n"
 "}")
@@ -36,7 +36,7 @@ class Ui_MainWindow(object):
 
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setMaximumSize(QSize(1920, 1080))
+        self.centralwidget.setMaximumSize(QSize(1920, 1060))
         self.centralwidget.setLayoutDirection(Qt.LeftToRight)
         self.horizontalLayout_2 = QHBoxLayout(self.centralwidget)
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -187,11 +187,11 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
 
-        self.barGraph = QChartView()
-        self.barGraph.setObjectName(u"barGraph")
-        self.barGraph.setMinimumSize(QSize(0, 300))
+        self.barGraphDisplay = QChartView()
+        self.barGraphDisplay.setObjectName(u"barGraph")
+        self.barGraphDisplay.setMinimumSize(QSize(0, 345))
 
-        self.horizontalLayout_5.addWidget(self.barGraph)
+        self.horizontalLayout_5.addWidget(self.barGraphDisplay)
 
 
         self.gridLayout.addLayout(self.horizontalLayout_5, 4, 1, 1, 1)
