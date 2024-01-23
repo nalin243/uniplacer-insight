@@ -89,6 +89,40 @@ class DataManager():
 			print(e)
 
 
+	def getBarChartData(self,campusFilter):
+
+		categories = ["Applied Data Science","Atmospheric Science","Biochemistry","Biotechnology","Chemistry","Computer Science","Information Tehcnology","Mathematics","Visual Communication","Accounting and Finance","Commerce","Computer Applications","Journalism and Mass Communication","Business Administration","Digital Marketing","Data Science","Fashion Designing","Psychology"]
+		
+		categoriesEnrolled = []
+		categoriesNotEnrolled = []
+
+		campusQuery = "select count(*) from students"
+
+		try:
+			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
+			cursor = connection.cursor()
+
+			for category in categories:
+				cursor.execute("select count(*) from students where Enrolled_in_SS='Enrolled' and Branch like '{}' and Office_Name like '{}' ".format(category,"%" if campusFilter==None else campusFilter))
+				value1 = cursor.fetchall()[0][0]
+				# print(value1,category)
+				categoriesEnrolled.append(value1)
+				cursor.reset()
+
+				cursor.execute("select count(*) from students where (Enrolled_in_SS like 'Not Enrolled' or Enrolled_in_SS is null) and Branch like '{}' and Office_Name like '{}' ".format(category,"%" if campusFilter==None else campusFilter))
+				categoriesNotEnrolled.append(cursor.fetchall()[0][0])
+
+				cursor.reset()
+
+			barChartYaxisRange = max(max(categoriesNotEnrolled),max(categoriesEnrolled))+20
+
+			return (categoriesEnrolled,categoriesNotEnrolled,categories,barChartYaxisRange)
+
+		except Exception as e:
+			print(e)
+
+
+
 	def getStudentAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
 		totalStudents = 0
 		totalEnrolled = 0
@@ -113,18 +147,23 @@ class DataManager():
 
 			cursor.execute(totalEnrolledQuery)
 			totalEnrolled = cursor.fetchall()[0][0] 
+			cursor.reset()
 
 			cursor.execute(totalNotEnrolledQuery)
-			totalNotEnrolled = cursor.fetchall()[0][0] 
+			totalNotEnrolled = cursor.fetchall()[0][0]
+			cursor.reset() 
 
 			cursor.execute(totalPlacedQuery)
 			totalPlaced = cursor.fetchall()[0][0]
+			cursor.reset()
 
 			cursor.execute(totalNotPlacedQuery)
 			totalNotPlaced = cursor.fetchall()[0][0]
+			cursor.reset()
 
 			cursor.execute(totalDisqualifiedQuery)
 			totalDisqualified = cursor.fetchall()[0][0]
+			cursor.reset()
 					
 			return (totalStudents,totalEnrolled,totalNotEnrolled,totalPlaced,totalNotPlaced,totalDisqualified)
 

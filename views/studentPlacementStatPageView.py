@@ -1,10 +1,12 @@
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QMainWindow
-from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend
-from PySide6.QtCore import Qt
+from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis
+from PySide6.QtCore import Qt,QEasingCurve
 from PySide6.QtGui import QPainter,QColor,QFont
 
 import functools
+
+from pandas.core.base import NoNewAttributesMixin
 
 from views.studentPlacementStatPageView_UI import Ui_MainWindow
 
@@ -31,14 +33,57 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.studentsPlacedPercent = 0
 
 		self.campusComboBox.currentTextChanged.connect(self.filterChanged)
+		self.campusComboBox.currentTextChanged.connect(self.campusFilterChanged)
 		self.batchComboBox.currentTextChanged.connect(self.filterChanged)
 		self.departmentComboBox.currentTextChanged.connect(self.filterChanged)
 		self.courseComboBox.currentTextChanged.connect(self.filterChanged)
 		self.genderComboBox.currentTextChanged.connect(self.filterChanged)
 
 
+	def initBarChart(self,enrolledSet,notEnrolledSet,categories,barChartYaxisRange):
+		self.barChart = QChart()
+		self.barGraphDisplay.setChart(self.barChart)
+		self.enrolledSet = None 
+		self.notEnrolledSet = None
+		self.barChart.zoom(10.0)
+
+		self.axis_x =  QBarCategoryAxis()
+		self.axis_y = QValueAxis()
+
+		self.enrolledSet = QBarSet("Enrolled")
+		self.notEnrolledSet = QBarSet("Not Enrolled")
+
+		self.enrolledSet.append(enrolledSet)
+		self.notEnrolledSet.append(notEnrolledSet)
+
+		self.series = QBarSeries()
+		self.series.append(self.enrolledSet)
+		self.series.append(self.notEnrolledSet)
+
+		self.barChart.addSeries(self.series)
+		self.barChart.setAnimationOptions(QChart.SeriesAnimations)
+
+		self.categories = categories
+
+		self.axis_x.append(self.categories)
+
+		self.barChart.addAxis(self.axis_x,Qt.AlignBottom)
+		self.series.attachAxis(self.axis_x)
+
+		self.axis_y.setRange(0,barChartYaxisRange)
+
+		self.barChart.addAxis(self.axis_y,Qt.AlignLeft)
+		self.series.attachAxis(self.axis_y)
+
+		self.barChart.legend().setVisible(True)
+		self.barChart.legend().setAlignment(Qt.AlignTop)
+
+
 	def initPieChart(self,enrolledData,placedData):
 		self.pieChart.removeAllSeries()
+		self.pieChart.setAnimationOptions(QChart.SeriesAnimations)
+		self.pieChart.setAnimationEasingCurve(QEasingCurve.OutQuint)
+		self.pieChart.setAnimationDuration(2000)
 
 		self.outerSeries = QPieSeries()
 		self.outerSeries.setHoleSize(0.35)
@@ -136,11 +181,24 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getStudentAggregates()[5]))
 		self.studentsPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[3]))
 
+		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+
+		self.controller.updateBarChartValues(self.campusFilter)
+		(placedSet,notPlacedSet,categories,barChartYaxisRange) = self.viewmodel.getBarChartValues()
+		self.initBarChart(placedSet,notPlacedSet,categories,barChartYaxisRange)
+
 		self.enrolledData = [['Enrolled', self.viewmodel.totalEnrolledStudents],['Not Enrolled', self.viewmodel.totalNotEnrolledStudents],['Removed/Blocked',self.viewmodel.totalDisqualified]]
 		self.placedData = [['Placed',self.viewmodel.totalPlacedStudents],['Not Placed',self.viewmodel.totalNotPlacedStudents]]
 		self.initPieChart(self.enrolledData,self.placedData)
 
 		super().show()	
+
+	def campusFilterChanged(self):
+		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+
+		self.controller.updateBarChartValues(self.campusFilter)
+		(placedSet,notPlacedSet,categories,barChartYaxisRange) = self.viewmodel.getBarChartValues()
+		self.initBarChart(placedSet,notPlacedSet,categories,barChartYaxisRange)
 
 	def filterChanged(self):
 		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
