@@ -37,40 +37,63 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.genderComboBox.currentTextChanged.connect(self.filterChanged)
 
 
-	def initPieChart(self,data):
+	def initPieChart(self,enrolledData,placedData):
 		self.pieChart.removeAllSeries()
-		self.series = QPieSeries()
-		self.series.setHoleSize(0.25)
-		self.series.setPieSize(0.71)
 
-		self.colors = ["#2ecc71","#e67e22","#e74c3c"]
+		self.outerSeries = QPieSeries()
+		self.outerSeries.setHoleSize(0.35)
+		# self.outerSeries.setPieSize(0.71)
 
-		for self.item in data:
-			self.series.append(QPieSlice(self.item[0],self.item[1]))
+		self.innerSeries = QPieSeries()
+		self.innerSeries.setHoleSize(0.3)
+		self.innerSeries.setPieSize(0.35)
 
-		for index,self.slice in enumerate(self.series.slices()):
+		self.outerColors = ["#2ecc71","#e67e22","#e74c3c"]
+		self.innerColors = ["black","red"]
 
-			self.color = QColor(self.colors[index])
+		for self.item in enrolledData:
+			self.outerSeries.append(QPieSlice(self.item[0],self.item[1]))
+
+		for self.item in placedData:
+			self.innerSeries.append(QPieSlice(self.item[0],self.item[1]))
+
+		for index,self.slice in enumerate(self.outerSeries.slices()):
+
+			self.color = QColor(self.outerColors[index])
 
 			self.slice.setLabel("{:.2f}%".format(round(self.slice.percentage()*100),2))
 			self.slice.setLabelBrush(self.color)
 			self.slice.setColor(self.color)
-			self.slice.setBorderWidth(5)
+			self.slice.setBorderWidth(1)
 			self.color.setAlpha(100)
-			self.slice.setBorderColor(self.color)
+			print(self.slice.label())
+			self.slice.setBorderColor(QColor("black"))
 			self.slice.setExplodeDistanceFactor(0.001)
 			self.slice.setExploded(True)
 			self.slice.setLabelVisible(True)
 			self.slice.setLabelFont(QFont("Serif", 11, QFont.Medium))
 			self.slice.hovered.connect(functools.partial(self.pieSliceHovered,self.slice))
 
-		self.pieChart.addSeries(self.series)
+		for index,self.slice in enumerate(self.innerSeries.slices()):
+
+			self.color = QColor(self.innerColors[index])
+
+			self.slice.setLabel("{:.2f}%".format(round(self.slice.percentage()*100),2))
+			self.slice.setLabelBrush(self.color)
+			self.slice.setColor(self.color)
+
+		self.pieChart.addSeries(self.innerSeries)
+		self.pieChart.addSeries(self.outerSeries)
+		
 
 		self.pieChart.legend().setFont(QFont("Serif", 20, QFont.Normal))
 		self.pieChart.legend().setMarkerShape(QLegend.MarkerShapeCircle)
 
-		for index,marker in enumerate(self.pieChart.legend().markers()):
-			marker.setLabel(self.data[index][0])
+		# for index,marker in enumerate(self.pieChart.legend().markers()):
+		# 	if index<2:
+		# 		marker.setLabel(self.enrolledData[index][0])
+		# 	else:
+		# 		marker.setLabel(self.placedData[index][0])
 
 
 		self.pieChart.legend().setAlignment(Qt.AlignRight)
@@ -95,8 +118,9 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getStudentAggregates()[5]))
 		self.studentsPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[3]))
 
-		self.data = [['Enrolled', self.viewmodel.totalEnrolledStudents],['Not Enrolled', self.viewmodel.totalNotEnrolledStudents],['Removed/Blocked',self.viewmodel.totalDisqualified]]
-		self.initPieChart(self.data)
+		self.enrolledData = [['Enrolled', self.viewmodel.totalEnrolledStudents],['Not Enrolled', self.viewmodel.totalNotEnrolledStudents],['Removed/Blocked',self.viewmodel.totalDisqualified]]
+		self.placedData = [['Placed',self.viewmodel.totalPlacedStudents],['Not Placed',self.viewmodel.totalNotPlacedStudents]]
+		self.initPieChart(self.enrolledData,self.placedData)
 
 		super().show()	
 
@@ -116,5 +140,6 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getStudentAggregates()[5]))
 		self.studentsPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[3]))
 
-		self.data = [['Enrolled', self.viewmodel.totalEnrolledStudents],['Not Enrolled', self.viewmodel.totalNotEnrolledStudents],['Removed/Blocked',self.viewmodel.totalDisqualified]]
-		self.initPieChart(self.data)
+		self.enrolledData = [['Enrolled', self.viewmodel.totalEnrolledStudents],['Not Enrolled', self.viewmodel.totalNotEnrolledStudents],['Removed/Blocked',self.viewmodel.totalDisqualified]]
+		self.placedData = [['Placed',self.viewmodel.totalPlacedStudents],['Not Placed',self.viewmodel.totalNotPlacedStudents]]
+		self.initPieChart(self.enrolledData,self.placedData)
