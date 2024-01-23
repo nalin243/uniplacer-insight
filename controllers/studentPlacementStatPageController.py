@@ -8,4 +8,4 @@ class StudentPlacementStatPageController():
 
 
 	def changeFilter(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
-		self.viewmodel.setAggregates(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
+		self.viewmodel.setStudentAggregates(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)

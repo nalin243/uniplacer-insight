@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel,
-    QMainWindow, QPushButton, QRadioButton, QSizePolicy, QVBoxLayout, QWidget)
+    QMainWindow, QPushButton, QRadioButton, QSizePolicy, QVBoxLayout, QWidget,QFileDialog)
 import images
 
 from resources.customstackedwidget import QStackedWidget
@@ -195,6 +195,23 @@ class Ui_MainWindow(object):
 
         self.stackedWidgetForCards.addWidget(self.page_3)
         self.CardButtons = QWidget(self.CardOutline)
+        self.title = QLabel(self.widget)
+        self.title.setObjectName(u"title")
+        self.title.setGeometry(QRect(30, 170, 381, 171))
+        self.title.setMaximumSize(QSize(16777215, 16777215))
+        self.title.setPixmap(QPixmap(u":/icons/title.png"))
+        self.title.setScaledContents(True)
+        self.title.setAlignment(Qt.AlignCenter)
+
+        self.dialog = QFileDialog(MainWindow,caption="Select folder for excel files",options=QFileDialog.ShowDirsOnly)
+        self.dialog.setFileMode(QFileDialog.Directory)
+
+        self.uploadButton = QLabel(self.widget)
+        self.uploadButton.setObjectName(u"uploadButton")
+        self.uploadButton.setGeometry(QRect(30, 30, 30, 30))
+        self.uploadButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.uploadButton.setPixmap(QPixmap(u":/icons/files1.png"))
+        self.uploadButton.setScaledContents(True)
         self.CardButtons.setObjectName(u"CardButtons")
         self.CardButtons.setGeometry(QRect(2, 360, 330, 40))
         self.CardButtons.setMinimumSize(QSize(330, 40))
@@ -255,27 +272,6 @@ class Ui_MainWindow(object):
         self.CardNextButton.setAlignment(Qt.AlignRight|Qt.AlignTrailing|Qt.AlignVCenter)
 
         self.horizontalLayout_3.addWidget(self.CardNextButton, 0, Qt.AlignRight|Qt.AlignVCenter)
-
-        self.fileButton = QPushButton(self.widget)
-        self.fileButton.setObjectName(u"fileButton")
-        self.fileButton.setGeometry(QRect(25, 25, 45, 45))
-        self.fileButton.setMinimumSize(QSize(45, 45))
-        self.fileButton.setMaximumSize(QSize(45, 45))
-        self.fileButton.setCursor(QCursor(Qt.PointingHandCursor))
-        self.fileButton.setFocusPolicy(Qt.NoFocus)
-        self.fileButton.setStyleSheet(u"QPushButton#pushButton:pressed{\n"
-"	padding: 10px;\n"
-"}")
-        icon = QIcon()
-        iconThemeName = u"accessories-calculator"
-        if QIcon.hasThemeIcon(iconThemeName):
-            icon = QIcon.fromTheme(iconThemeName)
-        else:
-            icon.addFile(u":/icons/files1.png", QSize(), QIcon.Normal, QIcon.Off)
-
-        self.fileButton.setIcon(icon)
-        self.fileButton.setIconSize(QSize(30, 30))
-        self.fileButton.setFlat(True)
 
         self.verticalLayout.addWidget(self.widget, 0, Qt.AlignHCenter)
 

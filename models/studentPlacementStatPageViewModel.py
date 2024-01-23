@@ -2,20 +2,30 @@
 
 class StudentPlacementStatPageViewModel():
 
-	_totalStudents = 0
-	_totalEligibleStudents = 0
-	_totalStudentsApplied = 0
-	_totalCompanies = 0
-	_totalStudentsNotApplied = 0
-	_totalStudentsPlaced = 0
+	def __init__(self,datamanager):
+		self.datamanager = datamanager
 
-	def __init__(self):
-		pass
+		self.totalStudents = 0
+		self.totalEnrolledStudents = 0
+		self.totalNotEnrolledStudents = 0
+		self.totalDisqualified = 0
+		self.totalPlacedStudents = 0
+		self.totalNotPlacedStudents = 0
 
-	def getAggregates(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
+	def getStudentAggregates(self):
 		#getting aggregate code
-		pass
+		return (self.totalStudents,self.totalEnrolledStudents,self.totalNotEnrolledStudents,self.totalPlacedStudents,self.totalNotPlacedStudents,self.totalDisqualified)
 
-	def setAggregates(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
+
+	def setStudentAggregates(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
 		#setting aggregate code
-		pass
+		try:
+			(totalStudents,totalEnrolled,totalNotEnrolled,totalPlaced,totalNotPlaced,totalDisqualified) = self.datamanager.getStudentAggregates(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
+			self.totalStudents = totalStudents
+			self.totalEnrolledStudents = totalEnrolled
+			self.totalNotEnrolledStudents = totalNotEnrolled
+			self.totalPlacedStudents = totalPlaced
+			self.totalNotPlacedStudents = totalNotPlaced
+			self.totalDisqualified = totalDisqualified
+		except Exception as e:
+			print(e.__class__.__name__)
