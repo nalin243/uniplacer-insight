@@ -60,7 +60,7 @@ class DataManager():
 		self._placementFilePath = placementFilePath
 		self._companyFilePath = companyFilePath
 
-		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.tableExists,self.setExcelFilePaths,self.app)
+		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
 		self._threadpool.start(normalizeworker)
 
 	def normalizeAndPushToSql(self):
@@ -85,7 +85,7 @@ class DataManager():
 			combinedData.to_sql("students",con=engine,if_exists='replace',index=False)
 			companyData.to_sql("profiles",con=engine,if_exists='replace',index=False)
 
-		except Error as e:
+		except Exception as e:
 			print(e)
 
 
@@ -119,8 +119,7 @@ class DataManager():
 			return (categoriesEnrolled,categoriesNotEnrolled,categories,barChartYaxisRange)
 
 		except Exception as e:
-			print(e)
-
+			pass
 
 
 	def getStudentAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
@@ -173,15 +172,18 @@ class DataManager():
 				pass
 
 
-	def tableExists(self):
+	def checkDb(self):
 		try:
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
 			cursor.execute("select * from students")
+
+			return 0
 		except Error as e:
-			# print(str(e.msg))
+			if "refused" in str(e):
+				return 2
 			if "uniplacer_insight.students" in str(e.msg):
-				return False
+				return 1
 
-		return True
 
+		return -1

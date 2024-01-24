@@ -40,7 +40,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.genderComboBox.currentTextChanged.connect(self.filterChanged)
 
 
-	def initBarChart(self,enrolledSet,notEnrolledSet,categories,barChartYaxisRange):
+	def initBarChart(self,enrolledSet=[],notEnrolledSet=[],categories=[],barChartYaxisRange=0):
 		self.barChart = QChart()
 		self.barGraphDisplay.setChart(self.barChart)
 		self.enrolledSet = None 

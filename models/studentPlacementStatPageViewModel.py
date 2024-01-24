@@ -35,7 +35,7 @@ class StudentPlacementStatPageViewModel():
 			self.totalNotPlacedStudents = totalNotPlaced
 			self.totalDisqualified = totalDisqualified
 		except Exception as e:
-			print(e.__class__.__name__)
+			print(e,"StudentPlacementStatPageViewModel")
 
 
 	def getBarChartValues(self):
@@ -43,7 +43,15 @@ class StudentPlacementStatPageViewModel():
 
 
 	def setBarChartValues(self,campusFilter):
-		placedList,notPlacedList,categories,barChartYaxisRange = self.datamanager.getBarChartData(campusFilter)
+		placedList = []
+		notPlacedList = []
+		categories = []
+		barChartYaxisRange = 0
+		try:
+			placedList,notPlacedList,categories,barChartYaxisRange = self.datamanager.getBarChartData(campusFilter)
+		except Exception as e:
+			# print(e.__class__.__name__)
+			pass
 
 		self.placedList = placedList
 		self.notPlacedList = notPlacedList

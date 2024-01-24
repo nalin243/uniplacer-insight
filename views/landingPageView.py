@@ -4,6 +4,7 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QPropertyAnimation,QRect,QSize
 
 from views.landingPageView_UI import Ui_MainWindow
+from resources.errormodal import ErrorModal
 
 import images
 
@@ -25,6 +26,7 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 		self.stackedWidgetForCards.currentChanged.connect(self.updatePageStatus)
 		self.stackedWidgetForCards.mousePressEvent = self.controller.showModuleWindow
 		self.uploadButton.mousePressEvent = self.selectFolder
+
 
 	def selectFolder(self,event):
 		self.dir = self.dialog.getExistingDirectory(None,caption="Select folder containing excel sheets",options=QFileDialog.DontUseNativeDialog)
