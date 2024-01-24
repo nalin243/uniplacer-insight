@@ -57,6 +57,9 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.notEnrolledSet.append(notEnrolledSet)
 
 		self.series = QBarSeries()
+
+		self.series.hovered.connect(self.barHovered)
+
 		self.series.append(self.enrolledSet)
 		self.series.append(self.notEnrolledSet)
 
@@ -77,6 +80,12 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 		self.barChart.legend().setVisible(True)
 		self.barChart.legend().setAlignment(Qt.AlignTop)
+
+	def barHovered(self, status, index, barset):
+		if status:
+			self.series.setLabelsVisible(True)
+		else:
+			self.series.setLabelsVisible(False)
 
 
 	def initPieChart(self,enrolledData,placedData):
