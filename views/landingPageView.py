@@ -27,7 +27,7 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 		self.uploadButton.mousePressEvent = self.selectFolder
 
 	def selectFolder(self,event):
-		self.dir = self.dialog.getExistingDirectory(None,caption="Select folder containing excel sheets",options=QFileDialog.DontUseNativeDialog)
+		self.dir = self.dialog.getExistingDirectory(None,caption="Select folder containing excel sheets")
 		self.controller.setDirPath(self.dir)
 
 	def nextModuleCard(self, event):
