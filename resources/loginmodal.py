@@ -8,6 +8,8 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
+
+from PySide6 import QtCore
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -16,12 +18,32 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
-    QSizePolicy, QStackedWidget, QWidget)
+    QSizePolicy, QWidget, QDialog)
 
-class Ui_Form(object):
+from resources.customstackedwidget import QStackedWidget
+
+import images
+
+class LoginModal(QDialog):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setupUi(self)
+
+        self.stackedWidget.setTransitionDirection(QtCore.Qt.Horizontal)
+        self.stackedWidget.setTransitionSpeed(100)
+        self.stackedWidget.setTransitionEasingCurve(QtCore.QEasingCurve.Linear)
+        self.stackedWidget.setSlideTransition(True)
+
+        self.forgotPasswordLink.mousePressEvent = self.nextCard
+   
+    def nextCard(self, event):
+        self.stackedWidget.slideToNextWidget()
+
+
     def setupUi(self, Form):
         if not Form.objectName():
-            Form.setObjectName(u"Form")
+             Form.setObjectName(u"Form")
         Form.resize(400, 350)
         self.stackedWidget = QStackedWidget(Form)
         self.stackedWidget.setObjectName(u"stackedWidget")
@@ -35,7 +57,7 @@ class Ui_Form(object):
         self.passwordImage.setObjectName(u"passwordImage")
         self.passwordImage.setGeometry(QRect(50, 150, 30, 30))
         self.passwordImage.setStyleSheet(u"background-color: rgb(235, 235, 235);")
-        self.passwordImage.setPixmap(QPixmap(u"../../../Downloads/key 1.png"))
+        self.passwordImage.setPixmap(QPixmap(u":/icons/key 1.png"))
         self.loginHeading = QLabel(self.login)
         self.loginHeading.setObjectName(u"loginHeading")
         self.loginHeading.setGeometry(QRect(110, 30, 160, 30))
@@ -66,10 +88,12 @@ class Ui_Form(object):
         self.userNameImage.setObjectName(u"userNameImage")
         self.userNameImage.setGeometry(QRect(50, 100, 30, 30))
         self.userNameImage.setStyleSheet(u"background-color: rgb(235, 235, 235);")
-        self.userNameImage.setPixmap(QPixmap(u"../../../Downloads/user(2) 1.png"))
+        self.userNameImage.setPixmap(QPixmap(u":/icons/user(2) 1.png"))
         self.forgotPasswordLink = QLabel(self.login)
         self.forgotPasswordLink.setObjectName(u"forgotPasswordLink")
         self.forgotPasswordLink.setGeometry(QRect(260, 200, 101, 15))
+
+
         self.passwordInput = QLineEdit(self.login)
         self.passwordInput.setObjectName(u"passwordInput")
         self.passwordInput.setGeometry(QRect(40, 140, 321, 51))
@@ -106,10 +130,10 @@ class Ui_Form(object):
         self.passwordImage.raise_()
         self.otpPage = QWidget()
         self.otpPage.setObjectName(u"otpPage")
-        self.otpPage.setStyleSheet(u"#page_2{\n"
-"\n"
-"background-image: url(\"C:/Users/Arindam/OneDrive/Desktop/final year project/Group 2.png\")\n"
-"}")
+        self.otpPage.setStyleSheet(u"#page_2 {\n"
+"	background-image: url(:/icons/otpbg.png);\n"
+"}\n"
+"")
         self.otpHeading = QLabel(self.otpPage)
         self.otpHeading.setObjectName(u"otpHeading")
         self.otpHeading.setGeometry(QRect(150, 120, 100, 20))
@@ -156,12 +180,12 @@ class Ui_Form(object):
         self.newPassImage.setObjectName(u"newPassImage")
         self.newPassImage.setGeometry(QRect(60, 140, 30, 30))
         self.newPassImage.setStyleSheet(u"background-color: rgb(235, 235, 235);")
-        self.newPassImage.setPixmap(QPixmap(u"../../../Downloads/key 1.png"))
+        self.newPassImage.setPixmap(QPixmap(u":/icons/key 1.png"))
         self.emailImage = QLabel(self.newCredPage)
         self.emailImage.setObjectName(u"emailImage")
         self.emailImage.setGeometry(QRect(60, 90, 30, 30))
         self.emailImage.setStyleSheet(u"background-color: rgb(235, 235, 235);")
-        self.emailImage.setPixmap(QPixmap(u"../../../Downloads/user(2) 1.png"))
+        self.emailImage.setPixmap(QPixmap(u":/icons/user(2) 1.png"))
         self.confirmPasswordInput = QLineEdit(self.newCredPage)
         self.confirmPasswordInput.setObjectName(u"confirmPasswordInput")
         self.confirmPasswordInput.setGeometry(QRect(50, 180, 311, 51))
@@ -177,7 +201,7 @@ class Ui_Form(object):
         self.confirmPassImage = QLabel(self.newCredPage)
         self.confirmPassImage.setObjectName(u"confirmPassImage")
         self.confirmPassImage.setGeometry(QRect(60, 190, 30, 30))
-        self.confirmPassImage.setPixmap(QPixmap(u"confirmation 1.png"))
+        self.confirmPassImage.setPixmap(QPixmap(u":/icons/confirmation 1.png"))
         self.confirmCredButton = QPushButton(self.newCredPage)
         self.confirmCredButton.setObjectName(u"confirmCredButton")
         self.confirmCredButton.setGeometry(QRect(150, 250, 121, 31))
@@ -204,7 +228,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.wrongCredLabel.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" color:#df0000;\">wrong credentials</span></p></body></html>", None))
+        self.wrongCredLabel.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" color:#df0000;\"></span></p></body></html>", None))
         self.passwordImage.setText("")
         self.loginHeading.setText(QCoreApplication.translate("Form", u"LOGIN", None))
         self.userNameInput.setPlaceholderText(QCoreApplication.translate("Form", u"USERNAME", None))

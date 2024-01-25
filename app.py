@@ -17,6 +17,11 @@ from models.studentPlacementStatPageViewModel import StudentPlacementStatPageVie
 from data.datamanager import DataManager
 from data.appstorage import AppStorage
 
+from resources.loginmodal import LoginModal
+from data.loginauth import LoginAuth
+
+from functools import partial
+
 class Application(QApplication):
 
 	_currentPage = -1      # -1 indidcates that current page is landing page
@@ -25,6 +30,8 @@ class Application(QApplication):
 		super(Application,self).__init__([])
 
 		self.appstorage = AppStorage()
+
+		self.loginauth = LoginAuth(self.appstorage)
 
 		self.datamanager = DataManager(self,self.appstorage)
 
@@ -38,8 +45,10 @@ class Application(QApplication):
 		#instantiating all the views
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
 		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller,self.studentplacementstatpageviewmodel)
+
 		
 		self.dialog = ErrorModal(self.landingpageview.widget)
+		self.loginmodal = LoginModal(self.landingpageview.widget)
 
 		self.displayView(-1)#first page is always landing page
 
@@ -80,17 +89,15 @@ class Application(QApplication):
 		dbConnStatus = self.datamanager.checkDb()#checking to whether appropriate tables exist and that db connection has no issues
 		Application._currentPage = viewIndex
 
+	
 
 		match Application._currentPage:
 			case -1:
 				self.landingpageview.show()
 				self.studentplacementstatpageview.close()
 				# for other views to be added and closed later...
-			case 0:
-				if(dbConnStatus==0):
-					self.studentplacementstatpageview.show()
-					self.landingpageview.close()
-				elif(dbConnStatus==2):
+			case 0:	
+				if(dbConnStatus==2):
 					self.showErrorModal(2)
 				elif(dbConnStatus==1):
 					self.showErrorModal(1)
@@ -98,10 +105,29 @@ class Application(QApplication):
 					self.showErrorModal(3)
 				elif(dbConnStatus==4):
 					self.showErrorModal(4)
+				elif(dbConnStatus==0):
+					self.loginmodal.show()
+					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
+			
 			case 1:
 				pass
 			case 2:
 				pass
+
+	def checkAuth(self,dbConnStatus):  # Function to show the modules once authentication check is True
+
+		username = self.loginmodal.userNameInput.text()
+		password = self.loginmodal.passwordInput.text()
+
+		if(self.loginauth.checkAuth(username, password)):
+
+			if(dbConnStatus==0):
+				self.studentplacementstatpageview.show()
+				self.landingpageview.close()
+			
+		
+		else:
+			self.loginmodal.wrongCredLabel.setText("Wrong Credentials")
 
 
 app = Application()

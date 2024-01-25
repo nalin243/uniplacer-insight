@@ -25,7 +25,7 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 		self.CardPrevButton.mousePressEvent = self.previousModuleCard
 
 		self.stackedWidgetForCards.currentChanged.connect(self.updatePageStatus)
-		self.stackedWidgetForCards.mousePressEvent = self.controller.showModuleWindow
+		self.stackedWidgetForCards.mousePressEvent =  self.controller.showModuleWindow
 
 		self.uploadButton.mousePressEvent = self.selectFolder
 		self.dbSettingsButton.mousePressEvent = self.showDbCredModal
@@ -89,7 +89,3 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 
 				self.radio1.setCheckable(False)
 				self.radio2.setCheckable(False)
-
-
-	def test(self,event):
-		print("lol")
