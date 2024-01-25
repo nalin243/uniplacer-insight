@@ -51,6 +51,10 @@ class Application(QApplication):
 		self.appstorage.storeDbCredentials(username,password,name,host)
 
 	def showErrorModal(self,code):
+		if(code==4):
+			self.dialog.setWindowTitleText("Connection Refused")
+			self.dialog.setErrorText("Host does not have permission to connect to database")
+			self.dialog.exec()
 		if(code==3):
 			self.dialog.setWindowTitleText("Invalid Credentials")
 			self.dialog.setErrorText("Make sure database credentials are correct")
@@ -92,6 +96,8 @@ class Application(QApplication):
 					self.showErrorModal(1)
 				elif(dbConnStatus==3):
 					self.showErrorModal(3)
+				elif(dbConnStatus==4):
+					self.showErrorModal(4)
 			case 1:
 				pass
 			case 2:

@@ -190,6 +190,8 @@ class DataManager():
 
 			return 0
 		except Error as e:
+			if "not allowed to connect" in str(e):
+				return 4
 			if "Can't connect to MySQL server on" in str(e):
 				return 3
 			if "refused" in str(e):
