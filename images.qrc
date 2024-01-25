@@ -19,5 +19,6 @@
     <file alias="studentStatbg.png">assets/studentStatbg.png</file>
     <file alias="title.png">assets/title.png</file>
     <file alias="iconlogo.png">assets/iconlogo.png</file>
+    <file alias="database-configuration.png">assets/database-configuration.png</file>
 </qresource>
 </RCC>
