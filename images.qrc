@@ -20,5 +20,9 @@
     <file alias="title.png">assets/title.png</file>
     <file alias="iconlogo.png">assets/iconlogo.png</file>
     <file alias="database-configuration.png">assets/database-configuration.png</file>
+    <file alias="confirmation 1.png">assets/confirmation 1.png</file>
+    <file alias="otpbg.png">assets/otpbg.png</file>
+    <file alias="key 1.png">assets/key 1.png</file>
+    <file alias="user(2) 1.png">assets/user(2) 1.png</file>
 </qresource>
 </RCC>
