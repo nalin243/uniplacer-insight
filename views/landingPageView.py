@@ -4,7 +4,7 @@ from PySide6.QtGui import QPixmap
 from PySide6.QtCore import QPropertyAnimation,QRect,QSize
 
 from views.landingPageView_UI import Ui_MainWindow
-from resources.errormodal import ErrorModal
+from resources.dbcredentialsformmodal import DbCredentialsFormModal
 
 import images
 
@@ -17,6 +17,7 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 		self.setWindowTitle("Uniplacer Insight")
 
 		self.controller = controller
+		self.dbcredentialmodal = DbCredentialsFormModal(self.widget)
 
 		self.updatePageStatus()
 
@@ -25,11 +26,31 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 
 		self.stackedWidgetForCards.currentChanged.connect(self.updatePageStatus)
 		self.stackedWidgetForCards.mousePressEvent = self.controller.showModuleWindow
+
 		self.uploadButton.mousePressEvent = self.selectFolder
+		self.dbSettingsButton.mousePressEvent = self.showDbCredModal
+
+		self.dbcredentialmodal.submitButton.clicked.connect(self.updateDbAuth)
+
+
+	def updateDbAuth(self,event):
+
+		username = self.dbcredentialmodal.dbUserInputBox.text()
+		password = self.dbcredentialmodal.dbPassInputBox.text()
+		name = self.dbcredentialmodal.dbNameInputBox.text()
+		host = self.dbcredentialmodal.dbHostInputBox.text()
+
+		self.dbcredentialmodal.close()
+		
+		self.controller.updateDbAuth(username,password,name,host)
+
+
+	def showDbCredModal(self,event):
+		self.dbcredentialmodal.exec()
 
 
 	def selectFolder(self,event):
-		self.dir = self.dialog.getExistingDirectory(None,caption="Select folder containing excel sheets")
+		self.dir = self.fileUploadDialog.getExistingDirectory(None,caption="Select folder containing excel sheets")
 		self.controller.setDirPath(self.dir)
 
 	def nextModuleCard(self, event):

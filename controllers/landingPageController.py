@@ -29,3 +29,7 @@ class LandingPageController():
 	def getCurrentCardIndex(self):
 		return self._currentCardIndex
 
+
+	def updateDbAuth(self,username,password,name,host):
+		self.app.setDbConfig(username,password,name,host)
+

@@ -206,8 +206,8 @@ class Ui_MainWindow(object):
         self.title.setScaledContents(True)
         self.title.setAlignment(Qt.AlignCenter)
 
-        self.dialog = QFileDialog(MainWindow,caption="Select folder for excel files",options=QFileDialog.ShowDirsOnly)
-        self.dialog.setFileMode(QFileDialog.Directory)
+        self.fileUploadDialog = QFileDialog(MainWindow,caption="Select folder for excel files",options=QFileDialog.ShowDirsOnly)
+        self.fileUploadDialog.setFileMode(QFileDialog.Directory)
 
         self.uploadButton = QLabel(self.widget)
         self.uploadButton.setObjectName(u"uploadButton")
@@ -215,6 +215,14 @@ class Ui_MainWindow(object):
         self.uploadButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.uploadButton.setPixmap(QPixmap(u":/icons/files1.png"))
         self.uploadButton.setScaledContents(True)
+
+        self.dbSettingsButton = QLabel(self.widget)
+        self.dbSettingsButton.setObjectName(u"uploadButton")
+        self.dbSettingsButton.setGeometry(QRect(80, 30, 30, 30))
+        self.dbSettingsButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.dbSettingsButton.setPixmap(QPixmap(u":/icons/database-configuration.png"))
+        self.dbSettingsButton.setScaledContents(True)
+
         self.CardButtons.setObjectName(u"CardButtons")
         self.CardButtons.setGeometry(QRect(2, 360, 330, 40))
         self.CardButtons.setMinimumSize(QSize(330, 40))

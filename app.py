@@ -15,6 +15,7 @@ from controllers.studentPlacementStatPageController import StudentPlacementStatP
 from models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
 
 from data.datamanager import DataManager
+from data.appstorage import AppStorage
 
 class Application(QApplication):
 
@@ -23,7 +24,9 @@ class Application(QApplication):
 	def __init__(self):
 		super(Application,self).__init__([])
 
-		self.datamanager = DataManager(self)
+		self.appstorage = AppStorage()
+
+		self.datamanager = DataManager(self,self.appstorage)
 
 		#instantiating the models
 		self.studentplacementstatpageviewmodel = StudentPlacementStatPageViewModel(self.datamanager)
@@ -32,19 +35,29 @@ class Application(QApplication):
 		self.landingpagecontroller = LandingPageController(self,self.datamanager)
 		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(self,self.studentplacementstatpageviewmodel)
 
-		#instantiating all the views and dialog boxes
+		#instantiating all the views
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
 		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller,self.studentplacementstatpageviewmodel)
+		
 		self.dialog = ErrorModal(self.landingpageview.widget)
 
 		self.displayView(-1)#first page is always landing page
 
 		self.exec()#start the event loop
 
+	def setDbConfig(self,username,password,name,host):
+
+		self.datamanager.setDbConfig(username,password,name,host)
+		self.appstorage.storeDbCredentials(username,password,name,host)
+
 	def showErrorModal(self,code):
+		if(code==3):
+			self.dialog.setWindowTitleText("Invalid Credentials")
+			self.dialog.setErrorText("Make sure database credentials are correct")
+			self.dialog.exec()
 		if(code==2):
 			self.dialog.setWindowTitleText("Database Connection Refused")
-			self.dialog.setErrorText("Make sure database configuration is correct and database is reachable")
+			self.dialog.setErrorText("Make sure database is reachable")
 			self.dialog.exec()
 		if(code==1):
 			self.dialog.setWindowTitleText("Incomplete Database")
@@ -77,6 +90,8 @@ class Application(QApplication):
 					self.showErrorModal(2)
 				elif(dbConnStatus==1):
 					self.showErrorModal(1)
+				elif(dbConnStatus==3):
+					self.showErrorModal(3)
 			case 1:
 				pass
 			case 2:

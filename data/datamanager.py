@@ -9,19 +9,19 @@ from data.normalizeworker import NormalizeWorker
 
 import os
 
-
-import simple_dotenv as sd 
-
 class DataManager():
 
-	def __init__(self,app):
+	def __init__(self,app,appstorage):
 
 		self.app = app
+		self.appstorage = appstorage
 
-		self._dbUsername = str(sd.GetEnv("DB_USER"))
-		self._dbPassword = str(sd.GetEnv("DB_PASSWORD"))
-		self._dbName = str(sd.GetEnv("DB_NAME"))
-		self._dbHost = str(sd.GetEnv("DB_HOST"))
+		username,password,host,dbname = self.appstorage.getDbCredentials()
+
+		self._dbUsername = username
+		self._dbPassword = password
+		self._dbName = dbname
+		self._dbHost = host
 
 		self._coeFilePath = ""
 		self._placementFilePath = ""
@@ -30,6 +30,12 @@ class DataManager():
 		self.folderPath = ""
 
 		self._threadpool = QThreadPool()
+
+	def setDbConfig(self,username,password,name,host):
+		self._dbUsername = username
+		self._dbPassword = password
+		self._dbName = name
+		self._dbHost = host
 
 	def setFolderPath(self,path):
 		self.folderPath = path
@@ -173,6 +179,10 @@ class DataManager():
 
 
 	def checkDb(self):
+
+		if(self._dbHost == None or self._dbName == None or self._dbPassword == None or self._dbUsername == None):
+			return 3
+
 		try:
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
@@ -180,6 +190,8 @@ class DataManager():
 
 			return 0
 		except Error as e:
+			if "Can't connect to MySQL server on" in str(e):
+				return 3
 			if "refused" in str(e):
 				return 2
 			if "uniplacer_insight.students" in str(e.msg):
