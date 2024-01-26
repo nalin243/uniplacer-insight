@@ -10,16 +10,21 @@ class LoginAuth():
     def __init__(self, appstorage):
         self.userid, self.password, self.Host, self.dbName = appstorage.getDbCredentials()
 
-        self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
-        self.cursor = self.connection.cursor()
-        self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100) )")
-
+        try:
+            self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
+            self.cursor = self.connection.cursor()
+            self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100) )")
+        except:
+            pass
+            
         self.username = None
         self.otp = None
 
     def setUsername(self,username):
         self.username = username
 
+    
+    # Login Authentication Module
     def checkAuth(self, username, password):
 
         self.query = "select * from users where username = '{}'".format(username) 
@@ -36,6 +41,7 @@ class LoginAuth():
         except Exception as e:
             return False
 
+    # OTP Authentication Module
     def sendOtp(self):
         self.query = "select * from users where username = '{}'".format(self.username) 
         self.cursor.execute(self.query)
@@ -50,7 +56,6 @@ class LoginAuth():
         msg['From'] = "Uni-Placer Insight"
         msg['To'] = "{}".format(mail)
 
-
         self.s = smtplib.SMTP('smtp.gmail.com', 587)
         self.s.starttls()
         self.s.login("certgenbot1@gmail.com", "aldpxdseyfdqzosu")
@@ -62,6 +67,16 @@ class LoginAuth():
             return True
         else:
             return False
+        
+    # Updating user credentials module    
+    def newCredentials(self, newMail, confirmPass):
+
+        hashedPass = bcrypt.hashpw(confirmPass.encode('utf-8') ,bcrypt.gensalt())
+
+        updateNewCreds = "update users set email = '{}', password = '{}' ".format(newMail, str(hashedPass.decode("utf-8")))
+        self.cursor.execute(updateNewCreds)
+        self.connection.commit()
+        return True
 
 
 
