@@ -26,20 +26,31 @@ import images
 
 class LoginModal(QDialog):
 
-    def __init__(self, parent=None):
+    def __init__(self, loginauth ,parent=None):
         super().__init__(parent)
         self.setupUi(self)
+
+        self.loginauth = loginauth
 
         self.stackedWidget.setTransitionDirection(QtCore.Qt.Horizontal)
         self.stackedWidget.setTransitionSpeed(100)
         self.stackedWidget.setTransitionEasingCurve(QtCore.QEasingCurve.Linear)
         self.stackedWidget.setSlideTransition(True)
 
-        self.forgotPasswordLink.mousePressEvent = self.nextCard
+        self.forgotPasswordLink.mousePressEvent = self.otpCard
+        self.confirmOtpButton.clicked.connect(self.passConfCard)
    
-    def nextCard(self, event):
+    def otpCard(self, event):
+        self.loginauth.setUsername(self.userNameInput.text())
         self.stackedWidget.slideToNextWidget()
+        self.loginauth.sendOtp()
 
+    def passConfCard(self, event):
+        if (self.loginauth.checkOtp(self.otpInput.text())):
+             self.stackedWidget.slideToNextWidget()
+        else:
+             self.wrongOtpLabel.setText("Wrong otp")
+        
 
     def setupUi(self, Form):
         if not Form.objectName():
@@ -92,6 +103,7 @@ class LoginModal(QDialog):
         self.forgotPasswordLink = QLabel(self.login)
         self.forgotPasswordLink.setObjectName(u"forgotPasswordLink")
         self.forgotPasswordLink.setGeometry(QRect(260, 200, 101, 15))
+        self.forgotPasswordLink.setCursor(QCursor(Qt.PointingHandCursor))
 
 
         self.passwordInput = QLineEdit(self.login)
@@ -119,6 +131,7 @@ class LoginModal(QDialog):
         self.signInButton.setStyleSheet(u"background-color: rgb(48, 149, 143);\n"
 "\n"
 "border-radius: 5px;")
+        self.signInButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.stackedWidget.addWidget(self.login)
         self.wrongCredLabel.raise_()
         self.loginHeading.raise_()
@@ -145,9 +158,12 @@ class LoginModal(QDialog):
         font3.setBold(True)
         self.otpInput.setFont(font3)
         self.otpInput.setStyleSheet(u"padding:10px")
+        self.wrongOtpLabel = QLabel(self.otpPage)
+        self.wrongOtpLabel.setGeometry(QRect(170, 240, 100, 25))
         self.confirmOtpButton = QPushButton(self.otpPage)
         self.confirmOtpButton.setObjectName(u"confirmOtpButton")
         self.confirmOtpButton.setGeometry(QRect(150, 200, 100, 25))
+        self.confirmOtpButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.stackedWidget.addWidget(self.otpPage)
         self.newCredPage = QWidget()
         self.newCredPage.setObjectName(u"newCredPage")
@@ -209,6 +225,7 @@ class LoginModal(QDialog):
         self.confirmCredButton.setStyleSheet(u"background-color: rgb(48, 149, 143);\n"
 "border-radius: 5px\n"
 "")
+        self.confirmCredButton.setCursor(QCursor(Qt.PointingHandCursor))
         self.newCredHeading = QLabel(self.newCredPage)
         self.newCredHeading.setObjectName(u"newCredHeading")
         self.newCredHeading.setGeometry(QRect(130, 40, 160, 30))
@@ -237,7 +254,7 @@ class LoginModal(QDialog):
         self.passwordInput.setPlaceholderText(QCoreApplication.translate("Form", u"PASSWORD", None))
         self.signInButton.setText(QCoreApplication.translate("Form", u"Sign In", None))
         self.otpHeading.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">ENTER OTP</span></p></body></html>", None))
-        self.otpInput.setPlaceholderText(QCoreApplication.translate("Form", u"5 4 3 2 1", None))
+        self.otpInput.setPlaceholderText(QCoreApplication.translate("Form", u"OTP", None))
         self.confirmOtpButton.setText(QCoreApplication.translate("Form", u"confirm", None))
         self.newPasswordInput.setPlaceholderText(QCoreApplication.translate("Form", u"NEW PASSWORD", None))
         self.emailInput.setPlaceholderText(QCoreApplication.translate("Form", u"E-MAIL", None))

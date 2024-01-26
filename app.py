@@ -48,7 +48,7 @@ class Application(QApplication):
 
 		
 		self.dialog = ErrorModal(self.landingpageview.widget)
-		self.loginmodal = LoginModal(self.landingpageview.widget)
+		self.loginmodal = LoginModal(self.loginauth,self.landingpageview.widget)
 
 		self.displayView(-1)#first page is always landing page
 
@@ -107,8 +107,8 @@ class Application(QApplication):
 					self.showErrorModal(4)
 				elif(dbConnStatus==0):
 					self.loginmodal.show()
-					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
-			
+					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))	
+					self.loginmodal.stackedWidget.setCurrentIndex(0)		
 			case 1:
 				pass
 			case 2:

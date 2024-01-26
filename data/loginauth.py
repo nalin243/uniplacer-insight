@@ -1,4 +1,7 @@
 import bcrypt
+import random
+import smtplib
+from email.message import EmailMessage
 
 from mysql.connector import connect
 
@@ -11,16 +14,19 @@ class LoginAuth():
         self.cursor = self.connection.cursor()
         self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100) )")
 
-        
+        self.username = None
+        self.otp = None
+
+    def setUsername(self,username):
+        self.username = username
 
     def checkAuth(self, username, password):
 
-        self.query = "select * from users where username = '{}'".format(username,password) 
+        self.query = "select * from users where username = '{}'".format(username) 
         self.cursor.execute(self.query)
-        
 
         try:
-            _,_,hashedpass = self.cursor.fetchall()[0]
+            _,self.mail,hashedpass = self.cursor.fetchall()[0]
 
             if bcrypt.checkpw(password.encode('utf-8'), hashedpass.encode('utf-8')):
                 return True
@@ -30,4 +36,32 @@ class LoginAuth():
         except Exception as e:
             return False
 
-        
+    def sendOtp(self):
+        self.query = "select * from users where username = '{}'".format(self.username) 
+        self.cursor.execute(self.query)
+
+        _,mail,_ = self.cursor.fetchall()[0]
+
+        self.otp = random.randint(10000, 99999)
+
+        msg = EmailMessage()
+        msg.set_content("Your OTP is: {}".format(str(self.otp)))
+        msg['Subject'] = 'Password Change Request'
+        msg['From'] = "Uni-Placer Insight"
+        msg['To'] = "{}".format(mail)
+
+
+        self.s = smtplib.SMTP('smtp.gmail.com', 587)
+        self.s.starttls()
+        self.s.login("certgenbot1@gmail.com", "aldpxdseyfdqzosu")
+        self.s.send_message(msg)
+        self.s.quit()
+
+    def checkOtp(self, otp):
+        if str(self.otp) == str(otp):
+            return True
+        else:
+            return False
+
+
+
