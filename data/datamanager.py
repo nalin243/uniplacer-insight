@@ -48,26 +48,27 @@ class DataManager():
 		placementFilePath = ""
 		companyFilePath = ""
 
-		try:
-			folderList = os.listdir(self.folderPath)
+		if(self.folderPath != ""):
+			try:
+				folderList = os.listdir(self.folderPath)
 
-			for file in folderList:
-				if "Overall_COE_" in str(file):
-					coeFilePath = self.folderPath+"/"+file
-				if "DB_Batch_" in str(file):
-					placementFilePath = self.folderPath+"/"+file
-				if "PLACEMENT_JOB_PROFILE" in str(file):
-					companyFilePath = self.folderPath+"/"+file
+				for file in folderList:
+					if "Overall_COE_" in str(file):
+						coeFilePath = self.folderPath+"/"+file
+					if "DB_Batch_" in str(file):
+						placementFilePath = self.folderPath+"/"+file
+					if "PLACEMENT_JOB_PROFILE" in str(file):
+						companyFilePath = self.folderPath+"/"+file
 
-		except Exception as e:
-			print(e)
+			except Exception as e:
+				print(e)
 
-		self._coeFilePath = coeFilePath
-		self._placementFilePath = placementFilePath
-		self._companyFilePath = companyFilePath
+			self._coeFilePath = coeFilePath
+			self._placementFilePath = placementFilePath
+			self._companyFilePath = companyFilePath
 
-		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
-		self._threadpool.start(normalizeworker)
+			normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
+			self._threadpool.start(normalizeworker)
 
 	def normalizeAndPushToSql(self):
 		try:
