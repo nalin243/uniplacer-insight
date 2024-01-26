@@ -42,9 +42,12 @@ class LoginModal(QDialog):
         self.confirmPasswordInput.textChanged.connect(self.matchPassword)
 
     def otpCard(self, event):
-        self.loginauth.setUsername(self.userNameInput.text())
-        self.stackedWidget.slideToNextWidget()
-        self.loginauth.sendOtp()
+        if(self.userNameInput.text() != ""):
+            self.loginauth.setUsername(self.userNameInput.text())
+            self.stackedWidget.slideToNextWidget()
+            self.loginauth.sendOtp()
+        else:
+            self.wrongCredLabel.setText("Please provide the username")
 
     def passConfCard(self, event):
         if (self.loginauth.checkOtp(self.otpInput.text())):

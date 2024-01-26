@@ -66,8 +66,8 @@ class Application(QApplication):
 			self.dialog.setErrorText("Host does not have permission to connect to database")
 			self.dialog.exec()
 		if(code==3):
-			self.dialog.setWindowTitleText("Invalid Credentials")
-			self.dialog.setErrorText("Make sure database credentials are correct")
+			self.dialog.setWindowTitleText("Can't connect to database")
+			self.dialog.setErrorText("Make sure database credentials are correct and database is up")
 			self.dialog.exec()
 		if(code==2):
 			self.dialog.setWindowTitleText("Database Connection Refused")
@@ -90,55 +90,56 @@ class Application(QApplication):
 		dbConnStatus = self.datamanager.checkDb()#checking to whether appropriate tables exist and that db connection has no issues
 		Application._currentPage = viewIndex
 
+
+		if(Application._currentPage == -1):
+			self.landingpageview.show()
+			self.studentplacementstatpageview.close()
+		elif(Application._currentPage != -1):
+			if(dbConnStatus==2):#check if there is any error first
+				self.showErrorModal(2)
+			elif(dbConnStatus==1):
+				self.showErrorModal(1)
+			elif(dbConnStatus==3):
+				self.showErrorModal(3)
+			elif(dbConnStatus==4):
+				self.showErrorModal(4)
+			elif(dbConnStatus==0):
+				self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
+				self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))
+				self.loginmodal.stackedWidget.setCurrentIndex(0)
+				self.loginmodal.show()
 	
 
-		match Application._currentPage:
-			case -1:
-				self.landingpageview.show()
-				self.studentplacementstatpageview.close()
-				# other views to be added and closed later...
-			case 0:	
-				if(dbConnStatus==2):
-					self.showErrorModal(2)
-				elif(dbConnStatus==1):
-					self.showErrorModal(1)
-				elif(dbConnStatus==3):
-					self.showErrorModal(3)
-				elif(dbConnStatus==4):
-					self.showErrorModal(4)
-				elif(dbConnStatus==0):
-					self.loginmodal.show()
-					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
-					self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))	
-					self.loginmodal.stackedWidget.setCurrentIndex(0)		
-
-			# For Company and Performance modules
-			case 1:
-				pass
-			case 2:
-				pass
-
 	def checkAuth(self,dbConnStatus):  # Function to show the modules once authentication check is True
+
+		self.loginauth.establishConn()
 
 		username = self.loginmodal.userNameInput.text()
 		password = self.loginmodal.passwordInput.text()
 
-		if(self.loginauth.checkAuth(username, password)):
+		authStatus = self.loginauth.checkAuth(username, password)
+		if(authStatus): 
+			self.loginmodal.close()
+			match Application._currentPage:
+				case 0:
+					self.landingpageview.hide()
+					self.studentplacementstatpageview.show()
+				case 1:
+					pass
+				case 2:
+					pass
 
-			if(dbConnStatus==0):
-				self.studentplacementstatpageview.show()
-				self.landingpageview.close()
-			
-		
 		else:
 			self.loginmodal.wrongCredLabel.setText("Wrong Credentials")
 
 	def newCredentials(self, dbConnStatus):
+		self.loginauth.establishConn()
 		newMail = self.loginmodal.emailInput.text()
 		confirmPass = self.loginmodal.confirmPasswordInput.text()
 
 		if(self.loginauth.newCredentials(newMail, confirmPass)):
 			if(dbConnStatus == 0):
+				self.loginmodal.wrongCredLabel.setText("")
 				self.loginmodal.stackedWidget.setCurrentIndex(0)
 
 

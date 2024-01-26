@@ -8,17 +8,30 @@ from mysql.connector import connect
 class LoginAuth():
     
     def __init__(self, appstorage):
-        self.userid, self.password, self.Host, self.dbName = appstorage.getDbCredentials()
+        self.appstorage = appstorage
+        self.userid, self.password, self.Host, self.dbName = self.appstorage.getDbCredentials()
+
+        self.connection  = None
+        self.cursor = None
 
         try:
             self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
             self.cursor = self.connection.cursor()
             self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100) )")
-        except:
+        except Exception as e:
             pass
-            
+
         self.username = None
         self.otp = None
+
+    def establishConn(self):   
+        self.userid, self.password, self.Host, self.dbName = self.appstorage.getDbCredentials() 
+        try:
+            self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
+            self.cursor = self.connection.cursor()
+            self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100) )")
+        except Exception as e:
+           pass
 
     def setUsername(self,username):
         self.username = username

@@ -22,7 +22,6 @@ class LandingPageController():
 			self._currentCardIndex = index
 
 	def setDirPath(self,path):
-		#
 		self.datamanager.setFolderPath(path)
 
 
@@ -32,4 +31,11 @@ class LandingPageController():
 
 	def updateDbAuth(self,username,password,name,host):
 		self.app.setDbConfig(username,password,name,host)
+
+	def checkDb(self):
+		return self.app.datamanager.checkDb()
+
+
+	def showErrorModal(self,code):
+		self.app.showErrorModal(code)
 

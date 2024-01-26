@@ -48,10 +48,15 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 	def showDbCredModal(self,event):
 		self.dbcredentialmodal.exec()
 
-
 	def selectFolder(self,event):
-		self.dir = self.fileUploadDialog.getExistingDirectory(None,caption="Select folder containing excel sheets")
-		self.controller.setDirPath(self.dir)
+		errorCode = self.controller.checkDb()
+		
+		if(errorCode==0 or errorCode==1):
+			self.dir = self.fileUploadDialog.getExistingDirectory(None,caption="Select folder containing excel sheets")
+			self.controller.setDirPath(self.dir)
+		else:
+			self.controller.showErrorModal(errorCode)
+		
 
 	def nextModuleCard(self, event):
 		#contains code to move to the next card

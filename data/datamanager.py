@@ -202,11 +202,11 @@ class DataManager():
 		except Error as e:
 			if "not allowed to connect" in str(e):
 				return 4
-			if "Can't connect to MySQL server on" in str(e):
+			elif "Can't connect to MySQL server on" in str(e):
 				return 3
-			if "refused" in str(e):
+			elif "refused" in str(e):
 				return 2
-			if "uniplacer_insight.students" in str(e.msg):
+			elif "uniplacer_insight.students" in str(e.msg):
 				return 1
 
 
