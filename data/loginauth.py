@@ -4,12 +4,16 @@ import smtplib
 from email.message import EmailMessage
 
 from mysql.connector import connect
+import simple_dotenv as s
 
 class LoginAuth():
     
     def __init__(self, appstorage):
         self.appstorage = appstorage
         self.userid, self.password, self.Host, self.dbName = self.appstorage.getDbCredentials()
+
+        self.smtpEmail = "{}".format(s.GetEnv("SMTP_EMAIL"))
+        self.smtpPass = "{}".format(s.GetEnv("SMTP_PASS"))
 
         self.connection  = None
         self.cursor = None
@@ -71,7 +75,7 @@ class LoginAuth():
 
         self.s = smtplib.SMTP('smtp.gmail.com', 587)
         self.s.starttls()
-        self.s.login("certgenbot1@gmail.com", "aldpxdseyfdqzosu")
+        self.s.login(self.smtpEmail, self.smtpPass)
         self.s.send_message(msg)
         self.s.quit()
 
