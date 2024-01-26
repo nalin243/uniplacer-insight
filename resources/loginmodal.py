@@ -39,7 +39,8 @@ class LoginModal(QDialog):
 
         self.forgotPasswordLink.mousePressEvent = self.otpCard
         self.confirmOtpButton.clicked.connect(self.passConfCard)
-   
+        self.confirmPasswordInput.textChanged.connect(self.matchPassword)
+
     def otpCard(self, event):
         self.loginauth.setUsername(self.userNameInput.text())
         self.stackedWidget.slideToNextWidget()
@@ -50,6 +51,13 @@ class LoginModal(QDialog):
              self.stackedWidget.slideToNextWidget()
         else:
              self.wrongOtpLabel.setText("Wrong otp")
+
+    def matchPassword(self, event):
+
+        if (self.newPasswordInput.text() != self.confirmPasswordInput.text()):
+            self.passMismatchLabel.setText("Passwords do not match!")
+        else:
+            self.passMismatchLabel.setText(" ")
         
 
     def setupUi(self, Form):
@@ -226,6 +234,10 @@ class LoginModal(QDialog):
 "border-radius: 5px\n"
 "")
         self.confirmCredButton.setCursor(QCursor(Qt.PointingHandCursor))
+
+        self.passMismatchLabel = QLabel(self.newCredPage)
+        self.passMismatchLabel.setGeometry(QRect(150, 280, 200, 40))
+
         self.newCredHeading = QLabel(self.newCredPage)
         self.newCredHeading.setObjectName(u"newCredHeading")
         self.newCredHeading.setGeometry(QRect(130, 40, 160, 30))

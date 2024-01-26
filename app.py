@@ -95,7 +95,7 @@ class Application(QApplication):
 			case -1:
 				self.landingpageview.show()
 				self.studentplacementstatpageview.close()
-				# for other views to be added and closed later...
+				# other views to be added and closed later...
 			case 0:	
 				if(dbConnStatus==2):
 					self.showErrorModal(2)
@@ -107,8 +107,11 @@ class Application(QApplication):
 					self.showErrorModal(4)
 				elif(dbConnStatus==0):
 					self.loginmodal.show()
-					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))	
+					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
+					self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))	
 					self.loginmodal.stackedWidget.setCurrentIndex(0)		
+
+			# For Company and Performance modules
 			case 1:
 				pass
 			case 2:
@@ -128,6 +131,15 @@ class Application(QApplication):
 		
 		else:
 			self.loginmodal.wrongCredLabel.setText("Wrong Credentials")
+
+	def newCredentials(self, dbConnStatus):
+		newMail = self.loginmodal.emailInput.text()
+		confirmPass = self.loginmodal.confirmPasswordInput.text()
+
+		if(self.loginauth.newCredentials(newMail, confirmPass)):
+			if(dbConnStatus == 0):
+				self.loginmodal.stackedWidget.setCurrentIndex(0)
+
 
 
 app = Application()

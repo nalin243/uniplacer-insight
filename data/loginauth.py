@@ -20,6 +20,8 @@ class LoginAuth():
     def setUsername(self,username):
         self.username = username
 
+    
+    # Login Authentication Module
     def checkAuth(self, username, password):
 
         self.query = "select * from users where username = '{}'".format(username) 
@@ -36,6 +38,7 @@ class LoginAuth():
         except Exception as e:
             return False
 
+    # OTP Authentication Module
     def sendOtp(self):
         self.query = "select * from users where username = '{}'".format(self.username) 
         self.cursor.execute(self.query)
@@ -50,7 +53,6 @@ class LoginAuth():
         msg['From'] = "Uni-Placer Insight"
         msg['To'] = "{}".format(mail)
 
-
         self.s = smtplib.SMTP('smtp.gmail.com', 587)
         self.s.starttls()
         self.s.login("certgenbot1@gmail.com", "aldpxdseyfdqzosu")
@@ -62,6 +64,16 @@ class LoginAuth():
             return True
         else:
             return False
+        
+    # Updating user credentials module    
+    def newCredentials(self, newMail, confirmPass):
+
+        hashedPass = bcrypt.hashpw(confirmPass.encode('utf-8') ,bcrypt.gensalt())
+
+        updateNewCreds = "update users set email = '{}', password = '{}' ".format(newMail, str(hashedPass.decode("utf-8")))
+        self.cursor.execute(updateNewCreds)
+        self.connection.commit()
+        return True
 
 
 
