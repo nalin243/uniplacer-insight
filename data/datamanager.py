@@ -7,6 +7,8 @@ from sqlalchemy.sql.dml import coercions
 from PySide6.QtCore import QThreadPool
 from data.normalizeworker import NormalizeWorker
 
+from resources.loadinganimationdialog import LoadingAnimationDialog
+
 import os
 
 class DataManager():
@@ -29,7 +31,14 @@ class DataManager():
 
 		self.folderPath = ""
 
+		self.loadinganimationdialog = LoadingAnimationDialog("Normalizing and updating data")
+
 		self._threadpool = QThreadPool()
+
+	def startAnimation(self):
+		self.loadinganimationdialog.show()
+	def stopAnimation(self):
+		self.loadinganimationdialog.close()
 
 	def setDbConfig(self,username,password,name,host):
 		self._dbUsername = username
@@ -66,12 +75,15 @@ class DataManager():
 		self._placementFilePath = placementFilePath
 		self._companyFilePath = companyFilePath
 
-		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
+		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.startAnimation,self.stopAnimation,self.checkDb,self.setExcelFilePaths)
+		
+		normalizeworker.startSignal.connect(self.startAnimation)
+		normalizeworker.endSignal.connect(self.stopAnimation)
+
 		self._threadpool.start(normalizeworker)
 
 	def normalizeAndPushToSql(self):
-		try:
-			
+		try:			
 			engine = create_engine("mysql+mysqlconnector://{}:{}@{}/{}".format(self._dbUsername,self._dbPassword,self._dbHost,self._dbName))
 
 			placementData = pandas.read_excel("{}".format(self._placementFilePath),"Single",usecols=["Roll No","Placed","CTC","Stipend","Type","Category","Bi Weekly","IT/ Non IT","Enrolled in SS"])
@@ -90,7 +102,6 @@ class DataManager():
 			#converting dataframe to sql table and putting in database
 			combinedData.to_sql("students",con=engine,if_exists='replace',index=False)
 			companyData.to_sql("profiles",con=engine,if_exists='replace',index=False)
-
 		except Exception as e:
 			print(e)
 

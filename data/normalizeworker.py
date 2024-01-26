@@ -1,21 +1,29 @@
-from PySide6.QtCore import QRunnable
+from PySide6.QtCore import QRunnable,Signal,QObject
 
 
-class NormalizeWorker(QRunnable):
+class NormalizeWorker(QRunnable,QObject):
+
+	startSignal = Signal(bool)
+	endSignal = Signal(bool)
 
 
-	def __init__(self,func,checkDb,setExcelFilePaths):
+	def __init__(self,func,startAnimation,stopAnimation,checkDb,setExcelFilePaths):
 		super().__init__()
+		QObject.__init__(self)
 
 		self.fn = func
 		self.checkDb = checkDb
 		self.setExcelFilePaths = setExcelFilePaths
+		self.startAnimation = startAnimation
+		self.stopAnimation = stopAnimation
 
 	def run(self):
+		self.startSignal.emit(True)
 		try:
 			self.fn()
 			if(self.checkDb()==0):
 				self.setExcelFilePaths()
+				self.endSignal.emit(True)			
 
 		except Exception as e:
 			print(e,"normalizeworker")

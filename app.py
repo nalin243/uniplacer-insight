@@ -7,7 +7,9 @@ from PySide6.QtCore import Slot,QObject
 
 from views.landingPageView import LandingPageView
 from views.studentPlacementStatPageView import StudentPlacementStatPageView
+
 from resources.errormodal import ErrorModal
+from resources.loginmodal import LoginModal
 
 from controllers.landingPageController import LandingPageController
 from controllers.studentPlacementStatPageController import StudentPlacementStatPageController
@@ -17,7 +19,6 @@ from models.studentPlacementStatPageViewModel import StudentPlacementStatPageVie
 from data.datamanager import DataManager
 from data.appstorage import AppStorage
 
-from resources.loginmodal import LoginModal
 from data.loginauth import LoginAuth
 
 from functools import partial
