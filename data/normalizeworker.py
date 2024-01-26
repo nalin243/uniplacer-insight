@@ -7,11 +7,11 @@ class NormalizeWorker(QRunnable,QObject):
 	endSignal = Signal(bool)
 
 
-	def __init__(self,func,startAnimation,stopAnimation,checkDb,setExcelFilePaths):
+	def __init__(self,normalizeandpush,startAnimation,stopAnimation,checkDb,setExcelFilePaths):
 		super().__init__()
 		QObject.__init__(self)
 
-		self.fn = func
+		self.normalizeandpush = normalizeandpush
 		self.checkDb = checkDb
 		self.setExcelFilePaths = setExcelFilePaths
 		self.startAnimation = startAnimation
@@ -20,10 +20,8 @@ class NormalizeWorker(QRunnable,QObject):
 	def run(self):
 		self.startSignal.emit(True)
 		try:
-			self.fn()
-			if(self.checkDb()==0):
-				self.setExcelFilePaths()
-				self.endSignal.emit(True)			
+			self.normalizeandpush()
+			self.endSignal.emit(True)			
 
 		except Exception as e:
 			print(e,"normalizeworker")

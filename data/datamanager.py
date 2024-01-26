@@ -52,7 +52,6 @@ class DataManager():
 
 	def setExcelFilePaths(self):
 		#used to set the file paths for the excel files that we fetch data from
-
 		coeFilePath = ""
 		placementFilePath = ""
 		companyFilePath = ""
@@ -76,7 +75,7 @@ class DataManager():
 		self._companyFilePath = companyFilePath
 
 		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.startAnimation,self.stopAnimation,self.checkDb,self.setExcelFilePaths)
-		
+			
 		normalizeworker.startSignal.connect(self.startAnimation)
 		normalizeworker.endSignal.connect(self.stopAnimation)
 

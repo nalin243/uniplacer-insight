@@ -52,7 +52,6 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 	def selectFolder(self,event):
 		self.dir = self.fileUploadDialog.getExistingDirectory(None,caption="Select folder containing excel sheets")
 		self.controller.setDirPath(self.dir)
-		print("lol")
 
 	def nextModuleCard(self, event):
 		#contains code to move to the next card
