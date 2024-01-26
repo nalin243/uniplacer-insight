@@ -64,6 +64,7 @@ class LoginModal(QDialog):
         if not Form.objectName():
              Form.setObjectName(u"Form")
         Form.resize(400, 350)
+        # self.setWindowFlag(Qt.FramelessWindowHint)
         self.stackedWidget = QStackedWidget(Form)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setGeometry(QRect(0, 0, 400, 350))
@@ -71,7 +72,9 @@ class LoginModal(QDialog):
         self.login.setObjectName(u"login")
         self.wrongCredLabel = QLabel(self.login)
         self.wrongCredLabel.setObjectName(u"wrongCredLabel")
-        self.wrongCredLabel.setGeometry(QRect(150, 300, 101, 15))
+        self.wrongCredLabel.setGeometry(QRect(0, 300, 400, 30))
+        self.wrongCredLabel.setFont(QFont("serif",10,QFont.DemiBold))
+        self.wrongCredLabel.setAlignment(Qt.AlignHCenter)
         self.passwordImage = QLabel(self.login)
         self.passwordImage.setObjectName(u"passwordImage")
         self.passwordImage.setGeometry(QRect(50, 150, 30, 30))
@@ -110,7 +113,8 @@ class LoginModal(QDialog):
         self.userNameImage.setPixmap(QPixmap(u":/icons/user(2) 1.png"))
         self.forgotPasswordLink = QLabel(self.login)
         self.forgotPasswordLink.setObjectName(u"forgotPasswordLink")
-        self.forgotPasswordLink.setGeometry(QRect(260, 200, 101, 15))
+        self.forgotPasswordLink.setGeometry(QRect(50, 200, 305, 20))
+        self.forgotPasswordLink.setAlignment(Qt.AlignRight)
         self.forgotPasswordLink.setCursor(QCursor(Qt.PointingHandCursor))
 
 
@@ -168,6 +172,7 @@ class LoginModal(QDialog):
         self.otpInput.setStyleSheet(u"padding:10px")
         self.wrongOtpLabel = QLabel(self.otpPage)
         self.wrongOtpLabel.setGeometry(QRect(170, 240, 100, 25))
+        self.wrongOtpLabel.setFont(QFont("serif",10,QFont.DemiBold))
         self.confirmOtpButton = QPushButton(self.otpPage)
         self.confirmOtpButton.setObjectName(u"confirmOtpButton")
         self.confirmOtpButton.setGeometry(QRect(150, 200, 100, 25))
@@ -236,7 +241,9 @@ class LoginModal(QDialog):
         self.confirmCredButton.setCursor(QCursor(Qt.PointingHandCursor))
 
         self.passMismatchLabel = QLabel(self.newCredPage)
-        self.passMismatchLabel.setGeometry(QRect(150, 280, 200, 40))
+        self.passMismatchLabel.setGeometry(QRect(0, 300, 400, 40))
+        self.passMismatchLabel.setAlignment(Qt.AlignHCenter)
+        self.passMismatchLabel.setFont(QFont("serif",10,QFont.DemiBold))
 
         self.newCredHeading = QLabel(self.newCredPage)
         self.newCredHeading.setObjectName(u"newCredHeading")
@@ -262,7 +269,7 @@ class LoginModal(QDialog):
         self.loginHeading.setText(QCoreApplication.translate("Form", u"LOGIN", None))
         self.userNameInput.setPlaceholderText(QCoreApplication.translate("Form", u"USERNAME", None))
         self.userNameImage.setText("")
-        self.forgotPasswordLink.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" font-weight:600; color:#e20000;\">forgot password?</span></p></body></html>", None))
+        self.forgotPasswordLink.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" font-weight:600; color:#e20000;\">Forgot password?</span></p></body></html>", None))
         self.passwordInput.setPlaceholderText(QCoreApplication.translate("Form", u"PASSWORD", None))
         self.signInButton.setText(QCoreApplication.translate("Form", u"Sign In", None))
         self.otpHeading.setText(QCoreApplication.translate("Form", u"<html><head/><body><p><span style=\" font-size:12pt; font-weight:600;\">ENTER OTP</span></p></body></html>", None))
