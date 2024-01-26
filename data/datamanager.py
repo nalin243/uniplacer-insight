@@ -74,7 +74,7 @@ class DataManager():
 		self._placementFilePath = placementFilePath
 		self._companyFilePath = companyFilePath
 
-		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.startAnimation,self.stopAnimation,self.checkDb,self.setExcelFilePaths)
+		normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
 			
 		normalizeworker.startSignal.connect(self.startAnimation)
 		normalizeworker.endSignal.connect(self.stopAnimation)
