@@ -13,7 +13,7 @@ import os
 
 class DataManager():
 
-	def __init__(self,app,appstorage):
+	def __init__(self,app,appstorage,loadinganimationdialog):
 
 		self.app = app
 		self.appstorage = appstorage
@@ -30,9 +30,10 @@ class DataManager():
 		self._companyFilePath = ""
 
 		self.folderPath = ""
-		self.normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
+		self.loadinganimationdialog = loadinganimationdialog
 
 		self.threadpool = QThreadPool()
+
 
 	def setDbConfig(self,username,password,name,host):
 		self._dbUsername = username
@@ -67,6 +68,11 @@ class DataManager():
 		self._coeFilePath = coeFilePath
 		self._placementFilePath = placementFilePath
 		self._companyFilePath = companyFilePath
+
+		self.normalizeworker = NormalizeWorker(self.normalizeAndPushToSql,self.checkDb,self.setExcelFilePaths)
+
+		self.normalizeworker.startSignal.connect(self.loadinganimationdialog.show)
+		self.normalizeworker.endSignal.connect(self.loadinganimationdialog.close)
 
 		self.threadpool.start(self.normalizeworker)
 

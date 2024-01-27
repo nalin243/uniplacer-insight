@@ -18,6 +18,7 @@ from controllers.studentPlacementStatPageController import StudentPlacementStatP
 from models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
 
 from data.datamanager import DataManager
+from data.normalizeworker import NormalizeWorker
 from data.appstorage import AppStorage
 
 from data.loginauth import LoginAuth
@@ -31,11 +32,13 @@ class Application(QApplication):
 	def __init__(self):
 		super(Application,self).__init__([])
 
+		self.loadinganimationdialog = LoadingAnimationDialog()
+
 		self.appstorage = AppStorage()
 
 		self.loginauth = LoginAuth(self.appstorage)
 
-		self.datamanager = DataManager(self,self.appstorage)
+		self.datamanager = DataManager(self,self.appstorage,self.loadinganimationdialog)
 
 		#instantiating the models
 		self.studentplacementstatpageviewmodel = StudentPlacementStatPageViewModel(self.datamanager)
@@ -50,10 +53,6 @@ class Application(QApplication):
 
 		self.dialog = ErrorModal(self.landingpageview.widget)
 		self.loginmodal = LoginModal(self.loginauth,self.landingpageview.widget)
-		self.loadinganimationdialog = LoadingAnimationDialog(self.landingpageview.widget)
-
-		self.datamanager.normalizeworker.startSignal.connect(self.loadinganimationdialog.show)
-		self.datamanager.normalizeworker.endSignal.connect(self.loadinganimationdialog.close)
 
 		self.displayView(-1)#first page is always landing page
 
