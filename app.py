@@ -32,6 +32,8 @@ class Application(QApplication):
 	def __init__(self):
 		super(Application,self).__init__([])
 
+		self.setQuitOnLastWindowClosed(False)
+
 		self.loadinganimationdialog = LoadingAnimationDialog()
 
 		self.appstorage = AppStorage()

@@ -67,7 +67,9 @@ class LoginModal(QDialog):
         if not Form.objectName():
              Form.setObjectName(u"Form")
         Form.resize(400, 350)
+
         # self.setWindowFlag(Qt.FramelessWindowHint)
+        
         self.stackedWidget = QStackedWidget(Form)
         self.stackedWidget.setObjectName(u"stackedWidget")
         self.stackedWidget.setGeometry(QRect(0, 0, 400, 350))

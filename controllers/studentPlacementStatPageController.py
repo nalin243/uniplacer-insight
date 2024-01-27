@@ -12,3 +12,6 @@ class StudentPlacementStatPageController():
 
 	def updateBarChartValues(self,campusFilter):
 		self.viewmodel.setBarChartValues(campusFilter)
+
+	def returnToLanding(self):
+		self.app.displayView(-1)

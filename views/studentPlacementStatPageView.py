@@ -2,7 +2,7 @@ from PySide6 import QtWidgets
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis
 from PySide6.QtCore import Qt,QEasingCurve
-from PySide6.QtGui import QPainter,QColor,QFont
+from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont
 
 import functools
 
@@ -38,6 +38,10 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.departmentComboBox.currentTextChanged.connect(self.filterChanged)
 		self.courseComboBox.currentTextChanged.connect(self.filterChanged)
 		self.genderComboBox.currentTextChanged.connect(self.filterChanged)
+
+	def closeEvent(self, event):
+		self.controller.returnToLanding()
+		return super().closeEvent(event)
 
 
 	def initBarChart(self,enrolledSet=[],notEnrolledSet=[],categories=[],barChartYaxisRange=0):

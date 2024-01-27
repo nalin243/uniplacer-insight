@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QMainWindow,QFileDialog
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QCloseEvent, QPixmap
 from PySide6.QtCore import QPropertyAnimation,QRect,QSize
 
 from views.landingPageView_UI import Ui_MainWindow
@@ -31,6 +31,10 @@ class LandingPageView(QMainWindow,Ui_MainWindow):
 		self.dbSettingsButton.mousePressEvent = self.showDbCredModal
 
 		self.dbcredentialmodal.submitButton.clicked.connect(self.updateDbAuth)
+
+	def closeEvent(self, event):
+		self.controller.closeApp()
+		return super().closeEvent(event)
 
 
 	def updateDbAuth(self,event):

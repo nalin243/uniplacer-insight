@@ -39,3 +39,7 @@ class LandingPageController():
 	def showErrorModal(self,code):
 		self.app.showErrorModal(code)
 
+	
+	def closeApp(self):
+		self.app.exit()
+
