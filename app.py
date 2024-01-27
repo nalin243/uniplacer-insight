@@ -10,6 +10,7 @@ from views.studentPlacementStatPageView import StudentPlacementStatPageView
 
 from resources.errormodal import ErrorModal
 from resources.loginmodal import LoginModal
+from resources.loadinganimationdialog import LoadingAnimationDialog
 
 from controllers.landingPageController import LandingPageController
 from controllers.studentPlacementStatPageController import StudentPlacementStatPageController
@@ -47,9 +48,12 @@ class Application(QApplication):
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
 		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller,self.studentplacementstatpageviewmodel)
 
-		
 		self.dialog = ErrorModal(self.landingpageview.widget)
 		self.loginmodal = LoginModal(self.loginauth,self.landingpageview.widget)
+		self.loadinganimationdialog = LoadingAnimationDialog(self.landingpageview.widget)
+
+		self.datamanager.normalizeworker.startSignal.connect(self.loadinganimationdialog.show)
+		self.datamanager.normalizeworker.endSignal.connect(self.loadinganimationdialog.close)
 
 		self.displayView(-1)#first page is always landing page
 

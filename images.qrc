@@ -24,5 +24,6 @@
     <file alias="otpbg.png">assets/otpbg.png</file>
     <file alias="key 1.png">assets/key 1.png</file>
     <file alias="user(2) 1.png">assets/user(2) 1.png</file>
+    <file alias="loading-animation.gif">assets/loading-animation.gif</file>
 </qresource>
 </RCC>
