@@ -35,6 +35,20 @@ class StudentPlacementStatPageViewModel():
 			self.totalNotPlacedStudents = totalNotPlaced
 			self.totalDisqualified = totalDisqualified
 		except Exception as e:
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.totalStudents = 0
+				self.totalEnrolledStudents = 0
+				self.totalNotEnrolledStudents = 0
+				self.totalDisqualified = 0
+				self.totalPlacedStudents = 0
+				self.totalNotPlacedStudents = 0
+
+				self.placedList = []
+				self.notPlacedList = []
+
+				self.categories = []
+
+				self.barChartYaxisRange = 0
 			print(e,"StudentPlacementStatPageViewModel")
 
 
@@ -42,13 +56,13 @@ class StudentPlacementStatPageViewModel():
 		return (self.placedList,self.notPlacedList,self.categories,self.barChartYaxisRange)
 
 
-	def setBarChartValues(self,campusFilter):
+	def setBarChartValues(self,campusFilter,batchFilter):
 		placedList = []
 		notPlacedList = []
 		categories = []
 		barChartYaxisRange = 0
 		try:
-			placedList,notPlacedList,categories,barChartYaxisRange = self.datamanager.getBarChartData(campusFilter)
+			placedList,notPlacedList,categories,barChartYaxisRange = self.datamanager.getBarChartData(campusFilter,batchFilter)
 		except Exception as e:
 			# print(e.__class__.__name__)
 			pass

@@ -22,7 +22,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.viewmodel = viewmodel
 
 		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
-		self.batchFitler = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
+		self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
 		self.departmentFilter = None if self.departmentComboBox.currentText()=="All" else self.departmentComboBox.currentText()
 		self.courseFilter = None if self.courseComboBox.currentText()=="All" else self.courseComboBox.currentText()
 		self.genderFilter = None if self.genderComboBox.currentText()=="All" else self.genderComboBox.currentText()
@@ -33,7 +33,8 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.studentsPlacedPercent = 0
 
 		self.campusComboBox.currentTextChanged.connect(self.filterChanged)
-		self.campusComboBox.currentTextChanged.connect(self.campusFilterChanged)
+		self.campusComboBox.currentTextChanged.connect(self.barChartFiltersChanged)
+		self.batchComboBox.currentTextChanged.connect(self.barChartFiltersChanged)
 		self.batchComboBox.currentTextChanged.connect(self.filterChanged)
 		self.departmentComboBox.currentTextChanged.connect(self.filterChanged)
 		self.courseComboBox.currentTextChanged.connect(self.filterChanged)
@@ -185,7 +186,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 	def show(self):
 
-		self.controller.changeFilter(self.campusFilter,self.batchFitler,self.departmentFilter,self.courseFilter,self.genderFilter)
+		self.controller.changeFilter(self.campusFilter,self.batchFilter,self.departmentFilter,self.courseFilter,self.genderFilter)
 
 		self.totalStudentsNumber.setText(str(self.viewmodel.getStudentAggregates()[0]))
 		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[4]))
@@ -196,7 +197,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
 
-		self.controller.updateBarChartValues(self.campusFilter)
+		self.controller.updateBarChartValues(self.campusFilter,self.batchFilter)
 		(placedSet,notPlacedSet,categories,barChartYaxisRange) = self.viewmodel.getBarChartValues()
 		self.initBarChart(placedSet,notPlacedSet,categories,barChartYaxisRange)
 
@@ -206,21 +207,22 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 		super().show()	
 
-	def campusFilterChanged(self):
+	def barChartFiltersChanged(self):
 		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
 
-		self.controller.updateBarChartValues(self.campusFilter)
+		self.controller.updateBarChartValues(self.campusFilter,self.batchFilter)
 		(placedSet,notPlacedSet,categories,barChartYaxisRange) = self.viewmodel.getBarChartValues()
 		self.initBarChart(placedSet,notPlacedSet,categories,barChartYaxisRange)
 
 	def filterChanged(self):
 		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
-		self.batchFitler = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
+		self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
 		self.departmentFilter = None if self.departmentComboBox.currentText()=="All" else self.departmentComboBox.currentText()
 		self.courseFilter = None if self.courseComboBox.currentText()=="All" else self.courseComboBox.currentText()
 		self.genderFilter = None if self.genderComboBox.currentText()=="All" else self.genderComboBox.currentText()
 
-		self.controller.changeFilter(self.campusFilter,self.batchFitler,self.departmentFilter,self.courseFilter,self.genderFilter)
+		self.controller.changeFilter(self.campusFilter,self.batchFilter,self.departmentFilter,self.courseFilter,self.genderFilter)
 
 		self.totalStudentsNumber.setText(str(self.viewmodel.getStudentAggregates()[0]))
 		self.studentsNotPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[4]))

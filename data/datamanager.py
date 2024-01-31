@@ -84,6 +84,8 @@ class DataManager():
 			overallData = pandas.read_excel("{}".format(self._coeFilePath),"Overall")
 			companyData = pandas.read_excel("{}".format(self._companyFilePath),"Sheet0",usecols=["Title","Company Name","Position Type","Source","Date of Visit","Job sector","Placement category","Status","Location","CTC Currency","CTC Minnimum","CTC Maximum","Number of Students Eligible","Number of Students Applied","Number of Select Students","Average Package Offered"])
 
+			year = (self._placementFilePath.split("_"))[-2]
+
 			#cleaning up data
 			overallData.drop(columns=["Date of Birth","Address","Semester","PIN Code","Contact No.","History of Arrear","E-Mail","GPA1","GPA2","GPA3","GPA4","GPA5","GPA6","GPA7","GPA8","GPA9","GPA10"],axis=1,inplace=True)
 			overallData.rename(columns={"Office Name":"Office_Name","Course Name":"Course_Name","Student Name":"Student_Name","Register No.":"Register_No.","Bi Weekly":"Bi_Weekly","IT/ Non IT":"IT/_Non_IT","Enrolled in SS":"Enrolled_in_SS","Standing Arrear":"Standing_Arrear"},inplace=True)
@@ -94,33 +96,33 @@ class DataManager():
 			combinedData = pandas.merge(overallData,placementData,left_on='Register_No.',right_on='Register_No.',how='outer',suffixes=('_left','_right'))
 
 			#converting dataframe to sql table and putting in database
-			combinedData.to_sql("students",con=engine,if_exists='replace',index=False)
-			companyData.to_sql("profiles",con=engine,if_exists='replace',index=False)
+			combinedData.to_sql("students_{}".format(year),con=engine,if_exists='replace',index=False)
+			companyData.to_sql("profiles_{}".format(year),con=engine,if_exists='replace',index=False)
 		except Exception as e:
 			print(e)
 
 
-	def getBarChartData(self,campusFilter):
+	def getBarChartData(self,campusFilter,batchFilter):
 
 		categories = ["Applied Data Science","Atmospheric Science","Biochemistry","Biotechnology","Chemistry","Computer Science","Information Tehcnology","Mathematics","Visual Communication","Accounting and Finance","Commerce","Computer Applications","Journalism and Mass Communication","Business Administration","Digital Marketing","Data Science","Fashion Designing","Psychology"]
 		
 		categoriesEnrolled = []
 		categoriesNotEnrolled = []
 
-		campusQuery = "select count(*) from students"
+		campusQuery = "select count(*) from students_{}".format(batchFilter)
 
 		try:
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
 
 			for category in categories:
-				cursor.execute("select count(*) from students where Enrolled_in_SS='Enrolled' and Branch like '{}' and Office_Name like '{}' ".format(category,"%" if campusFilter==None else campusFilter))
+				cursor.execute("select count(*) from students_{} where Enrolled_in_SS='Enrolled' and Branch like '{}' and Office_Name like '{}' ".format(batchFilter,category,"%" if campusFilter==None else campusFilter))
 				value1 = cursor.fetchall()[0][0]
 				# print(value1,category)
 				categoriesEnrolled.append(value1)
 				cursor.reset()
 
-				cursor.execute("select count(*) from students where (Enrolled_in_SS like 'Not Enrolled' or Enrolled_in_SS is null) and Branch like '{}' and Office_Name like '{}' ".format(category,"%" if campusFilter==None else campusFilter))
+				cursor.execute("select count(*) from students_{} where (Enrolled_in_SS like 'Not Enrolled' or Enrolled_in_SS is null) and Branch like '{}' and Office_Name like '{}' ".format(batchFilter,category,"%" if campusFilter==None else campusFilter))
 				categoriesNotEnrolled.append(cursor.fetchall()[0][0])
 
 				cursor.reset()
@@ -144,12 +146,12 @@ class DataManager():
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
 
-			totalQuery = "select count(*) from students where Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format("%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
-			totalEnrolledQuery = "select count(*) from students where Enrolled_in_SS='Enrolled' and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format("%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
-			totalNotEnrolledQuery = "select count(*) from students where (Enrolled_in_SS like 'Not Enrolled' or Enrolled_in_SS is null) and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format("%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
-			totalPlacedQuery = "select count(*) from students where Placed is not null and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format("%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
-			totalNotPlacedQuery = "select count(*) from students where Placed is null and Enrolled_in_SS='Enrolled' and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format("%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
-			totalDisqualifiedQuery = "select count(*) from students where Enrolled_in_SS like 'Not Blocked' or Enrolled_in_SS like 'Removed' and  Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format("%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+			totalQuery = "select count(*) from students_{} where Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+			totalEnrolledQuery = "select count(*) from students_{} where Enrolled_in_SS='Enrolled' and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+			totalNotEnrolledQuery = "select count(*) from students_{} where (Enrolled_in_SS like 'Not Enrolled' or Enrolled_in_SS is null) and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+			totalPlacedQuery = "select count(*) from students_{} where Placed is not null and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+			totalNotPlacedQuery = "select count(*) from students_{} where Placed is null and Enrolled_in_SS='Enrolled' and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+			totalDisqualifiedQuery = "select count(*) from students_{} where Enrolled_in_SS like 'Not Blocked' or Enrolled_in_SS like 'Removed' and  Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
 
 			cursor.execute(totalQuery)
 			totalStudents = cursor.fetchall()[0][0] 
@@ -178,9 +180,10 @@ class DataManager():
 			return (totalStudents,totalEnrolled,totalNotEnrolled,totalPlaced,totalNotPlaced,totalDisqualified)
 
 		except Error as e:
-			if "uniplacer_insight.students" in str(e.msg):
+			if "uniplacer_insight.students_2024" in str(e.msg):
 				# print("table does not exist")
 				pass
+			print(e)
 
 
 	def checkDb(self):
@@ -191,7 +194,7 @@ class DataManager():
 		try:
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
-			cursor.execute("select * from students")
+			cursor.execute("select * from students_2024")
 
 			return 0
 		except Error as e:
