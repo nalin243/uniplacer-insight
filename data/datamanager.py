@@ -186,6 +186,11 @@ class DataManager():
 			print(e)
 
 
+	def getCompanyAggregates(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter):
+		#getting company aggregates for second module according to the filters
+		pass
+
+
 	def checkDb(self):
 
 		if(self._dbHost == None or self._dbName == None or self._dbPassword == None or self._dbUsername == None):
