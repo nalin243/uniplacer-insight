@@ -27,7 +27,7 @@ class StudentPlacementStatPageViewModel():
 	def setStudentAggregates(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
 		#setting aggregate code
 		try:
-			(totalStudents,totalEnrolled,totalNotEnrolled,totalPlaced,totalNotPlaced,totalDisqualified) = self.datamanager.getStudentAggregates(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
+			(totalStudents,totalEnrolled,totalNotEnrolled,totalPlaced,totalNotPlaced,totalDisqualified) = self.datamanager.getStudentPlacementStatAggregates(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
 			self.totalStudents = totalStudents
 			self.totalEnrolledStudents = totalEnrolled
 			self.totalNotEnrolledStudents = totalNotEnrolled
@@ -62,7 +62,7 @@ class StudentPlacementStatPageViewModel():
 		categories = []
 		barChartYaxisRange = 0
 		try:
-			placedList,notPlacedList,categories,barChartYaxisRange = self.datamanager.getBarChartData(campusFilter,batchFilter)
+			placedList,notPlacedList,categories,barChartYaxisRange = self.datamanager.getStudentPlacementStatBarChartData(campusFilter,batchFilter)
 		except Exception as e:
 			# print(e.__class__.__name__)
 			pass

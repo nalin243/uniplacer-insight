@@ -102,7 +102,7 @@ class DataManager():
 			print(e)
 
 
-	def getBarChartData(self,campusFilter,batchFilter):
+	def getStudentPlacementStatBarChartData(self,campusFilter,batchFilter):
 
 		categories = ["Applied Data Science","Atmospheric Science","Biochemistry","Biotechnology","Chemistry","Computer Science","Information Tehcnology","Mathematics","Visual Communication","Accounting and Finance","Commerce","Computer Applications","Journalism and Mass Communication","Business Administration","Digital Marketing","Data Science","Fashion Designing","Psychology"]
 		
@@ -135,7 +135,7 @@ class DataManager():
 			pass
 
 
-	def getStudentAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
+	def getStudentPlacementStatAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
 		totalStudents = 0
 		totalEnrolled = 0
 		totalNotEnrolled = 0
