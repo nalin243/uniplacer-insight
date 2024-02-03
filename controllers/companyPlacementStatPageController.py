@@ -7,8 +7,8 @@ class CompanyPlacementStatPageController():
 		self.viewmodel = viewmodel
 		
 
-	def changeFilter(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter):
-		self.viewmodel.setCompanyAggregates(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter)
+	def changeFilter(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
+		self.viewmodel.setCompanyAggregates(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter)
 
 	def returnToLanding(self):
 		self.app.displayView(-1)

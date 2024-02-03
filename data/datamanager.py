@@ -13,7 +13,7 @@ import os
 
 class DataManager():
 
-	def __init__(self,app,appstorage,loadinganimationdialog):
+	def __init__(self,app=None,appstorage=None,loadinganimationdialog=None):
 
 		self.app = app
 		self.appstorage = appstorage
@@ -186,9 +186,51 @@ class DataManager():
 			print(e)
 
 
-	def getCompanyAggregates(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter):
+	def getCompanyAggregates(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
 		#getting company aggregates for second module according to the filters
-		pass
+		totalCompanies = 0
+		totalVisited = 0
+		totalNotVisited = 0
+		companiesHired = 0
+		companiesNotHired = 0
+
+		minimum_ctc,_,maximum_ctc = ctcFilter.split(" ")
+
+		try:
+
+			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
+			cursor = connection.cursor()
+
+			totalCompaniesQuery = "select count(*) from profiles_{} where Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			totalVisitedQuery = "select count(*) from profiles_{} where Date_of_Visit is not null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			totalNotVisitedQuery = "select count(*) from profiles_{} where Date_of_Visit is null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			companiesHiredQuery = "select count(*) from profiles_{} where Number_of_Select_Students > 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			companiesNotHiredQuery = "select count(*) from profiles_{} where Number_of_Select_Students = 0 is not null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+
+			cursor.execute(totalCompaniesQuery)
+			totalCompanies = cursor.fetchall()[0][0] 
+			cursor.reset()
+
+			cursor.execute(totalVisitedQuery)
+			totalVisited = cursor.fetchall()[0][0] 
+			cursor.reset()
+
+			cursor.execute(totalNotVisitedQuery)
+			totalNotVisited = cursor.fetchall()[0][0]
+			cursor.reset() 
+
+			cursor.execute(companiesHiredQuery)
+			companiesHired = cursor.fetchall()[0][0]
+			cursor.reset()
+
+			cursor.execute(companiesNotHiredQuery)
+			companiesNotHired = cursor.fetchall()[0][0]
+			cursor.reset()
+						
+			return (totalCompanies, totalVisited, totalNotVisited, companiesHired, companiesNotHired)
+
+		except Error as e:
+			print(e)
 
 
 	def checkDb(self):

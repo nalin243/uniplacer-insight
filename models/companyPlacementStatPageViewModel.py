@@ -17,9 +17,9 @@ class CompanyPlacementStatPageViewModel():
 		return (self.totalCompanies,self.totalVisited,self.totalNotVisited,self.companiesHired,self.companiesNotHired)
 
 
-	def setCompanyAggregates(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter):
+	def setCompanyAggregates(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
 		try:
-			(totalCompanies,totalVisited,totalNotVisited,companiesHired,companiesNotHired) = self.datamanager.getCompanyAggregates(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter)
+			(totalCompanies,totalVisited,totalNotVisited,companiesHired,companiesNotHired) = self.datamanager.getCompanyAggregates(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter)
 			
 			self.totalCompanies = totalCompanies
 			self.totalVisited = totalVisited
