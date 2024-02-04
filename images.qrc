@@ -25,5 +25,10 @@
     <file alias="key 1.png">assets/key 1.png</file>
     <file alias="user(2) 1.png">assets/user(2) 1.png</file>
     <file alias="loading-animation.gif">assets/loading-animation.gif</file>
+    <file alias="companiesDidNotHireImg.png">assets/companiesDidNotHireImg.png</file>
+    <file alias="companiesDidNotVistImg.png">assets/companiesDidNotVistImg.png</file>
+    <file alias="companiesHiredImg.png">assets/companiesHiredImg.png</file>
+    <file alias="companiesVisitedImg.png">assets/companiesVisitedImg.png</file>
+    <file alias="totalCompanyImg.png">assets/totalCompanyImg.png</file>
 </qresource>
 </RCC>
