@@ -195,21 +195,51 @@ class DataManager():
 		companiesHired = 0
 		companiesNotHired = 0
 
-		minimum_ctc,_,maximum_ctc = ctcFilter.split(" ")
+		if jobSectorFilter != None:
+			jobSectorFilter = "_".join(jobSectorFilter.split(" "))
 
+		try:
+			minimum_ctc = ""
+			maximum_ctc = ""
+			minimum_ctc,maximum_ctc = ctcFilter.split("-")
+
+			minimum_ctc = int(minimum_ctc.split("L")[0]) * 100000
+			maximum_ctc = int(maximum_ctc.split("L")[0]) * 100000
+		except Exception as e:
+			minimum_ctc = 0
+			maximum_ctc = 99999999
+			pass
 		try:
 
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
 
-			totalCompaniesQuery = "select count(*) from profiles_{} where Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
-			totalVisitedQuery = "select count(*) from profiles_{} where Date_of_Visit is not null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
-			totalNotVisitedQuery = "select count(*) from profiles_{} where Date_of_Visit is null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
-			companiesHiredQuery = "select count(*) from profiles_{} where Number_of_Select_Students > 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
-			companiesNotHiredQuery = "select count(*) from profiles_{} where Number_of_Select_Students = 0 is not null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and CTC_Maximum <= {};".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			totalVisitedQuery_0 = "select distinct Company_Name from profiles_{} where Date_of_Visit is not null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			totalNotVisitedQuery_0 = "select distinct Company_Name from profiles_{} where Date_of_Visit is null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+
+			#this basically means these companies are visiting but not visiting in another sector. We will basically take it as it visiting so minus this count from not visited
+			intersectionBetweenVisitedNotVisitedQuery = "select count(*) from (({}) intersect ({})) I".format(totalVisitedQuery_0,totalNotVisitedQuery_0)
+			cursor.execute(intersectionBetweenVisitedNotVisitedQuery)
+			intersectionBetweenVisitedNotVisited = cursor.fetchall()[0][0]
+			cursor.reset()
+
+			companiesHiredQuery_0 = "select distinct (Company_Name) from profiles_{} where Number_of_Select_Students > 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			companiesNotHiredQuery_0 = "select distinct (Company_Name) from profiles_{} where Number_of_Select_Students = 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+
+			#same as above
+			intersectionBetweenHiredNotHiredQuery = "select count(*) from (({}) intersect ({})) I".format(companiesHiredQuery_0,companiesNotHiredQuery_0)
+			cursor.execute(intersectionBetweenHiredNotHiredQuery)
+			intersectionBetweenHiredNotHired = cursor.fetchall()[0][0]
+			cursor.reset()
+
+			totalCompaniesQuery = "select count(distinct Company_Name) from profiles_{} where Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end);".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			totalVisitedQuery = "select count(distinct Company_Name) from profiles_{} where Date_of_Visit is not null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end);".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			totalNotVisitedQuery = "select count(distinct Company_Name) from profiles_{} where Date_of_Visit is null and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end);".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			companiesHiredQuery = "select count(distinct Company_Name) from profiles_{} where Number_of_Select_Students > 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end);".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+			companiesNotHiredQuery = "select count(distinct Company_Name) from profiles_{} where Number_of_Select_Students = 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end);".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
 
 			cursor.execute(totalCompaniesQuery)
-			totalCompanies = cursor.fetchall()[0][0] 
+			totalCompanies = cursor.fetchall()[0][0]
 			cursor.reset()
 
 			cursor.execute(totalVisitedQuery)
@@ -228,7 +258,7 @@ class DataManager():
 			companiesNotHired = cursor.fetchall()[0][0]
 			cursor.reset()
 						
-			return (totalCompanies, totalVisited, totalNotVisited, companiesHired, companiesNotHired)
+			return (totalCompanies, totalVisited, totalNotVisited-intersectionBetweenVisitedNotVisited, companiesHired, companiesNotHired-intersectionBetweenHiredNotHired)
 
 		except Error as e:
 			print(e)
