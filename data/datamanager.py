@@ -146,6 +146,7 @@ class DataManager():
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
 
+
 			totalQuery = "select count(*) from students_{} where Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
 			totalEnrolledQuery = "select count(*) from students_{} where Enrolled_in_SS='Enrolled' and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
 			totalNotEnrolledQuery = "select count(*) from students_{} where (Enrolled_in_SS like 'Not Enrolled' or Enrolled_in_SS is null) and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
