@@ -16,6 +16,9 @@ class CompanyPlacementStatPageViewModel():
 
 		self.sectors = []
 
+		self.months = []
+		self.companiesArriving = []
+
 
 
 	def getCompanyAggregates(self):
@@ -56,3 +59,19 @@ class CompanyPlacementStatPageViewModel():
 				self.barChartYaxisRange = 0
 				self.sectorsHired = []
 				sectors = []
+
+	def getLineChartData(self):
+		return (self.months,self.companiesArriving)
+
+	def setLineChartData(self,batchFilter):
+		try:
+			(months,companiesArriving) = self.datamanager.getCompanyLineChartData(batchFilter)
+			print(months,companiesArriving)
+
+			self.months = months
+			self.companiesArriving = companiesArriving
+
+		except Exception as e:
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.months = []
+				self.companiesArriving = []
