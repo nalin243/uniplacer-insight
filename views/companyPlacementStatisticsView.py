@@ -51,9 +51,13 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.controller.updateBarAndLineChartValues(self.batchFilter)
         (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
-        self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+        # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
 
         super().show()
+
+    def initLineChart(self,months,companiesArriving):
+
+        pass
 
     # def initBarChart(self,sectorsHired=[],categories=[],barChartYaxisRange=0):
     #     self.barChart = QChart()
@@ -202,7 +206,7 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.controller.updateBarAndLineChartValues(self.batchFilter)
         (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
-        self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+        # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
 
     def filterChanged(self):
 
