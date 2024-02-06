@@ -19,7 +19,6 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.controller = controller
         self.viewmodel = viewmodel
-        self.companymodulemodal = DataTable()
 
         self.tableButton.mousePressEvent = self.showTableViewModal
 
@@ -56,6 +55,9 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.controller.updateBarAndLineChartValues(self.batchFilter)
         (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
         # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+
+        self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
+        self.companymodulemodal = DataTable(self.viewmodel.getTableData())
 
         super().show()
 

@@ -1,7 +1,7 @@
-import sys
+
 from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtCore import Qt
-
+import pandas as pd
 
 class TableModel(QtCore.QAbstractTableModel):
     def __init__(self, data):
@@ -17,26 +17,19 @@ class TableModel(QtCore.QAbstractTableModel):
 
     def rowCount(self, index):
         # The length of the outer list.
-        return len(self._data)
+        return self._data.shape[0]
 
     def columnCount(self, index):
         # The following takes the first sub-list, and returns
         # the length (only works if all rows are an equal length)
-        return len(self._data[0])
+        return self._data.shape[1]
 
 
 class DataTable(QtWidgets.QTableView):
-    def __init__(self):
+    def __init__(self,data):
         super().__init__()
 
-
-        data = [
-          [4, 9, 2],
-          [1, 0, 0],
-          [3, 5, 0],
-          [3, 3, 2],
-          [7, 8, 9],
-        ]
+        print(data)
 
         self.model = TableModel(data)
         self.setModel(self.model)
