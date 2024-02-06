@@ -68,9 +68,9 @@ class Ui_MainWindow(object):
         self.pieChart = QChart()
         self.pieChartView = QChartView(self.pieChart,self.centralwidget)
         self.pieChartView.setObjectName(u"pieChartView")
-
-
         self.pieChartView.setGeometry(QRect(1370, 140, 501, 421))
+
+
 
         self.widget_4 = QWidget(self.centralwidget)
         self.widget_4.setObjectName(u"widget_4")
@@ -78,6 +78,14 @@ class Ui_MainWindow(object):
         self.widget_4.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px;\n"
 "")
+        self.tableButton = QLabel(self.widget_4)
+        self.tableButton.setObjectName(u"tableButton")
+        self.tableButton.setGeometry(QRect(455, 12, 30, 30))
+        self.tableButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.tableButton.setPixmap(QPixmap(u":/icons/arrow.png"))
+        self.tableButton.setScaledContents(True)
+
+
         self.companiesNotVisitedText = QLabel(self.widget_4)
         self.companiesNotVisitedText.setObjectName(u"companiesNotVisitedText")
         self.companiesNotVisitedText.setGeometry(QRect(140, 90, 311, 31))

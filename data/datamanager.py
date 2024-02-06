@@ -157,7 +157,7 @@ class DataManager():
 			# 	if(value == 0):
 			# 		del sectorsDict[sector]
 
-			print(sectorsDict)
+			# print(sectorsDict)
 
 			# for index,sector in enumerate(sectorsTemp):
 			# 	cursor.execute("select sum(Number_of_Select_Students) from profiles_{} where Date_of_Visit is not null and Job_sector like '{}'".format(batchFilter,sector))

@@ -1,4 +1,5 @@
 from views.companyPlacementStatisticsView_UI import Ui_MainWindow
+from resources.companymodulemodal import DataTable
 
 from PySide6.QtWidgets import QMainWindow,QGraphicsView
 from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
@@ -18,6 +19,9 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.controller = controller
         self.viewmodel = viewmodel
+        self.companymodulemodal = DataTable()
+
+        self.tableButton.mousePressEvent = self.showTableViewModal
 
         self.typeOfJobCombobox.currentTextChanged.connect(self.filterChanged)
         self.sectorCombobox.currentTextChanged.connect(self.filterChanged)
@@ -54,6 +58,9 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
 
         super().show()
+
+    def showTableViewModal(self, event):
+        self.companymodulemodal.show()
 
     def initLineChart(self,months,companiesArriving):
 
