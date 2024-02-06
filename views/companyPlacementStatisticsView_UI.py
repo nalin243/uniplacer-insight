@@ -8,7 +8,7 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCharts import QChartView
+from PySide6.QtCharts import QChartView,QChart 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -17,7 +17,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QMainWindow,
-    QSizePolicy, QWidget)
+    QSizePolicy, QWidget,QHBoxLayout,QGraphicsWidget,QGraphicsView)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -64,10 +64,14 @@ class Ui_MainWindow(object):
         self.label_19.setGeometry(QRect(40, 20, 60, 60))
         self.label_19.setStyleSheet(u"")
         self.label_19.setPixmap(QPixmap(u":/icons/totalCompanyImg.png"))
-        self.pieChartView = QChartView(self.centralwidget)
+
+        self.pieChart = QChart()
+        self.pieChartView = QChartView(self.pieChart,self.centralwidget)
         self.pieChartView.setObjectName(u"pieChartView")
+
+
         self.pieChartView.setGeometry(QRect(1370, 140, 501, 421))
-        self.pieChartView.setStyleSheet(u"border-radius:10px;")
+
         self.widget_4 = QWidget(self.centralwidget)
         self.widget_4.setObjectName(u"widget_4")
         self.widget_4.setGeometry(QRect(1370, 630, 501, 331))
