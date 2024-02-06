@@ -1,7 +1,7 @@
 from views.companyPlacementStatisticsView_UI import Ui_MainWindow
 
-from PySide6.QtWidgets import QMainWindow
-from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis
+from PySide6.QtWidgets import QMainWindow,QGraphicsView
+from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
 from PySide6.QtCore import Qt,QEasingCurve
 from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont,QPen
 
@@ -47,11 +47,64 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.visitedData = [['Visited', self.viewmodel.totalVisited],['Not Visited', self.viewmodel.totalNotVisited]]
         self.hiredData = [['Hired',self.viewmodel.companiesHired],['Not Hired',self.viewmodel.companiesNotHired]]
-        print(self.visitedData)
-        print(self.hiredData)
         self.initPieChart(self.visitedData,self.hiredData)
 
+        self.controller.updateBarAndLineChartValues(self.batchFilter)
+        (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
+        self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+
         super().show()
+
+    # def initBarChart(self,sectorsHired=[],categories=[],barChartYaxisRange=0):
+    #     self.barChart = QChart()
+    #     self.barGraphView.setChart(self.barChart)
+    #     self.sectorsHired = None 
+
+    #     self.axis_x =  QBarCategoryAxis()
+    #     self.axis_x.setLabelsFont(QFont("Serif", 10, QFont.Bold))
+    #     self.axis_x.setTitleFont(QFont("Serif", 12, QFont.Bold))
+    #     self.axis_x.setTitleVisible(True)
+    #     self.axis_x.setTitleText("Job Sectors")
+
+    #     self.axis_y = QValueAxis()
+    #     self.axis_y.setTitleVisible(True)
+    #     self.axis_y.setTitleFont(QFont("Serif", 12, QFont.Bold))
+    #     self.axis_y.setLabelsFont(QFont("Serif", 8, QFont.Bold))
+    #     self.axis_y.setTitleText("Hired Students")
+
+    #     self.sectorsHired = QBarSet("Hired")
+
+    #     self.sectorsHired.append(sectorsHired)
+
+    #     self.series = QBarSeries()
+
+    #     self.series.hovered.connect(self.barHovered)
+
+    #     self.series.append(self.sectorsHired)
+
+    #     self.barChart.addSeries(self.series)
+    #     self.barChart.setAnimationOptions(QChart.SeriesAnimations)
+
+    #     self.categories = categories
+
+    #     self.axis_x.append(self.categories)
+
+    #     self.barChart.addAxis(self.axis_x,Qt.AlignBottom)
+    #     self.series.attachAxis(self.axis_x)
+
+    #     self.axis_y.setRange(0,barChartYaxisRange)
+
+    #     self.barChart.addAxis(self.axis_y,Qt.AlignLeft)
+    #     self.series.attachAxis(self.axis_y)
+
+    #     self.barChart.legend().setVisible(True)
+    #     self.barChart.legend().setAlignment(Qt.AlignTop)
+
+    # def barHovered(self, status, index, barset):
+    #     if status:
+    #         self.series.setLabelsVisible(True)
+    #     else:
+    #         self.series.setLabelsVisible(False)
 
     def initPieChart(self,visitedData,hiredData):
 
@@ -143,6 +196,13 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
             pieSlice.setExplodeDistanceFactor(0.1)
         else:
             pieSlice.setExplodeDistanceFactor(0.001)
+
+    def barAndLineChartFiltersChanged(self):
+        self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
+
+        self.controller.updateBarAndLineChartValues(self.batchFilter)
+        (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
+        self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
 
     def filterChanged(self):
 

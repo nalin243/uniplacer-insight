@@ -134,6 +134,49 @@ class DataManager():
 		except Exception as e:
 			pass
 
+	def getCompanyStatBarChartData(self,batchFilter):
+
+		# sectors = ["ACTUARY","ADVERTISING_MEDIA_PR","BANKING_AND_FINANCIAL_SERVICES","BUSINESS_DEVELOPMENT","CONSULTING","CUSTOMER_TECHNICAL_SUPPORT","DATA_ANALYTICS","DESIGN_ART","ENGINEERING","ENGINEERING_CORE","ENGINEERING_WEB_SOFTWARE","EDUCATION_TEACHING_TRAINING","FINANCE","INFORMATION_TECHNOLOGY","GENERAL_MANAGEMENT","HUMAN_RESOURCES","OPERATIONS_PRODUCTION","PROJECT_MANAGEMENT","QUALITY_ASSURANCE","SALES","WRITING_EDITING"]
+		# sectorsTemp = sectors
+		sectorsDict = {"OTHER":0,"ACTUARY":0,"ADVERTISING_MEDIA_PR":0,"BANKING_AND_FINANCIAL_SERVICES":0,"BUSINESS_DEVELOPMENT":0,"CONSULTING":0,"CUSTOMER_TECHNICAL_SUPPORT":0,"DATA_ANALYTICS":0,"DESIGN_ART":0,"ENGINEERING":0,"ENGINEERING_CORE":0,"ENGINEERING_WEB_SOFTWARE":0,"EDUCATION_TEACHING_TRAINING":0,"FINANCE":0,"INFORMATION_TECHNOLOGY":0,"GENERAL_MANAGEMENT":0,"HUMAN_RESOURCES":0,"OPERATIONS_PRODUCTION":0,"PROJECT_MANAGEMENT":0,"QUALITY_ASSURANCE":0,"SALES":0,"WRITING_EDITING":0}
+		sectorsHired = []
+
+		try:
+			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
+			cursor = connection.cursor()
+
+			for sector in sectorsDict:
+				cursor.execute("select sum(Number_of_Select_Students) from profiles_{} where Job_sector like '{}'".format(batchFilter,sector))
+				value1 = cursor.fetchall()[0][0]
+				if value1 is None:
+					value1 = 0.0 
+				sectorsDict[sector] = int(value1)
+				cursor.reset()
+
+			# for sector,value in list(sectorsDict.items()):
+			# 	if(value == 0):
+			# 		del sectorsDict[sector]
+
+			print(sectorsDict)
+
+			# for index,sector in enumerate(sectorsTemp):
+			# 	cursor.execute("select sum(Number_of_Select_Students) from profiles_{} where Date_of_Visit is not null and Job_sector like '{}'".format(batchFilter,sector))
+			# 	value1 = cursor.fetchall()[0][0]
+			# 	if value1 is None:
+			# 		value1 = 0.0
+			# 	sectorsHired.append(value1)
+
+			# 	cursor.reset()
+
+			sectors = list(sectorsDict.keys())
+			sectorsHired = list(sectorsDict.values())
+
+			barChartYaxisRange = max(sectorsHired)+3
+
+			return(sectors,sectorsHired,barChartYaxisRange)
+
+		except Exception as e:
+			print(e,"datamanager")
 
 	def getStudentPlacementStatAggregates(self,campusFilter=None,batchFilter=None,departmentFilter=None,courseFilter=None,genderFilter=None):
 		totalStudents = 0

@@ -7,6 +7,9 @@ class CompanyPlacementStatPageController():
 		self.viewmodel = viewmodel
 		
 
+	def updateBarAndLineChartValues(self,batchFilter):
+		self.viewmodel.setBarChartData(batchFilter)
+
 	def changeFilter(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
 		self.viewmodel.setCompanyAggregates(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter)
 

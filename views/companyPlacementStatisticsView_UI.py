@@ -169,6 +169,7 @@ class Ui_MainWindow(object):
         self.sectorCombobox.addItem("")
         self.sectorCombobox.addItem("")
         self.sectorCombobox.addItem("")
+        self.sectorCombobox.addItem("")
         self.sectorCombobox.setObjectName(u"sectorCombobox")
         self.sectorCombobox.setGeometry(QRect(1670, 50, 201, 31))
         self.widget_2 = QWidget(self.centralwidget)
@@ -279,6 +280,7 @@ class Ui_MainWindow(object):
         self.sectorCombobox.setItemText(19, QCoreApplication.translate("MainWindow", u"QUALITY ASSURANCE", None))
         self.sectorCombobox.setItemText(20, QCoreApplication.translate("MainWindow", u"SALES", None))
         self.sectorCombobox.setItemText(21, QCoreApplication.translate("MainWindow", u"WRITING EDITING", None))
+        self.sectorCombobox.setItemText(22, QCoreApplication.translate("MainWindow", u"OTHER", None))
 
         self.companiesHiredText.setText(QCoreApplication.translate("MainWindow", u"Companies Hired", None))
         self.companiesHiredLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))

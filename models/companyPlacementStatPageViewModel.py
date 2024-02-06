@@ -11,6 +11,11 @@ class CompanyPlacementStatPageViewModel():
 		self.companiesHired = 0
 		self.companiesNotHired = 0
 
+		self.barChartYaxisRange = 0
+		self.sectorsHired = []
+
+		self.sectors = []
+
 
 
 	def getCompanyAggregates(self):
@@ -34,3 +39,20 @@ class CompanyPlacementStatPageViewModel():
 				self.totalNotVisited = 0
 				self.companiesHired = 0
 				self.companiesNotHired = 0
+
+	def getBarChartData(self):
+		return (self.sectorsHired,self.barChartYaxisRange,self.sectors)
+
+	def setBarChartData(self,batchFilter):
+		try:
+			(sectors,sectorsHired,barChartYaxisRange) = self.datamanager.getCompanyStatBarChartData(batchFilter)
+
+			self.sectorsHired = sectorsHired
+			self.barChartYaxisRange = barChartYaxisRange
+			self.sectors = sectors
+
+		except Exception as e:
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.barChartYaxisRange = 0
+				self.sectorsHired = []
+				sectors = []
