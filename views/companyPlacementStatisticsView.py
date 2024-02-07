@@ -62,7 +62,7 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         (months,companiesArriving) = self.viewmodel.getLineChartData()
         self.initLineChart(months,companiesArriving,self.batchFilter)
 
-         self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
+        self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
 
         super().show()
 
