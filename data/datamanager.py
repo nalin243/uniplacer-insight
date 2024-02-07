@@ -103,7 +103,7 @@ class DataManager():
 
 	def getCompanyLineChartData(self,batchFilter):
 
-		months = ["Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb"]
+		months = ["Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"]
 		companiesArriving = []
 
 		try:

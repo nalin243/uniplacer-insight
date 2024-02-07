@@ -66,8 +66,7 @@ class CompanyPlacementStatPageViewModel():
 	def setLineChartData(self,batchFilter):
 		try:
 			(months,companiesArriving) = self.datamanager.getCompanyLineChartData(batchFilter)
-			print(months,companiesArriving)
-
+			
 			self.months = months
 			self.companiesArriving = companiesArriving
 
