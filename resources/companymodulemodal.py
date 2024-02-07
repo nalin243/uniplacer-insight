@@ -10,6 +10,8 @@ class DataTable(QDialog):
     def __init__(self,viewmodel,parent=None):
         super().__init__(parent)
 
+        self.setWindowTitle("List of Companies")
+
         self.tableview = QTableView(self)
 
         self.viewmodel = viewmodel
