@@ -2,8 +2,8 @@ from views.companyPlacementStatisticsView_UI import Ui_MainWindow
 from resources.companymodulemodal import DataTable
 
 from PySide6.QtWidgets import QMainWindow,QGraphicsView
-from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
-from PySide6.QtCore import Qt,QEasingCurve
+from PySide6.QtCharts import QCategoryAxis, QLineSeries,QSplineSeries,QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
+from PySide6.QtCore import QPoint, Qt,QEasingCurve,QPointF
 from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont,QPen
 
 import functools
@@ -29,6 +29,8 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.ctcCombobox.currentTextChanged.connect(self.filterChanged)
         self.levelOfJobCombobox.currentTextChanged.connect(self.filterChanged)
         self.batchComboBox.currentTextChanged.connect(self.filterChanged)
+
+        self.batchComboBox.currentTextChanged.connect(self.barAndLineChartFiltersChanged)
 
     def closeEvent(self, event):
         self.controller.returnToLanding()
@@ -57,17 +59,57 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.controller.updateBarAndLineChartValues(self.batchFilter)
         (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
         # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+        (months,companiesArriving) = self.viewmodel.getLineChartData()
+        self.initLineChart(months,companiesArriving,self.batchFilter)
 
-        self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
+         self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
 
         super().show()
 
     def showTableViewModal(self, event):
         self.companymodulemodal.exec()
 
-    def initLineChart(self,months,companiesArriving):
+    def initLineChart(self,months,companiesArriving,batchFilter):
 
-        pass
+        self.lineChart = QChart()
+        self.lineChart.setAnimationOptions(QChart.AllAnimations)
+        self.lineChart.setAnimationDuration(2000)
+
+        self.lineGraphView.setChart(self.lineChart)
+
+        axis_x = QCategoryAxis()
+        axis_y = QValueAxis()
+
+        axis_x.setTitleText("Months")
+        axis_y.setTitleText("Number of Visits")
+
+        axis_y.setRange(0,max(companiesArriving)+1)
+
+        series = QLineSeries()
+        series.setPointsVisible(True)
+        series.setPointLabelsVisible(True)
+        series.setPointLabelsFormat("@yPoint")
+        series.setPointLabelsFont(QFont("Serif", 12, QFont.Medium))
+
+        series.setName("Companies Visiting in {}-{}".format(int(batchFilter)-1,int(batchFilter)))
+        axis_x.setRange(0, (len(months)*10))
+
+        #do this so we can put dot in middle of the month grid
+        for index,month in enumerate(months):
+            axis_x.append(month,(index+1)*10)
+
+        for index,amount in enumerate(companiesArriving):
+            series.append(QPoint(((index+1)*10)-5,amount))
+
+        self.lineChart.addAxis(axis_y,Qt.AlignLeft)
+
+        self.lineChart.addSeries(series)
+        series.attachAxis(axis_y)
+
+        self.lineChart.setAxisX(axis_x,series)
+        self.lineChart.legend().setVisible(True)
+
+
 
     # def initBarChart(self,sectorsHired=[],categories=[],barChartYaxisRange=0):
     #     self.barChart = QChart()
@@ -217,6 +259,8 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.controller.updateBarAndLineChartValues(self.batchFilter)
         (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
         # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+        (months,companiesArriving) = self.viewmodel.getLineChartData()
+        self.initLineChart(months,companiesArriving,self.batchFilter)
 
     def filterChanged(self):
 

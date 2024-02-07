@@ -102,6 +102,25 @@ class DataManager():
 		except Exception as e:
 			print(e)
 
+	def getCompanyLineChartData(self,batchFilter):
+
+		months = ["Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb","Mar"]
+		companiesArriving = []
+
+		try:
+			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
+			cursor = connection.cursor()
+
+			for month in months:
+				cursor.execute("select count(distinct Company_Name) from profiles_{} where Date_of_Visit like '%{}%' ".format(batchFilter,month))
+				companiesInMonth = cursor.fetchall()[0][0]
+
+				companiesArriving.append(companiesInMonth)
+		except Exception as e:
+			print(e)
+
+		return (months,companiesArriving)
+
 
 	def getStudentPlacementStatBarChartData(self,campusFilter,batchFilter):
 
@@ -157,8 +176,6 @@ class DataManager():
 			# for sector,value in list(sectorsDict.items()):
 			# 	if(value == 0):
 			# 		del sectorsDict[sector]
-
-			# print(sectorsDict)
 
 			# for index,sector in enumerate(sectorsTemp):
 			# 	cursor.execute("select sum(Number_of_Select_Students) from profiles_{} where Date_of_Visit is not null and Job_sector like '{}'".format(batchFilter,sector))
