@@ -309,6 +309,9 @@ class DataManager():
 
 	def getTableData(self, jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
 
+		if jobSectorFilter != None:
+			jobSectorFilter = "_".join(jobSectorFilter.split(" "))
+
 		try:
 			minimum_ctc = ""
 			maximum_ctc = ""
@@ -348,14 +351,20 @@ class DataManager():
 			for cmpny in intersectHired0:
 				intersectHired.append("'"+cmpny[0]+"'")
 
-			intersectCompanies = "("+(",".join(intersectCompanies))+")"
-			intersectHired = "("+(",".join(intersectHired))+")"
 
-			cursor.execute("select distinct Company_Name from profiles_{} where Date_of_Visit is null and Company_Name not in {} and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter, intersectCompanies, "%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc))
+			intersectCompanies = "Company_Name not in ("+(",".join(intersectCompanies))+")"
+			intersectHired = "Company_Name not in ("+(",".join(intersectHired))+")"
+
+			if intersectHired == "Company_Name not in ()":
+				intersectHired="Company_Name like '%'"
+			if intersectCompanies == "Company_Name not in ()":
+				intersectCompanies = "Company_Name like '%'"
+
+			cursor.execute("select distinct Company_Name from profiles_{} where Date_of_Visit is null and {} and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter, intersectCompanies, "%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc))
 			notVisitedCompanies0 = cursor.fetchall()
 			cursor.reset()
 			
-			cursor.execute("select distinct (Company_Name) from profiles_{} where Date_of_Visit is not null and Company_Name not in {} and Number_of_Select_Students = 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter, intersectHired,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc))
+			cursor.execute("select distinct (Company_Name) from profiles_{} where Date_of_Visit is not null and {} and Number_of_Select_Students = 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter, intersectHired,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc))
 			notHiredCompanies0 = cursor.fetchall()
 			cursor.reset()
 
@@ -371,11 +380,11 @@ class DataManager():
 			if len(notVisitedCompanies)>len(notHiredCompanies):
 				toAdd = len(notVisitedCompanies)-len(notHiredCompanies)
 				for _ in range(0,toAdd):
-					notHiredCompanies.append(" ")
+					notHiredCompanies.append("-----")
 			else:
 				toAdd = len(notHiredCompanies) - len(notVisitedCompanies)
 				for _ in range(0,toAdd):
-					notVisitedCompanies.append(" ")
+					notVisitedCompanies.append("-----")
 
 			data = {'Not Visited': notVisitedCompanies,
 		   			'Not Hired': notHiredCompanies}
@@ -385,7 +394,7 @@ class DataManager():
 			return df
 
 		except Exception as e:
-			print(e)
+			print(e,"datamanager")
 
 
 	def checkDb(self):

@@ -1,3 +1,4 @@
+from models.tablemodel import TableModel
 
 class CompanyPlacementStatPageViewModel():
 
@@ -24,8 +25,9 @@ class CompanyPlacementStatPageViewModel():
 
 	def setTableData(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter):
 		try:
+			
 			tableData = self.datamanager.getTableData(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter)
-			self.tableData = tableData
+			self.tableData = TableModel(tableData)
 
 		except Exception as e:
 			print(e)

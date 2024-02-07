@@ -1,35 +1,45 @@
-
 from PySide6 import QtCore, QtGui, QtWidgets
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt,QSize,QRect
+from PySide6.QtWidgets import QTableView,QDialog
+
 import pandas as pd
 
-class TableModel(QtCore.QAbstractTableModel):
-    def __init__(self, data):
-        super(TableModel, self).__init__()
-        self._data = data
+from models.tablemodel import TableModel
 
-    def data(self, index, role):
-        if role == Qt.ItemDataRole.DisplayRole:
-            # See below for the nested-list data structure.
-            # .row() indexes into the outer list,
-            # .column() indexes into the sub-list
-            return self._data[index.row()][index.column()]
+class DataTable(QDialog):
+    def __init__(self,viewmodel,parent=None):
+        super().__init__(parent)
 
-    def rowCount(self, index):
-        # The length of the outer list.
-        return self._data.shape[0]
+        self.tableview = QTableView(self)
 
-    def columnCount(self, index):
-        # The following takes the first sub-list, and returns
-        # the length (only works if all rows are an equal length)
-        return self._data.shape[1]
+        self.viewmodel = viewmodel
+
+        self.tableview.setGeometry(QRect(0,0,750,600))
+        self.tableview.setWindowFlags(Qt.WindowStaysOnTopHint)
+
+    def exec(self):
+
+        self.tableview.setModel(self.viewmodel.getTableData())
+        self.tableview.resizeColumnsToContents()
+
+        for row in range(0,self.viewmodel.getTableData().rowCount()):
+            self.tableview.setRowHeight(row,50)
+
+        widgetWidth = self.tableview.columnWidth(0) + self.tableview.columnWidth(1)
+
+        totalRowHeight = 0
+        if(self.viewmodel.getTableData().rowCount()<18 and self.viewmodel.getTableData().rowCount()>2):
+            for row in range(0,self.viewmodel.getTableData().rowCount()):
+                totalRowHeight = totalRowHeight + self.tableview.rowHeight(row)
+
+            self.tableview.setGeometry(QRect(0,0,widgetWidth+50,totalRowHeight+5))
+        elif(self.viewmodel.getTableData().rowCount()<2):
+            for row in range(0,self.viewmodel.getTableData().rowCount()):
+                totalRowHeight = totalRowHeight + self.tableview.rowHeight(row)
+
+            self.tableview.setGeometry(QRect(0,0,widgetWidth+50,totalRowHeight+50))
+        else:
+            self.tableview.setGeometry(QRect(0,0,widgetWidth+50,600))
 
 
-class DataTable(QtWidgets.QTableView):
-    def __init__(self,data):
-        super().__init__()
-
-        print(data)
-
-        self.model = TableModel(data)
-        self.setModel(self.model)
+        return super().exec()

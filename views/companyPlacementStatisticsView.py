@@ -20,6 +20,8 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.controller = controller
         self.viewmodel = viewmodel
 
+        self.companymodulemodal = DataTable(self.viewmodel,self.centralwidget)
+
         self.tableButton.mousePressEvent = self.showTableViewModal
 
         self.typeOfJobCombobox.currentTextChanged.connect(self.filterChanged)
@@ -57,12 +59,11 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
 
         self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
-        self.companymodulemodal = DataTable(self.viewmodel.getTableData())
 
         super().show()
 
     def showTableViewModal(self, event):
-        self.companymodulemodal.show()
+        self.companymodulemodal.exec()
 
     def initLineChart(self,months,companiesArriving):
 
