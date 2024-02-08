@@ -7,6 +7,7 @@ from PySide6.QtCore import Slot,QObject
 
 from views.landingPageView import LandingPageView
 from views.studentPlacementStatPageView import StudentPlacementStatPageView
+from views.companyPlacementStatisticsView import CompanyPlacementStatisticsView
 
 from resources.errormodal import ErrorModal
 from resources.loginmodal import LoginModal
@@ -14,8 +15,10 @@ from resources.loadinganimationdialog import LoadingAnimationDialog
 
 from controllers.landingPageController import LandingPageController
 from controllers.studentPlacementStatPageController import StudentPlacementStatPageController
+from controllers.companyPlacementStatPageController import CompanyPlacementStatPageController
 
 from models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
+from models.companyPlacementStatPageViewModel import CompanyPlacementStatPageViewModel
 
 from data.datamanager import DataManager
 from data.normalizeworker import NormalizeWorker
@@ -44,14 +47,17 @@ class Application(QApplication):
 
 		#instantiating the models
 		self.studentplacementstatpageviewmodel = StudentPlacementStatPageViewModel(self.datamanager)
+		self.companyplacementstatpageviewmodel = CompanyPlacementStatPageViewModel(self.datamanager)
 
 		#instantiating the controllers
 		self.landingpagecontroller = LandingPageController(self,self.datamanager)
 		self.studentplacementstatpagecontroller = StudentPlacementStatPageController(self,self.studentplacementstatpageviewmodel)
+		self.companyplacementstatpagecontroller = CompanyPlacementStatPageController(self,self.companyplacementstatpageviewmodel)
 
 		#instantiating all the views
 		self.landingpageview = LandingPageView(self.landingpagecontroller)
 		self.studentplacementstatpageview = StudentPlacementStatPageView(self.studentplacementstatpagecontroller,self.studentplacementstatpageviewmodel)
+		self.companyplacementstatpageview = CompanyPlacementStatisticsView(self.companyplacementstatpagecontroller, self.companyplacementstatpageviewmodel)
 
 		self.dialog = ErrorModal(self.landingpageview.widget)
 		self.loginmodal = LoginModal(self.loginauth,self.landingpageview.widget)
@@ -130,7 +136,8 @@ class Application(QApplication):
 					self.landingpageview.hide()
 					self.studentplacementstatpageview.show()
 				case 1:
-					pass
+					self.landingpageview.hide()
+					self.companyplacementstatpageview.show()
 				case 2:
 					pass
 

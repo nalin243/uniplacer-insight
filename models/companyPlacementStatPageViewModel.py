@@ -1,3 +1,4 @@
+from models.tablemodel import TableModel
 
 class CompanyPlacementStatPageViewModel():
 
@@ -11,6 +12,28 @@ class CompanyPlacementStatPageViewModel():
 		self.companiesHired = 0
 		self.companiesNotHired = 0
 
+		self.lpaRanges = []
+		self.companiesInRange = []
+
+		self.months = []
+		self.companiesArriving = []
+
+		self.tableData = None
+
+	def getTableData(self):
+		
+		return self.tableData
+
+	def setTableData(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter):
+		try:
+			
+			tableData = self.datamanager.getTableData(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter)
+			self.tableData = TableModel(tableData)
+
+		except Exception as e:
+			print(e)
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.tableData = None
 
 
 	def getCompanyAggregates(self):
@@ -34,3 +57,32 @@ class CompanyPlacementStatPageViewModel():
 				self.totalNotVisited = 0
 				self.companiesHired = 0
 				self.companiesNotHired = 0
+
+	def getBarChartData(self):
+		return (self.lpaRanges,self.companiesInRange)
+
+	def setBarChartData(self,batchFilter):
+		try:
+			(lpaRanges,companiesInRange) = self.datamanager.getCompanyStatBarChartData(batchFilter)
+
+			self.lpaRanges = lpaRanges
+			self.companiesInRange = companiesInRange
+		except Exception as e:
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.lpaRanges = []
+				self.companiesInRange = []
+
+	def getLineChartData(self):
+		return (self.months,self.companiesArriving)
+
+	def setLineChartData(self,batchFilter):
+		try:
+			(months,companiesArriving) = self.datamanager.getCompanyLineChartData(batchFilter)
+			
+			self.months = months
+			self.companiesArriving = companiesArriving
+
+		except Exception as e:
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.months = []
+				self.companiesArriving = []
