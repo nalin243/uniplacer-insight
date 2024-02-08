@@ -142,7 +142,7 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.series.append(self.companiesInRange)
 
         self.barChart.addSeries(self.series)
-        self.barChart.setAnimationOptions(QChart.SeriesAnimations)
+        self.barChart.setAnimationOptions(QChart.AllAnimations)
 
         axis_y.append(lpaRanges)
         self.barChart.addAxis(axis_y,Qt.AlignLeft)
@@ -257,8 +257,8 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
 
         self.controller.updateBarAndLineChartValues(self.batchFilter)
-        (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
-        # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+        (lpaRanges,companiesInRange) = self.viewmodel.getBarChartData()
+        self.initBarChart(lpaRanges,companiesInRange)
         (months,companiesArriving) = self.viewmodel.getLineChartData()
         self.initLineChart(months,companiesArriving,self.batchFilter)
 
