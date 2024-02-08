@@ -2,7 +2,7 @@ from views.companyPlacementStatisticsView_UI import Ui_MainWindow
 from resources.companymodulemodal import DataTable
 
 from PySide6.QtWidgets import QMainWindow,QGraphicsView
-from PySide6.QtCharts import QCategoryAxis, QLineSeries,QSplineSeries,QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
+from PySide6.QtCharts import QCategoryAxis, QLineSeries,QHorizontalBarSeries,QSplineSeries,QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
 from PySide6.QtCore import QPoint, Qt,QEasingCurve,QPointF
 from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont,QPen
 
@@ -57,8 +57,8 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.initPieChart(self.visitedData,self.hiredData)
 
         self.controller.updateBarAndLineChartValues(self.batchFilter)
-        (sectorsHired,barChartYaxisRange,sectors) = self.viewmodel.getBarChartData()
-        # self.initBarChart(sectorsHired,sectors,barChartYaxisRange)
+        (lpaRanges,companiesInRange) = self.viewmodel.getBarChartData()
+        self.initBarChart(lpaRanges,companiesInRange)
         (months,companiesArriving) = self.viewmodel.getLineChartData()
         self.initLineChart(months,companiesArriving,self.batchFilter)
 
@@ -84,6 +84,7 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         axis_y.setTitleText("Number of Visits")
 
         axis_y.setRange(0,max(companiesArriving)+1)
+        axis_y.setLabelFormat("%d")
 
         series = QLineSeries()
         series.setPointsVisible(True)
@@ -111,56 +112,55 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
 
 
-    # def initBarChart(self,sectorsHired=[],categories=[],barChartYaxisRange=0):
-    #     self.barChart = QChart()
-    #     self.barGraphView.setChart(self.barChart)
-    #     self.sectorsHired = None 
+    def initBarChart(self,lpaRanges,companiesInRange):
+        self.barChart = QChart()
+        self.barGraphView.setChart(self.barChart)
+        self.sectorsHired = None 
 
-    #     self.axis_x =  QBarCategoryAxis()
-    #     self.axis_x.setLabelsFont(QFont("Serif", 10, QFont.Bold))
-    #     self.axis_x.setTitleFont(QFont("Serif", 12, QFont.Bold))
-    #     self.axis_x.setTitleVisible(True)
-    #     self.axis_x.setTitleText("Job Sectors")
+        axis_y =  QBarCategoryAxis()
+        axis_y.setLabelsFont(QFont("Serif", 10, QFont.Bold))
+        axis_y.setTitleFont(QFont("Serif", 12, QFont.Bold))
+        axis_y.setTitleVisible(True)
+        axis_y.setTitleText("Lpa Ranges")
 
-    #     self.axis_y = QValueAxis()
-    #     self.axis_y.setTitleVisible(True)
-    #     self.axis_y.setTitleFont(QFont("Serif", 12, QFont.Bold))
-    #     self.axis_y.setLabelsFont(QFont("Serif", 8, QFont.Bold))
-    #     self.axis_y.setTitleText("Hired Students")
+        axis_x = QValueAxis()
+        axis_x.setTitleVisible(True)
+        axis_x.setTitleFont(QFont("Serif", 12, QFont.Bold))
+        axis_x.setLabelsFont(QFont("Serif", 8, QFont.Bold))
+        axis_x.setTitleText("Number of Companies")
+        axis_x.setLabelFormat("%d")
 
-    #     self.sectorsHired = QBarSet("Hired")
+        self.companiesInRange = QBarSet("Companies Hired")
+        self.companiesInRange.setColor(QColor("#4e79a7"))
 
-    #     self.sectorsHired.append(sectorsHired)
+        self.companiesInRange.append(companiesInRange)
 
-    #     self.series = QBarSeries()
+        self.series = QHorizontalBarSeries()
 
-    #     self.series.hovered.connect(self.barHovered)
+        self.series.hovered.connect(self.barHovered)
 
-    #     self.series.append(self.sectorsHired)
+        self.series.append(self.companiesInRange)
 
-    #     self.barChart.addSeries(self.series)
-    #     self.barChart.setAnimationOptions(QChart.SeriesAnimations)
+        self.barChart.addSeries(self.series)
+        self.barChart.setAnimationOptions(QChart.SeriesAnimations)
 
-    #     self.categories = categories
+        axis_y.append(lpaRanges)
+        self.barChart.addAxis(axis_y,Qt.AlignLeft)
+        self.series.attachAxis(axis_y)
 
-    #     self.axis_x.append(self.categories)
+        axis_x.setRange(0,max(companiesInRange)+2)
 
-    #     self.barChart.addAxis(self.axis_x,Qt.AlignBottom)
-    #     self.series.attachAxis(self.axis_x)
+        self.barChart.addAxis(axis_x,Qt.AlignBottom)
+        self.series.attachAxis(axis_x)
 
-    #     self.axis_y.setRange(0,barChartYaxisRange)
+        self.barChart.legend().setVisible(True)
+        self.barChart.legend().setAlignment(Qt.AlignTop)
 
-    #     self.barChart.addAxis(self.axis_y,Qt.AlignLeft)
-    #     self.series.attachAxis(self.axis_y)
-
-    #     self.barChart.legend().setVisible(True)
-    #     self.barChart.legend().setAlignment(Qt.AlignTop)
-
-    # def barHovered(self, status, index, barset):
-    #     if status:
-    #         self.series.setLabelsVisible(True)
-    #     else:
-    #         self.series.setLabelsVisible(False)
+    def barHovered(self, status, index, barset):
+        if status:
+            self.series.setLabelsVisible(True)
+        else:
+            self.series.setLabelsVisible(False)
 
     def initPieChart(self,visitedData,hiredData):
 

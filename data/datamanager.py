@@ -156,43 +156,33 @@ class DataManager():
 
 	def getCompanyStatBarChartData(self,batchFilter):
 
-		# sectors = ["ACTUARY","ADVERTISING_MEDIA_PR","BANKING_AND_FINANCIAL_SERVICES","BUSINESS_DEVELOPMENT","CONSULTING","CUSTOMER_TECHNICAL_SUPPORT","DATA_ANALYTICS","DESIGN_ART","ENGINEERING","ENGINEERING_CORE","ENGINEERING_WEB_SOFTWARE","EDUCATION_TEACHING_TRAINING","FINANCE","INFORMATION_TECHNOLOGY","GENERAL_MANAGEMENT","HUMAN_RESOURCES","OPERATIONS_PRODUCTION","PROJECT_MANAGEMENT","QUALITY_ASSURANCE","SALES","WRITING_EDITING"]
-		# sectorsTemp = sectors
-		sectorsDict = {"OTHER":0,"ACTUARY":0,"ADVERTISING_MEDIA_PR":0,"BANKING_AND_FINANCIAL_SERVICES":0,"BUSINESS_DEVELOPMENT":0,"CONSULTING":0,"CUSTOMER_TECHNICAL_SUPPORT":0,"DATA_ANALYTICS":0,"DESIGN_ART":0,"ENGINEERING":0,"ENGINEERING_CORE":0,"ENGINEERING_WEB_SOFTWARE":0,"EDUCATION_TEACHING_TRAINING":0,"FINANCE":0,"INFORMATION_TECHNOLOGY":0,"GENERAL_MANAGEMENT":0,"HUMAN_RESOURCES":0,"OPERATIONS_PRODUCTION":0,"PROJECT_MANAGEMENT":0,"QUALITY_ASSURANCE":0,"SALES":0,"WRITING_EDITING":0}
-		sectorsHired = []
+		lpaRangesDict = {"2LPA-5LPA":0,"5LPA-10LPA":0,"10LPA-15LPA":0,"15LPA-20LPA":0,"20LPA-25LPA":0,"25LPA-30LPA":0,"30LPA-35LPA":0,"35LPA-40LPA":0}
 
 		try:
 			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
 			cursor = connection.cursor()
 
-			for sector in sectorsDict:
-				cursor.execute("select sum(Number_of_Select_Students) from profiles_{} where Job_sector like '{}'".format(batchFilter,sector))
-				value1 = cursor.fetchall()[0][0]
-				if value1 is None:
-					value1 = 0.0 
-				sectorsDict[sector] = int(value1)
-				cursor.reset()
+			for lpaRange in lpaRangesDict:
 
-			# for sector,value in list(sectorsDict.items()):
-			# 	if(value == 0):
-			# 		del sectorsDict[sector]
+				minimum_ctc,maximum_ctc = lpaRange.split("-")	
 
-			# for index,sector in enumerate(sectorsTemp):
-			# 	cursor.execute("select sum(Number_of_Select_Students) from profiles_{} where Date_of_Visit is not null and Job_sector like '{}'".format(batchFilter,sector))
-			# 	value1 = cursor.fetchall()[0][0]
-			# 	if value1 is None:
-			# 		value1 = 0.0
-			# 	sectorsHired.append(value1)
+				minimum_ctc = int(minimum_ctc.split("L")[0]) * 100000
+				maximum_ctc = int(maximum_ctc.split("L")[0]) * 100000
 
-			# 	cursor.reset()
+				cursor.execute("select count(distinct Company_Name) from profiles_{} where Number_of_Select_Students > 0 and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end)".format(batchFilter,minimum_ctc,maximum_ctc))
+				count = cursor.fetchall()[0][0]
 
-			sectors = list(sectorsDict.keys())
-			sectorsHired = list(sectorsDict.values())
+				lpaRangesDict[lpaRange] = count
 
-			barChartYaxisRange = max(sectorsHired)+3
+			lpaRangesDict = {key:value for key,value in lpaRangesDict.items() if value != 0}
+			lpaRangesDict = dict(sorted(lpaRangesDict.items(),key=lambda x:x[1],reverse=True))
 
-			return(sectors,sectorsHired,barChartYaxisRange)
 
+			lpaRanges = list(lpaRangesDict.keys())[0:3]
+			companiesInRanges = list(lpaRangesDict.values())[0:3]
+
+			return(lpaRanges,companiesInRanges)
+			
 		except Exception as e:
 			print(e,"datamanager")
 
