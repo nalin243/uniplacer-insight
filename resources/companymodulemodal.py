@@ -35,13 +35,19 @@ class DataTable(QDialog):
                 totalRowHeight = totalRowHeight + self.tableview.rowHeight(row)
 
             self.tableview.setGeometry(QRect(0,0,widgetWidth+50,totalRowHeight+5))
+            self.setMinimumSize(QSize(widgetWidth+50,totalRowHeight+5))
+            self.setMaximumSize(QSize(widgetWidth+50,totalRowHeight+5))
         elif(self.viewmodel.getTableData().rowCount()<2):
             for row in range(0,self.viewmodel.getTableData().rowCount()):
                 totalRowHeight = totalRowHeight + self.tableview.rowHeight(row)
 
             self.tableview.setGeometry(QRect(0,0,widgetWidth+50,totalRowHeight+50))
+            self.setMinimumSize(QSize(widgetWidth+50,totalRowHeight+50))
+            self.setMaximumSize(QSize(widgetWidth+50,totalRowHeight+50))
         else:
             self.tableview.setGeometry(QRect(0,0,widgetWidth+50,600))
+            self.setMinimumSize(QSize(widgetWidth+50,600))
+            self.setMaximumSize(QSize(widgetWidth+50,600))
 
 
         return super().exec()
