@@ -21,11 +21,11 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.controller = controller
 		self.viewmodel = viewmodel
 
-		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.campusFilter = None if self.campusComboBox.currentText()=="Campus(All)" else self.campusComboBox.currentText()
 		self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
-		self.departmentFilter = None if self.departmentComboBox.currentText()=="All" else self.departmentComboBox.currentText()
-		self.courseFilter = None if self.courseComboBox.currentText()=="All" else self.courseComboBox.currentText()
-		self.genderFilter = None if self.genderComboBox.currentText()=="All" else self.genderComboBox.currentText()
+		self.departmentFilter = None if self.departmentComboBox.currentText()=="Department(All)" else self.departmentComboBox.currentText()
+		self.courseFilter = None if self.courseComboBox.currentText()=="Course(All)" else self.courseComboBox.currentText()
+		self.genderFilter = None if self.genderComboBox.currentText()=="Gender(All)" else self.genderComboBox.currentText()
 
 		self.studentsEligiblePercent = 0
 		self.studentsAppliedPercent = 0
@@ -54,6 +54,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 		self.axis_x =  QBarCategoryAxis()
 		self.axis_y = QValueAxis()
+		self.axis_y.setLabelFormat("%d")
 
 		self.enrolledSet = QBarSet("Enrolled")
 		self.notEnrolledSet = QBarSet("Not Enrolled")
@@ -195,7 +196,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.totalDisqualifiedNumber.setText(str(self.viewmodel.getStudentAggregates()[5]))
 		self.studentsPlacedNumber.setText(str(self.viewmodel.getStudentAggregates()[3]))
 
-		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.campusFilter = None if self.campusComboBox.currentText()=="Campus(All)" else self.campusComboBox.currentText()
 
 		self.controller.updateBarChartValues(self.campusFilter,self.batchFilter)
 		(placedSet,notPlacedSet,categories,barChartYaxisRange) = self.viewmodel.getBarChartValues()
@@ -216,11 +217,11 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.initBarChart(placedSet,notPlacedSet,categories,barChartYaxisRange)
 
 	def filterChanged(self):
-		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.campusFilter = None if self.campusComboBox.currentText()=="Campus(All)" else self.campusComboBox.currentText()
 		self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
-		self.departmentFilter = None if self.departmentComboBox.currentText()=="All" else self.departmentComboBox.currentText()
-		self.courseFilter = None if self.courseComboBox.currentText()=="All" else self.courseComboBox.currentText()
-		self.genderFilter = None if self.genderComboBox.currentText()=="All" else self.genderComboBox.currentText()
+		self.departmentFilter = None if self.departmentComboBox.currentText()=="Department(All)" else self.departmentComboBox.currentText()
+		self.courseFilter = None if self.courseComboBox.currentText()=="Course(All)" else self.courseComboBox.currentText()
+		self.genderFilter = None if self.genderComboBox.currentText()=="Gender(All)" else self.genderComboBox.currentText()
 
 		self.controller.changeFilter(self.campusFilter,self.batchFilter,self.departmentFilter,self.courseFilter,self.genderFilter)
 

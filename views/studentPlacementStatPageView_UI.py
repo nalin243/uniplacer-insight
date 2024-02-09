@@ -526,7 +526,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Student Placement Statistics", None))
         self.appLogo.setText("")
-        self.campusComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.campusComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Campus(All)", None))
         self.campusComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Faculty of Science and Humanities, Kattankulathur", None))
         self.campusComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Faculty of Science and Humanities, Ramapuram", None))
         self.campusComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"College of Science and Humanities,Tiruchirappalli", None))
@@ -541,7 +541,7 @@ class Ui_MainWindow(object):
         self.batchComboBox.setItemText(4, QCoreApplication.translate("MainWindow", u"2020", None))
 
         self.batchComboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Batch", None))
-        self.departmentComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.departmentComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Department(All)", None))
         self.departmentComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Applied Data Science", None))
         self.departmentComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Atmospheric Science", None))
         self.departmentComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Biochemistry", None))
@@ -562,7 +562,7 @@ class Ui_MainWindow(object):
         self.departmentComboBox.setItemText(18, QCoreApplication.translate("MainWindow", u"Psychology", None))
 
         self.departmentComboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Department ", None))
-        self.courseComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.courseComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Course(All)", None))
         self.courseComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"B.A", None))
         self.courseComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"B.B.A.", None))
         self.courseComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"B.C.A.", None))
@@ -573,7 +573,7 @@ class Ui_MainWindow(object):
         self.courseComboBox.setItemText(8, QCoreApplication.translate("MainWindow", u"M.C.A.", None))
 
         self.courseComboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Course", None))
-        self.genderComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.genderComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"Gender(All)", None))
         self.genderComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Male", None))
         self.genderComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Female", None))
         self.genderComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Other", None))

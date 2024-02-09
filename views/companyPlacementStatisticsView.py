@@ -38,10 +38,10 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
     def show(self):
 
-        self.jobTypeFilter = None if self.typeOfJobCombobox.currentText() == "All" else self.typeOfJobCombobox.currentText()
-        self.jobSectorFilter = None if self.sectorCombobox.currentText() == "All" else self.sectorCombobox.currentText()
-        self.ctcFilter = None if self.ctcCombobox.currentText() == "All" else self.ctcCombobox.currentText()
-        self.companyLevelFilter = None if self.levelOfJobCombobox.currentText() == "All" else self.levelOfJobCombobox.currentText()
+        self.jobTypeFilter = None if self.typeOfJobCombobox.currentText() == "Job Type(All)" else self.typeOfJobCombobox.currentText()
+        self.jobSectorFilter = None if self.sectorCombobox.currentText() == "Job Sector(All)" else self.sectorCombobox.currentText()
+        self.ctcFilter = None if self.ctcCombobox.currentText() == "CTC Range(All)" else self.ctcCombobox.currentText()
+        self.companyLevelFilter = None if self.levelOfJobCombobox.currentText() == "Job Level(All)" else self.levelOfJobCombobox.currentText()
         self.batchFilter = None if self.batchComboBox.currentText() == "All" else self.batchComboBox.currentText()
 
         self.controller.changeFilter(self.jobTypeFilter, self.jobSectorFilter, self.ctcFilter, self.companyLevelFilter, self.batchFilter)
@@ -264,10 +264,10 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
     def filterChanged(self):
 
-        self.jobTypeFilter = None if self.typeOfJobCombobox.currentText() == "All" else self.typeOfJobCombobox.currentText()
-        self.jobSectorFilter = None if self.sectorCombobox.currentText() == "All" else self.sectorCombobox.currentText()
-        self.ctcFilter = None if self.ctcCombobox.currentText() == "All" else self.ctcCombobox.currentText()
-        self.companyLevelFilter = None if self.levelOfJobCombobox.currentText() == "All" else self.levelOfJobCombobox.currentText()
+        self.jobTypeFilter = None if self.typeOfJobCombobox.currentText() == "Job Type(All)" else self.typeOfJobCombobox.currentText()
+        self.jobSectorFilter = None if self.sectorCombobox.currentText() == "Job Sector(All)" else self.sectorCombobox.currentText()
+        self.ctcFilter = None if self.ctcCombobox.currentText() == "CTC Range(All)" else self.ctcCombobox.currentText()
+        self.companyLevelFilter = None if self.levelOfJobCombobox.currentText() == "Job Level(All)" else self.levelOfJobCombobox.currentText()
         self.batchFilter = None if self.batchComboBox.currentText() == "All" else self.batchComboBox.currentText()
 
         self.controller.changeFilter(self.jobTypeFilter, self.jobSectorFilter, self.ctcFilter, self.companyLevelFilter, self.batchFilter)

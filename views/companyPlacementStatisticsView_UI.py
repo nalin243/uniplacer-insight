@@ -241,11 +241,11 @@ class Ui_MainWindow(object):
         self.batchComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"2023", None))
         self.batchComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"2022", None))
 
-        self.typeOfJobCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.typeOfJobCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"Job Type(All)", None))
         self.typeOfJobCombobox.setItemText(1, QCoreApplication.translate("MainWindow", u"FULL TIME", None))
         self.typeOfJobCombobox.setItemText(2, QCoreApplication.translate("MainWindow", u"INTERNSHIP", None))
 
-        self.ctcCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.ctcCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"CTC Range(All)", None))
         self.ctcCombobox.setItemText(1, QCoreApplication.translate("MainWindow", u"2LPA-5LPA", None))
         self.ctcCombobox.setItemText(2, QCoreApplication.translate("MainWindow", u"5LPA-10LPA", None))
         self.ctcCombobox.setItemText(3, QCoreApplication.translate("MainWindow", u"10LPA-15LPA", None))
@@ -255,7 +255,7 @@ class Ui_MainWindow(object):
         self.ctcCombobox.setItemText(7, QCoreApplication.translate("MainWindow", u"30LPA-35LPA", None))
         self.ctcCombobox.setItemText(8, QCoreApplication.translate("MainWindow", u"35LPA-40LPA", None))
 
-        self.levelOfJobCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.levelOfJobCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"Job Level(All)", None))
         self.levelOfJobCombobox.setItemText(1, QCoreApplication.translate("MainWindow", u"Level 1 - Dream", None))
         self.levelOfJobCombobox.setItemText(2, QCoreApplication.translate("MainWindow", u"Level 1 - General", None))
         self.levelOfJobCombobox.setItemText(3, QCoreApplication.translate("MainWindow", u"Level 1 - BPO", None))
@@ -266,7 +266,7 @@ class Ui_MainWindow(object):
         self.levelOfJobCombobox.setItemText(8, QCoreApplication.translate("MainWindow", u"Level 3 - General", None))
         self.levelOfJobCombobox.setItemText(9, QCoreApplication.translate("MainWindow", u"Level 3 - BPO", None))
 
-        self.sectorCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"All", None))
+        self.sectorCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"Job Sector(All)", None))
         self.sectorCombobox.setItemText(1, QCoreApplication.translate("MainWindow", u"ACTUARY", None))
         self.sectorCombobox.setItemText(2, QCoreApplication.translate("MainWindow", u"ADVERTISING MEDIA PR", None))
         self.sectorCombobox.setItemText(3, QCoreApplication.translate("MainWindow", u"BANKING AND FINANCIAL SERVICES", None))
