@@ -1,6 +1,6 @@
 from views.companyPlacementStatisticsView_UI import Ui_MainWindow
 from resources.companymodulemodal import DataTable
-from resources.companyhiredtablemodal import DataTable
+from resources.companyhiredtablemodal import HiredDataTable
 
 from PySide6.QtWidgets import QMainWindow,QGraphicsView
 from PySide6.QtCharts import QCategoryAxis, QLineSeries,QHorizontalBarSeries,QSplineSeries,QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
@@ -22,7 +22,7 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
         self.viewmodel = viewmodel
 
         self.companymodulemodal = DataTable(self.viewmodel,self.centralwidget)
-        self.companyhiredtablemodal = DataTable(self.viewmodel, self.centralwidget)
+        self.companyhiredtablemodal = HiredDataTable(self.viewmodel, self.centralwidget)
 
         self.tableButton.mousePressEvent = self.showTableViewModal
         self.hiredTableButton.mousePressEvent = self.showHiredTableViewModal

@@ -6,7 +6,7 @@ import pandas as pd
 
 from models.tablemodel import TableModel
 
-class DataTable(QDialog):
+class HiredDataTable(QDialog):
     def __init__(self,viewmodel,parent=None):
         super().__init__(parent)
 
