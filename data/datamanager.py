@@ -403,6 +403,58 @@ class DataManager():
 		except Exception as e:
 			print(e,"datamanager")
 
+	def getHiredTableData(self, jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
+
+		if jobSectorFilter != None:
+			jobSectorFilter = "_".join(jobSectorFilter.split(" "))
+
+		try:
+			minimum_ctc = ""
+			maximum_ctc = ""
+			minimum_ctc,maximum_ctc = ctcFilter.split("-")
+
+			minimum_ctc = int(minimum_ctc.split("L")[0]) * 100000
+			maximum_ctc = int(maximum_ctc.split("L")[0]) * 100000
+		except Exception as e:
+			minimum_ctc = 0
+			maximum_ctc = 99999999
+			pass
+
+		hiredTableData = "select Company_Name, Job_sector, Number_of_Select_Students from profiles_{} where Number_of_Select_Students > 0 and Position_Type like '{}' and Job_sector like '{}' and Placement_category like '{}' and CTC_Minimum >= {} and (case when CTC_Maximum is null then CTC_Maximum is null else CTC_Maximum <={} end) order by Company_Name".format(batchFilter,"%" if jobTypeFilter==None else jobTypeFilter, "%" if jobSectorFilter==None else jobSectorFilter, "%" if companyLevelFilter==None else companyLevelFilter, "%" if minimum_ctc==None else minimum_ctc, "%" if maximum_ctc==None else maximum_ctc)
+
+		try:
+			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
+			cursor = connection.cursor()
+
+			cursor.execute(hiredTableData)
+			finalHiredTableData = cursor.fetchall()
+			cursor.reset()
+
+			hiredCompanies = []
+			hiredCompanySector = []
+			hiredStudentsNumber = []
+
+
+			for cmp in finalHiredTableData:
+				
+				hiredCompanies.append(cmp[0])
+				hiredCompanySector.append(cmp[1])
+				hiredStudentsNumber.append(int(cmp[2]))
+			
+
+			hiredData = { 'Companies Hired' : hiredCompanies,
+				'Job Sector':hiredCompanySector,
+				'No. of Students Hired':hiredStudentsNumber
+
+			}
+
+			df1 = pd.DataFrame(hiredData)
+
+			return df1
+
+
+		except Exception as e:
+			print(e,"datamanager")
 
 	def checkDb(self):
 
@@ -415,7 +467,8 @@ class DataManager():
 			cursor.execute("select * from students_2024")
 
 			return 0
-		except Error as e:
+		except Exception as e:
+			print(e)
 			if "not allowed to connect" in str(e):
 				return 4
 			elif "Can't connect to MySQL server on" in str(e):

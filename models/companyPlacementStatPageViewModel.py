@@ -20,6 +20,8 @@ class CompanyPlacementStatPageViewModel():
 
 		self.tableData = None
 
+		self.hiredTableData = None
+
 	def getTableData(self):
 		
 		return self.tableData
@@ -34,6 +36,21 @@ class CompanyPlacementStatPageViewModel():
 			print(e)
 			if "cannot unpack non-iterable NoneType" in str(e):
 				self.tableData = None
+
+	def getHiredTableData(self):
+		
+		return self.hiredTableData
+	
+	def setHiredTableData(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter):
+		try:
+			
+			hiredTableData = self.datamanager.getHiredTableData(jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter,batchFilter)
+			self.hiredTableData = TableModel(hiredTableData)
+
+		except Exception as e:
+			print(e)
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.hiredTableData = None
 
 
 	def getCompanyAggregates(self):

@@ -186,6 +186,14 @@ class Ui_MainWindow(object):
         self.widget_2.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px;\n"
 "")
+        
+        self.hiredTableButton = QLabel(self.widget_2)
+        self.hiredTableButton.setObjectName(u"hiredTableButton")
+        self.hiredTableButton.setGeometry(QRect(355, 5, 20, 20))
+        self.hiredTableButton.setCursor(QCursor(Qt.PointingHandCursor))
+        self.hiredTableButton.setPixmap(QPixmap(u":/icons/arrow.png"))
+        self.hiredTableButton.setScaledContents(True)
+
         self.companiesHiredText = QLabel(self.widget_2)
         self.companiesHiredText.setObjectName(u"companiesHiredText")
         self.companiesHiredText.setGeometry(QRect(120, 50, 241, 31))
