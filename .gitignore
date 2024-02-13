@@ -3,7 +3,6 @@ __pycache__
 .env
 appstorage.db
 test.py
-mailconfig.json
 dist
 build
 logs
