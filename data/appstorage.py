@@ -7,7 +7,7 @@ class AppStorage():
 		self.connection = sq.connect("appstorage.db")
 		self.cursor = self.connection.cursor()
 
-		self.cursor.execute("create table if not exists db_credentials ( username varchar(20), password varchar(200),host varchar(100),dbname varchar(50) ) ")
+		self.cursor.execute("create table if not exists db_credentials ( username varchar(20) primary key, password varchar(200),host varchar(100),dbname varchar(50) ) ")
 
 	def storeDbCredentials(self,username,password,name,host):
 		#check if credentials are already present, if they are replace them or else insert values

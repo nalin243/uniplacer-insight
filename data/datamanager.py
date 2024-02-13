@@ -3,6 +3,7 @@ import pandas
 from sqlalchemy import create_engine
 from mysql.connector import connect,Error
 from sqlalchemy.sql.dml import coercions
+from sqlalchemy import text
 
 from PySide6.QtCore import QThreadPool
 from data.normalizeworker import NormalizeWorker
@@ -89,18 +90,22 @@ class DataManager():
 
 			#cleaning up data
 			overallData.drop(columns=["Date of Birth","Address","Semester","PIN Code","Contact No.","History of Arrear","E-Mail","GPA1","GPA2","GPA3","GPA4","GPA5","GPA6","GPA7","GPA8","GPA9","GPA10"],axis=1,inplace=True)
-			overallData.rename(columns={"Office Name":"Office_Name","Course Name":"Course_Name","Student Name":"Student_Name","Register No.":"Register_No.","Bi Weekly":"Bi_Weekly","IT/ Non IT":"IT/_Non_IT","Enrolled in SS":"Enrolled_in_SS","Standing Arrear":"Standing_Arrear"},inplace=True)
-			placementData.rename(columns={"Roll No":"Register_No.","Bi Weekly":"Bi_Weekly","IT/ Non IT":"IT/_Non_IT","Enrolled in SS":"Enrolled_in_SS"},inplace=True)
+			overallData.rename(columns={"Office Name":"Office_Name","Course Name":"Course_Name","Student Name":"Student_Name","Register No.":"Register_No","Bi Weekly":"Bi_Weekly","IT/ Non IT":"IT/_Non_IT","Enrolled in SS":"Enrolled_in_SS","Standing Arrear":"Standing_Arrear"},inplace=True)
+			placementData.rename(columns={"Roll No":"Register_No","Bi Weekly":"Bi_Weekly","IT/ Non IT":"IT/_Non_IT","Enrolled in SS":"Enrolled_in_SS"},inplace=True)
 			companyData.rename(columns={"Company Name":"Company_Name","Position Type":"Position_Type","Date of Visit":"Date_of_Visit","Job sector":"Job_sector","Placement category":"Placement_category","CTC Currency":"CTC_Currency","CTC Minnimum":"CTC_Minimum","CTC Maximum":"CTC_Maximum","Number of Students Eligible":"Number_of_Students_Eligible","Number of Students Applied":"Number_of_Students_Applied","Number of Select Students":"Number_of_Select_Students","Average Package Offered":"Average_Package_Offered"},inplace=True)
 
 			#merging the dataframes to get a single df with all the data from the two tables
-			combinedData = pandas.merge(overallData,placementData,left_on='Register_No.',right_on='Register_No.',how='outer',suffixes=('_left','_right'))
+			combinedData = pandas.merge(overallData,placementData,left_on='Register_No',right_on='Register_No',how='outer',suffixes=('_left','_right'))
 
 			#converting dataframe to sql table and putting in database
 			combinedData.to_sql("students_{}".format(year),con=engine,if_exists='replace',index=False)
-			companyData.to_sql("profiles_{}".format(year),con=engine,if_exists='replace',index=False)
+			companyData.to_sql("profiles_{}".format(year),con=engine,if_exists='replace',index=True)
+
+			with engine.connect() as connection:
+				connection.execute(text("alter table students_{} add primary key (Register_No(15));".format(year)))
+
 		except Exception as e:
-			print(e)
+			print(e,"datamanager")
 
 	def getCompanyLineChartData(self,batchFilter):
 
