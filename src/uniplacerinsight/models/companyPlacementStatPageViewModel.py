@@ -1,4 +1,4 @@
-from models.tablemodel import TableModel
+from uniplacerinsight.models.tablemodel import TableModel
 
 class CompanyPlacementStatPageViewModel():
 

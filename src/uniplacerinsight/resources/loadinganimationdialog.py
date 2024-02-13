@@ -4,7 +4,7 @@ from PySide6.QtGui import QPen,QFont,QColor,QMovie
 from PySide6.QtWidgets import QApplication,QMainWindow,QWidget,QLabel,QGraphicsScene
 from PySide6.QtCore import QRect,QSize,QPropertyAnimation
 
-import images
+import uniplacerinsight.images
 
 # class LoadingBarInnerBox(QWidget):
 

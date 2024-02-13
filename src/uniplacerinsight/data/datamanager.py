@@ -6,9 +6,9 @@ from sqlalchemy.sql.dml import coercions
 from sqlalchemy import text
 
 from PySide6.QtCore import QThreadPool
-from data.normalizeworker import NormalizeWorker
+from uniplacerinsight.data.normalizeworker import NormalizeWorker
 
-from resources.loadinganimationdialog import LoadingAnimationDialog
+from uniplacerinsight.resources.loadinganimationdialog import LoadingAnimationDialog
 
 import os
 import pandas as pd

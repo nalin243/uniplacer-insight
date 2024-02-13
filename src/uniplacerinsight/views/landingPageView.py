@@ -3,10 +3,10 @@ from PySide6.QtWidgets import QMainWindow,QFileDialog
 from PySide6.QtGui import QCloseEvent, QPixmap
 from PySide6.QtCore import QPropertyAnimation,QRect,QSize
 
-from views.landingPageView_UI import Ui_MainWindow
-from resources.dbcredentialsformmodal import DbCredentialsFormModal
+from uniplacerinsight.views.landingPageView_UI import Ui_MainWindow
+from uniplacerinsight.resources.dbcredentialsformmodal import DbCredentialsFormModal
 
-import images
+import uniplacerinsight.images
 
 class LandingPageView(QMainWindow,Ui_MainWindow):
 

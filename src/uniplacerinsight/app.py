@@ -5,26 +5,26 @@ from PySide6.QtWidgets import QApplication
 from mysql.connector import errorcode
 from PySide6.QtCore import Slot,QObject
 
-from views.landingPageView import LandingPageView
-from views.studentPlacementStatPageView import StudentPlacementStatPageView
-from views.companyPlacementStatisticsView import CompanyPlacementStatisticsView
+from uniplacerinsight.views.landingPageView import LandingPageView
+from uniplacerinsight.views.studentPlacementStatPageView import StudentPlacementStatPageView
+from uniplacerinsight.views.companyPlacementStatisticsView import CompanyPlacementStatisticsView
 
-from resources.errormodal import ErrorModal
-from resources.loginmodal import LoginModal
-from resources.loadinganimationdialog import LoadingAnimationDialog
+from uniplacerinsight.resources.errormodal import ErrorModal
+from uniplacerinsight.resources.loginmodal import LoginModal
+from uniplacerinsight.resources.loadinganimationdialog import LoadingAnimationDialog
 
-from controllers.landingPageController import LandingPageController
-from controllers.studentPlacementStatPageController import StudentPlacementStatPageController
-from controllers.companyPlacementStatPageController import CompanyPlacementStatPageController
+from uniplacerinsight.controllers.landingPageController import LandingPageController
+from uniplacerinsight.controllers.studentPlacementStatPageController import StudentPlacementStatPageController
+from uniplacerinsight.controllers.companyPlacementStatPageController import CompanyPlacementStatPageController
 
-from models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
-from models.companyPlacementStatPageViewModel import CompanyPlacementStatPageViewModel
+from uniplacerinsight.models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
+from uniplacerinsight.models.companyPlacementStatPageViewModel import CompanyPlacementStatPageViewModel
 
-from data.datamanager import DataManager
-from data.normalizeworker import NormalizeWorker
-from data.appstorage import AppStorage
+from uniplacerinsight.data.datamanager import DataManager
+from uniplacerinsight.data.normalizeworker import NormalizeWorker
+from uniplacerinsight.data.appstorage import AppStorage
 
-from data.loginauth import LoginAuth
+from uniplacerinsight.data.loginauth import LoginAuth
 
 from functools import partial
 
@@ -153,7 +153,3 @@ class Application(QApplication):
 			if(dbConnStatus == 0):
 				self.loginmodal.wrongCredLabel.setText("")
 				self.loginmodal.stackedWidget.setCurrentIndex(0)
-
-
-
-app = Application()

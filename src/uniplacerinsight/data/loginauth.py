@@ -4,7 +4,9 @@ import smtplib
 from email.message import EmailMessage
 
 from mysql.connector import connect
-import simple_dotenv as s
+
+import json
+import os
 
 class LoginAuth():
     
@@ -12,8 +14,16 @@ class LoginAuth():
         self.appstorage = appstorage
         self.userid, self.password, self.Host, self.dbName = self.appstorage.getDbCredentials()
 
-        self.smtpEmail = "{}".format(s.GetEnv("SMTP_EMAIL"))
-        self.smtpPass = "{}".format(s.GetEnv("SMTP_PASS"))
+        self.smtpEmail = None
+        self.smtpPass = None
+
+        dirpath = os.path.dirname(__file__)+"/../mailconfig.json"
+
+        with open(dirpath) as mailconfig:
+            parsedMailConfig = json.loads(mailconfig.read())
+
+            self.smtpEmail = "{}".format(parsedMailConfig["SMTP_EMAIL"])
+            self.smtpPass = "{}".format(parsedMailConfig["SMTP_PASS"])
 
         self.connection  = None
         self.cursor = None

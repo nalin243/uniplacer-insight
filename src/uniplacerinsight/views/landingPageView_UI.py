@@ -18,10 +18,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel,
     QMainWindow, QPushButton, QRadioButton, QSizePolicy, QVBoxLayout, QWidget,QFileDialog)
-import images
+import uniplacerinsight.images
 
-from resources.customstackedwidget import QStackedWidget
-from resources.customcardoutlinewidget import CardOutLineWidget
+from uniplacerinsight.resources.customstackedwidget import QStackedWidget
+from uniplacerinsight.resources.customcardoutlinewidget import CardOutLineWidget
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
