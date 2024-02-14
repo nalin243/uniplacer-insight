@@ -32,6 +32,8 @@ class Ui_MainWindow(object):
 "	background-image: url(:/icons/studentStatbg.png);\n"
 "}\n"
 "")
+        MainWindow.setWindowIcon(QIcon(":/icons/iconlogo.png"))
+
         self.LOGO = QLabel(self.centralwidget)
         self.LOGO.setObjectName(u"LOGO")
         self.LOGO.setGeometry(QRect(100, 0, 258, 165))
@@ -234,7 +236,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Company Placement Statistics", None))
         self.LOGO.setText("")
         self.totalCompaniesText.setText(QCoreApplication.translate("MainWindow", u"Total Companies", None))
         self.totalCompaniesLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
