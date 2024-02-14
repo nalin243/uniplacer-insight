@@ -20,7 +20,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QFrame, QGridLayout,
     QHBoxLayout, QLabel, QLayout, QMainWindow,
     QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
-import uniplacerinsight.images
+import images
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

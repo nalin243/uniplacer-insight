@@ -20,9 +20,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
 from PySide6.QtWidgets import (QApplication, QLabel, QLineEdit, QPushButton,
     QSizePolicy, QWidget, QDialog)
 
-from uniplacerinsight.resources.customstackedwidget import QStackedWidget
+from resources.customstackedwidget import QStackedWidget
 
-import uniplacerinsight.images
+import images
 
 class LoginModal(QDialog):
 

@@ -5,26 +5,26 @@ from PySide6.QtWidgets import QApplication
 from mysql.connector import errorcode
 from PySide6.QtCore import Slot,QObject
 
-from uniplacerinsight.views.landingPageView import LandingPageView
-from uniplacerinsight.views.studentPlacementStatPageView import StudentPlacementStatPageView
-from uniplacerinsight.views.companyPlacementStatisticsView import CompanyPlacementStatisticsView
+from views.landingPageView import LandingPageView
+from views.studentPlacementStatPageView import StudentPlacementStatPageView
+from views.companyPlacementStatisticsView import CompanyPlacementStatisticsView
 
-from uniplacerinsight.resources.errormodal import ErrorModal
-from uniplacerinsight.resources.loginmodal import LoginModal
-from uniplacerinsight.resources.loadinganimationdialog import LoadingAnimationDialog
+from resources.errormodal import ErrorModal
+from resources.loginmodal import LoginModal
+from resources.loadinganimationdialog import LoadingAnimationDialog
 
-from uniplacerinsight.controllers.landingPageController import LandingPageController
-from uniplacerinsight.controllers.studentPlacementStatPageController import StudentPlacementStatPageController
-from uniplacerinsight.controllers.companyPlacementStatPageController import CompanyPlacementStatPageController
+from controllers.landingPageController import LandingPageController
+from controllers.studentPlacementStatPageController import StudentPlacementStatPageController
+from controllers.companyPlacementStatPageController import CompanyPlacementStatPageController
 
-from uniplacerinsight.models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
-from uniplacerinsight.models.companyPlacementStatPageViewModel import CompanyPlacementStatPageViewModel
+from models.studentPlacementStatPageViewModel import StudentPlacementStatPageViewModel
+from models.companyPlacementStatPageViewModel import CompanyPlacementStatPageViewModel
 
-from uniplacerinsight.data.datamanager import DataManager
-from uniplacerinsight.data.normalizeworker import NormalizeWorker
-from uniplacerinsight.data.appstorage import AppStorage
+from data.datamanager import DataManager
+from data.normalizeworker import NormalizeWorker
+from data.appstorage import AppStorage
 
-from uniplacerinsight.data.loginauth import LoginAuth
+from data.loginauth import LoginAuth
 
 from functools import partial
 
@@ -72,6 +72,10 @@ class Application(QApplication):
 		self.appstorage.storeDbCredentials(username,password,name,host)
 
 	def showErrorModal(self,code):
+		if(code==5):
+			self.dialog.setWindowTitleText("Localization support error")
+			self.dialog.setErrorText("No localization support for language eng, check database server")
+			self.dialog.exec()
 		if(code==4):
 			self.dialog.setWindowTitleText("Connection Refused")
 			self.dialog.setErrorText("Host does not have permission to connect to database")
@@ -114,6 +118,8 @@ class Application(QApplication):
 				self.showErrorModal(3)
 			elif(dbConnStatus==4):
 				self.showErrorModal(4)
+			elif(dbConnStatus==5):
+				self.showErrorModal(5)
 			elif(dbConnStatus==0):
 				self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
 				self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))

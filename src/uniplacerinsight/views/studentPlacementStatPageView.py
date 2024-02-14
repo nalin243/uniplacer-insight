@@ -8,7 +8,7 @@ import functools
 
 from pandas.core.base import NoNewAttributesMixin
 
-from uniplacerinsight.views.studentPlacementStatPageView_UI import Ui_MainWindow
+from views.studentPlacementStatPageView_UI import Ui_MainWindow
 
 
 class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):

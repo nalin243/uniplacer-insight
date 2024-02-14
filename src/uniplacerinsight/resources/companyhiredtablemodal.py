@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QTableView,QDialog
 
 import pandas as pd
 
-from uniplacerinsight.models.tablemodel import TableModel
+from models.tablemodel import TableModel
 
 class HiredDataTable(QDialog):
     def __init__(self,viewmodel,parent=None):

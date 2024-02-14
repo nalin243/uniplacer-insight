@@ -7,6 +7,9 @@ from mysql.connector import connect
 
 import json
 import os
+import sys
+
+from pathlib import Path
 
 class LoginAuth():
     
@@ -17,21 +20,13 @@ class LoginAuth():
         self.smtpEmail = None
         self.smtpPass = None
 
-        dirpath = os.path.dirname(__file__)+"/../mailconfig.json"
-
-        with open(dirpath) as mailconfig:
-            parsedMailConfig = json.loads(mailconfig.read())
-
-            self.smtpEmail = "{}".format(parsedMailConfig["SMTP_EMAIL"])
-            self.smtpPass = "{}".format(parsedMailConfig["SMTP_PASS"])
-
         self.connection  = None
         self.cursor = None
 
         try:
             self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
             self.cursor = self.connection.cursor()
-            self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100) )")
+            self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100), smtpEmail varchar(100), smtpPass varchar(200) )")
         except Exception as e:
             pass
 
@@ -58,7 +53,7 @@ class LoginAuth():
         self.cursor.execute(self.query)
 
         try:
-            _,self.mail,hashedpass = self.cursor.fetchall()[0]
+            _,self.mail,hashedpass= self.cursor.fetchall()[0]
 
             if bcrypt.checkpw(password.encode('utf-8'), hashedpass.encode('utf-8')):
                 return True
@@ -70,6 +65,11 @@ class LoginAuth():
 
     # OTP Authentication Module
     def sendOtp(self):
+        self.cursor.reset()
+
+        smtpEmail = os.environ.get("SMTP_EMAIL")
+        smtpPass = os.environ.get("SMTP_PASS")
+
         self.query = "select * from users where username = '{}'".format(self.username) 
         self.cursor.execute(self.query)
 
@@ -85,7 +85,7 @@ class LoginAuth():
 
         self.s = smtplib.SMTP('smtp.gmail.com', 587)
         self.s.starttls()
-        self.s.login(self.smtpEmail, self.smtpPass)
+        self.s.login(smtpEmail, smtpPass)
         self.s.send_message(msg)
         self.s.quit()
 

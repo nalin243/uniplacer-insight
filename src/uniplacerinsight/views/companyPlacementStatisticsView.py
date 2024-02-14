@@ -1,6 +1,6 @@
-from uniplacerinsight.views.companyPlacementStatisticsView_UI import Ui_MainWindow
-from uniplacerinsight.resources.companymodulemodal import DataTable
-from uniplacerinsight.resources.companyhiredtablemodal import HiredDataTable
+from views.companyPlacementStatisticsView_UI import Ui_MainWindow
+from resources.companymodulemodal import DataTable
+from resources.companyhiredtablemodal import HiredDataTable
 
 from PySide6.QtWidgets import QMainWindow,QGraphicsView
 from PySide6.QtCharts import QCategoryAxis, QLineSeries,QHorizontalBarSeries,QSplineSeries,QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView

@@ -6,9 +6,9 @@ from sqlalchemy.sql.dml import coercions
 from sqlalchemy import text
 
 from PySide6.QtCore import QThreadPool
-from uniplacerinsight.data.normalizeworker import NormalizeWorker
+from data.normalizeworker import NormalizeWorker
 
-from uniplacerinsight.resources.loadinganimationdialog import LoadingAnimationDialog
+from resources.loadinganimationdialog import LoadingAnimationDialog
 
 import os
 import pandas as pd
@@ -474,7 +474,9 @@ class DataManager():
 			return 0
 		except Exception as e:
 			print(e)
-			if "not allowed to connect" in str(e):
+			if "No localization support for" in str(e):
+				return 5
+			elif "not allowed to connect" in str(e):
 				return 4
 			elif "Can't connect to MySQL server on" in str(e):
 				return 3
