@@ -1,0 +1,51 @@
+name: "Windows Release"
+
+run-name: "Create windows release"
+
+on:
+
+  workflow_dispatch:
+    inputs:
+      rtag:
+        description: "Tag name for release"
+        required: true
+        default: "Latest"
+
+permissions:
+  contents: write
+  pull-requests: write
+  repository-projects: write
+
+jobs:
+  build-win:
+    runs-on: windows-latest
+    env:
+      TAGNAME: ${{inputs.rtag}}
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v3
+        with:
+          python-version: '3.11.6'
+
+      - name: install dependencies and build
+        run: |
+          python -m pip install virtualenv
+          python -m virtualenv venv
+          ./venv/Scripts/activate
+          python -m pip install -r requirements.txt
+          pyinstaller __main__.spec
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artificates
+          path: "./dist/"
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"          
+          automatic_release_tag: "${{ inputs.rtag }}" 
+          prerelease: false
+          title: "Build ${{ github.event.inputs.rtag }}"
+          files: |
+            ./dist/*.*
