@@ -28,6 +28,8 @@ from data.loginauth import LoginAuth
 
 from functools import partial
 
+from argparse import ArgumentParser
+
 class Application(QApplication):
 
 	_currentPage = -1      # -1 indidcates that current page is landing page
@@ -35,7 +37,21 @@ class Application(QApplication):
 	def __init__(self):
 		super(Application,self).__init__([])
 
+		parser = ArgumentParser()
+		parser.add_argument("-d","--dev",action="store_true")
+
+		args = parser.parse_args()
+
+		self.DEVELOPER_MODE = args.dev
+
 		self.setQuitOnLastWindowClosed(False)
+
+		try:
+			from ctypes import windll
+			appid = "customcompany.uniplacerinsight.app.version1"
+			windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
+		except ImportError:
+			pass
 
 		self.loadinganimationdialog = LoadingAnimationDialog()
 
@@ -124,7 +140,18 @@ class Application(QApplication):
 				self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
 				self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))
 				self.loginmodal.stackedWidget.setCurrentIndex(0)
-				self.loginmodal.show()
+				if(not self.DEVELOPER_MODE):
+					self.loginmodal.show()
+				else:
+					match Application._currentPage:
+						case 0:
+							self.landingpageview.hide()
+							self.studentplacementstatpageview.show()
+						case 1:
+							self.landingpageview.hide()
+							self.companyplacementstatpageview.show()
+						case 2:
+							pass
 	
 
 	def checkAuth(self,dbConnStatus):  # Function to show the modules once authentication check is True
@@ -135,6 +162,7 @@ class Application(QApplication):
 		password = self.loginmodal.passwordInput.text()
 
 		authStatus = self.loginauth.checkAuth(username, password)
+
 		if(authStatus): 
 			self.loginmodal.close()
 			match Application._currentPage:
