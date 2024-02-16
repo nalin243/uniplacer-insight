@@ -28,19 +28,12 @@ from data.loginauth import LoginAuth
 
 from functools import partial
 
-from argparse import ArgumentParser
-
 class Application(QApplication):
 
 	_currentPage = -1      # -1 indidcates that current page is landing page
 
-	def __init__(self):
+	def __init__(self,args):
 		super(Application,self).__init__([])
-
-		parser = ArgumentParser()
-		parser.add_argument("-d","--dev",action="store_true")
-
-		args = parser.parse_args()
 
 		self.DEVELOPER_MODE = args.dev
 
