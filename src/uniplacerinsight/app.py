@@ -114,37 +114,37 @@ class Application(QApplication):
 		dbConnStatus = self.datamanager.checkDb()#checking to whether appropriate tables exist and that db connection has no issues
 		Application._currentPage = viewIndex
 
-
-		if(Application._currentPage == -1):
+		if(self.DEVELOPER_MODE):
 			self.landingpageview.show()
-			self.studentplacementstatpageview.close()
-		elif(Application._currentPage != -1):
-			if(dbConnStatus==2):#check if there is any error first
-				self.showErrorModal(2)
-			elif(dbConnStatus==1):
-				self.showErrorModal(1)
-			elif(dbConnStatus==3):
-				self.showErrorModal(3)
-			elif(dbConnStatus==4):
-				self.showErrorModal(4)
-			elif(dbConnStatus==5):
-				self.showErrorModal(5)
-			elif(dbConnStatus==0):
-				self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
-				self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))
-				self.loginmodal.stackedWidget.setCurrentIndex(0)
-				if(not self.DEVELOPER_MODE):
+			match Application._currentPage:
+				case 0:
+					self.landingpageview.hide()
+					self.studentplacementstatpageview.show()
+				case 1:
+					self.landingpageview.hide()
+					self.companyplacementstatpageview.show()
+				case 2:
+					pass
+		else:
+			if(Application._currentPage == -1):
+				self.landingpageview.show()
+			elif(Application._currentPage != -1):
+				if(dbConnStatus==2):#check if there is any error first
+					self.showErrorModal(2)
+				elif(dbConnStatus==1):
+					self.showErrorModal(1)
+				elif(dbConnStatus==3):
+					self.showErrorModal(3)
+				elif(dbConnStatus==4):
+					self.showErrorModal(4)
+				elif(dbConnStatus==5):
+					self.showErrorModal(5)
+				elif(dbConnStatus==0):
+					self.loginmodal.signInButton.clicked.connect(partial(self.checkAuth, dbConnStatus))
+					self.loginmodal.confirmCredButton.clicked.connect(partial(self.newCredentials, dbConnStatus))
+					self.loginmodal.stackedWidget.setCurrentIndex(0)
 					self.loginmodal.show()
-				else:
-					match Application._currentPage:
-						case 0:
-							self.landingpageview.hide()
-							self.studentplacementstatpageview.show()
-						case 1:
-							self.landingpageview.hide()
-							self.companyplacementstatpageview.show()
-						case 2:
-							pass
+
 	
 
 	def checkAuth(self,dbConnStatus):  # Function to show the modules once authentication check is True

@@ -176,88 +176,96 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
     def initLineChart(self,months,companiesArriving,batchFilter):
 
-        self.lineChart = QChart()
-        self.lineChart.setAnimationOptions(QChart.AllAnimations)
-        self.lineChart.setAnimationDuration(2000)
+        try:
 
-        self.lineGraphView.setChart(self.lineChart)
+            self.lineChart = QChart()
+            self.lineChart.setAnimationOptions(QChart.AllAnimations)
+            self.lineChart.setAnimationDuration(2000)
 
-        axis_x = QCategoryAxis()
-        axis_y = QValueAxis()
+            self.lineGraphView.setChart(self.lineChart)
 
-        axis_x.setTitleText("Months")
-        axis_y.setTitleText("Number of Visits")
+            axis_x = QCategoryAxis()
+            axis_y = QValueAxis()
 
-        axis_y.setRange(0,max(companiesArriving)+1)
-        axis_y.setLabelFormat("%d")
+            axis_x.setTitleText("Months")
+            axis_y.setTitleText("Number of Visits")
 
-        series = QLineSeries()
-        series.setPointsVisible(True)
-        series.setPointLabelsVisible(True)
-        series.setPointLabelsFormat("@yPoint")
-        series.setPointLabelsFont(QFont("Serif", 12, QFont.Medium))
+            axis_y.setRange(0,max(companiesArriving)+1)
+            axis_y.setLabelFormat("%d")
 
-        series.setName("Companies Visiting in {}-{}".format(int(batchFilter)-1,int(batchFilter)))
-        axis_x.setRange(0, (len(months)*10))
+            series = QLineSeries()
+            series.setPointsVisible(True)
+            series.setPointLabelsVisible(True)
+            series.setPointLabelsFormat("@yPoint")
+            series.setPointLabelsFont(QFont("Serif", 12, QFont.Medium))
 
-        #do this so we can put dot in middle of the month grid
-        for index,month in enumerate(months):
-            axis_x.append(month,(index+1)*10)
+            series.setName("Companies Visiting in {}-{}".format(int(batchFilter)-1,int(batchFilter)))
+            axis_x.setRange(0, (len(months)*10))
 
-        for index,amount in enumerate(companiesArriving):
-            series.append(QPoint(((index+1)*10)-5,amount))
+            #do this so we can put dot in middle of the month grid
+            for index,month in enumerate(months):
+                axis_x.append(month,(index+1)*10)
 
-        self.lineChart.addAxis(axis_y,Qt.AlignLeft)
+            for index,amount in enumerate(companiesArriving):
+                series.append(QPoint(((index+1)*10)-5,amount))
 
-        self.lineChart.addSeries(series)
-        series.attachAxis(axis_y)
+            self.lineChart.addAxis(axis_y,Qt.AlignLeft)
 
-        self.lineChart.setAxisX(axis_x,series)
-        self.lineChart.legend().setVisible(True)
+            self.lineChart.addSeries(series)
+            series.attachAxis(axis_y)
+
+            self.lineChart.setAxisX(axis_x,series)
+            self.lineChart.legend().setVisible(True)
+            
+        except:
+            pass
 
     def initBarChart(self,lpaRanges,companiesInRange):
-        self.barChart = QChart()
-        self.barGraphView.setChart(self.barChart)
-        self.sectorsHired = None 
+        try:
+            self.barChart = QChart()
+            self.barGraphView.setChart(self.barChart)
+            self.sectorsHired = None 
 
-        axis_y =  QBarCategoryAxis()
-        axis_y.setLabelsFont(QFont("Serif", 10, QFont.Bold))
-        axis_y.setTitleFont(QFont("Serif", 12, QFont.Bold))
-        axis_y.setTitleVisible(True)
-        axis_y.setTitleText("Lpa Ranges")
+            axis_y =  QBarCategoryAxis()
+            axis_y.setLabelsFont(QFont("Serif", 10, QFont.Bold))
+            axis_y.setTitleFont(QFont("Serif", 12, QFont.Bold))
+            axis_y.setTitleVisible(True)
+            axis_y.setTitleText("Lpa Ranges")
 
-        axis_x = QValueAxis()
-        axis_x.setTitleVisible(True)
-        axis_x.setTitleFont(QFont("Serif", 12, QFont.Bold))
-        axis_x.setLabelsFont(QFont("Serif", 8, QFont.Bold))
-        axis_x.setTitleText("Number of Companies")
-        axis_x.setLabelFormat("%d")
+            axis_x = QValueAxis()
+            axis_x.setTitleVisible(True)
+            axis_x.setTitleFont(QFont("Serif", 12, QFont.Bold))
+            axis_x.setLabelsFont(QFont("Serif", 8, QFont.Bold))
+            axis_x.setTitleText("Number of Companies")
+            axis_x.setLabelFormat("%d")
 
-        self.companiesInRange = QBarSet("Companies Hired")
-        self.companiesInRange.setColor(QColor("#4e79a7"))
+            self.companiesInRange = QBarSet("Companies Hired")
+            self.companiesInRange.setColor(QColor("#4e79a7"))
 
-        self.companiesInRange.append(companiesInRange)
+            self.companiesInRange.append(companiesInRange)
 
-        self.series = QHorizontalBarSeries()
+            self.series = QHorizontalBarSeries()
 
-        self.series.hovered.connect(self.barHovered)
+            self.series.hovered.connect(self.barHovered)
 
-        self.series.append(self.companiesInRange)
+            self.series.append(self.companiesInRange)
 
-        self.barChart.addSeries(self.series)
-        self.barChart.setAnimationOptions(QChart.AllAnimations)
+            self.barChart.addSeries(self.series)
+            self.barChart.setAnimationOptions(QChart.AllAnimations)
 
-        axis_y.append(lpaRanges)
-        self.barChart.addAxis(axis_y,Qt.AlignLeft)
-        self.series.attachAxis(axis_y)
+            axis_y.append(lpaRanges)
+            self.barChart.addAxis(axis_y,Qt.AlignLeft)
+            self.series.attachAxis(axis_y)
 
-        axis_x.setRange(0,max(companiesInRange)+2)
+            axis_x.setRange(0,max(companiesInRange)+2)
 
-        self.barChart.addAxis(axis_x,Qt.AlignBottom)
-        self.series.attachAxis(axis_x)
+            self.barChart.addAxis(axis_x,Qt.AlignBottom)
+            self.series.attachAxis(axis_x)
 
-        self.barChart.legend().setVisible(True)
-        self.barChart.legend().setAlignment(Qt.AlignTop)
+            self.barChart.legend().setVisible(True)
+            self.barChart.legend().setAlignment(Qt.AlignTop)
+        except:
+            pass
 
     def barHovered(self, status, index, barset):
         if status:
