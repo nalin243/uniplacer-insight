@@ -9,7 +9,7 @@ a = Analysis(
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
-    runtime_hooks=['hooks/environhook.py'],
+    runtime_hooks=[],
     excludes=[],
     noarchive=False,
 )
