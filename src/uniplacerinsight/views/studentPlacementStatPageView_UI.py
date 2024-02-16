@@ -28,7 +28,6 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1920, 1082)
         MainWindow.setMinimumSize(QSize(960, 540))
-        MainWindow.setMaximumSize(QSize(1920, 1060))
         MainWindow.setStyleSheet(u"#MainWindow{\n"
 "	background-color:#D9D9D9; \n"
 "}")
@@ -88,8 +87,8 @@ class Ui_MainWindow(object):
         self.campusComboBox.addItem("")
         self.campusComboBox.addItem("")
         self.campusComboBox.setObjectName(u"campusComboBox")
-        self.campusComboBox.setMinimumSize(QSize(227, 47))
-        self.campusComboBox.setMaximumSize(QSize(227, 47))
+        self.campusComboBox.setMinimumSize(QSize(227, 31))
+        self.campusComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.campusComboBox)
 
@@ -104,8 +103,8 @@ class Ui_MainWindow(object):
         self.batchComboBox.addItem("")
         self.batchComboBox.addItem("")
         self.batchComboBox.setObjectName(u"batchComboBox")
-        self.batchComboBox.setMinimumSize(QSize(227, 47))
-        self.batchComboBox.setMaximumSize(QSize(227, 47))
+        self.batchComboBox.setMinimumSize(QSize(227, 31))
+        self.batchComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.batchComboBox)
 
@@ -140,8 +139,8 @@ class Ui_MainWindow(object):
         self.departmentComboBox.addItem("")
         self.departmentComboBox.addItem("")
         self.departmentComboBox.setObjectName(u"departmentComboBox")
-        self.departmentComboBox.setMinimumSize(QSize(227, 47))
-        self.departmentComboBox.setMaximumSize(QSize(227, 47))
+        self.departmentComboBox.setMinimumSize(QSize(227, 31))
+        self.departmentComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.departmentComboBox)
 
@@ -164,8 +163,8 @@ class Ui_MainWindow(object):
         self.courseComboBox.addItem("")
         self.courseComboBox.addItem("")
         self.courseComboBox.setObjectName(u"courseComboBox")
-        self.courseComboBox.setMinimumSize(QSize(227, 47))
-        self.courseComboBox.setMaximumSize(QSize(227, 47))
+        self.courseComboBox.setMinimumSize(QSize(227, 31))
+        self.courseComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.courseComboBox)
 
@@ -180,8 +179,8 @@ class Ui_MainWindow(object):
         self.genderComboBox.addItem("")
         self.genderComboBox.addItem("")
         self.genderComboBox.setObjectName(u"genderComboBox")
-        self.genderComboBox.setMinimumSize(QSize(227, 47))
-        self.genderComboBox.setMaximumSize(QSize(227, 47))
+        self.genderComboBox.setMinimumSize(QSize(227, 31))
+        self.genderComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.genderComboBox)
 
