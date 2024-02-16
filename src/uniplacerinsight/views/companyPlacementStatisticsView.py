@@ -4,7 +4,7 @@ from resources.companyhiredtablemodal import HiredDataTable
 
 from PySide6.QtWidgets import QMainWindow,QGraphicsView
 from PySide6.QtCharts import QCategoryAxis, QLineSeries,QHorizontalBarSeries,QSplineSeries,QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis,QChartView
-from PySide6.QtCore import QPoint, Qt,QEasingCurve,QPointF
+from PySide6.QtCore import QPoint, QSize, Qt,QEasingCurve,QPointF,QRect
 from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont,QPen
 
 import functools
@@ -67,7 +67,106 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.viewmodel.setTableData(self.jobTypeFilter,self.jobSectorFilter,self.ctcFilter,self.companyLevelFilter, self.batchFilter)
 
+        self.MainWindow.resizeEvent = self.resizing
+
         super().show()
+
+    def resizing(self,event):
+        
+        smallFont = QFont()
+        smallFont.setFamilies([u"Lucida Sans"])
+        smallFont.setPointSize(13)
+        smallFont.setBold(True)
+
+        bigFont = QFont()
+        bigFont.setFamilies([u"Lucida Sans"])
+        bigFont.setPointSize(18)
+        bigFont.setBold(True)
+
+        if int(self.MainWindow.size().width()) <= 1766 or int(self.MainWindow.size().height()) <= 900:
+
+            self.totalCompaniesText.setGeometry(QRect(100, 50, 241, 31))
+            self.totalCompaniesLabel.setGeometry(QRect(100, 20, 51, 31))
+
+            self.companiesHiredText.setGeometry(QRect(100, 50, 241, 31))
+            self.companiesHiredLabel.setGeometry(QRect(100, 20, 51, 31))
+
+            self.companiesVisitedText.setGeometry(QRect(100, 50, 241, 31))
+            self.companiesVisitedLabel.setGeometry(QRect(100, 20, 51, 31))
+
+            self.totalCompaniesImage.setGeometry(QRect(40, 30, 45, 45))
+            self.companiesHiredImage.setGeometry(QRect(40, 30, 45, 45))
+            self.companiesVisitedImage.setGeometry(QRect(40, 30, 45, 45))
+
+            self.companiesDidNotHireImage.setMaximumSize(QSize(40,40))
+            self.companiesDidNotVisitImage.setMaximumSize(QSize(40,40))
+
+            self.totalcompaniesWidget.setMinimumSize(QSize(290, 101))
+            self.totalcompaniesWidget.setMaximumSize(QSize(290, 101))
+            self.companVisitedWidgets.setMinimumSize(QSize(290, 101))
+            self.companVisitedWidgets.setMaximumSize(QSize(290, 101))
+            self.companiesHiredWidgets.setMinimumSize(QSize(290, 101))
+            self.companiesHiredWidgets.setMaximumSize(QSize(290, 101))
+
+            self.hiredTableButton.setGeometry(QRect(259, 10, 18, 18))
+
+            self.totalCompaniesLabel.setFont(smallFont)
+            self.totalCompaniesText.setFont(smallFont)
+
+            self.companiesHiredLabel.setFont(smallFont)
+            self.companiesHiredText.setFont(smallFont)
+
+            self.companiesVisitedLabel.setFont(smallFont)
+            self.companiesVisitedText.setFont(smallFont)
+
+            self.companiesNotHiredtext.setFont(smallFont)
+            self.companiesNotHiredLabel.setFont(smallFont)
+
+            self.companiesNotVisitedText.setFont(smallFont)
+            self.companiesNotVisitedLabel.setFont(smallFont)
+
+        elif int(self.MainWindow.size().width()) >= 1766 or int(self.MainWindow.size().height()) >= 900:
+
+            self.totalCompaniesText.setGeometry(QRect(120, 60, 241, 31))
+            self.totalCompaniesLabel.setGeometry(QRect(120, 20, 51, 31))
+
+            self.companiesHiredText.setGeometry(QRect(120, 60, 241, 31))
+            self.companiesHiredLabel.setGeometry(QRect(120, 20, 51, 31))
+
+            self.companiesVisitedText.setGeometry(QRect(120, 60, 241, 31))
+            self.companiesVisitedLabel.setGeometry(QRect(120, 20, 51, 31))
+
+            self.totalCompaniesImage.setGeometry(QRect(40, 20, 60, 60))
+            self.companiesHiredImage.setGeometry(QRect(40, 20, 60, 60))
+            self.companiesVisitedImage.setGeometry(QRect(40, 20, 60, 60))
+
+            self.companiesDidNotHireImage.setMaximumSize(QSize(60,60))
+            self.companiesDidNotVisitImage.setMaximumSize(QSize(60,60))
+
+            self.totalcompaniesWidget.setMinimumSize(QSize(381, 101))
+            self.totalcompaniesWidget.setMaximumSize(QSize(381, 101))
+            self.companVisitedWidgets.setMinimumSize(QSize(381, 101))
+            self.companVisitedWidgets.setMaximumSize(QSize(381, 101))
+            self.companiesHiredWidgets.setMinimumSize(QSize(381, 101))
+            self.companiesHiredWidgets.setMaximumSize(QSize(381, 101))
+
+            self.hiredTableButton.setGeometry(QRect(350, 10, 18, 18))
+
+            self.totalCompaniesLabel.setFont(bigFont)
+            self.totalCompaniesText.setFont(bigFont)
+
+            self.companiesHiredLabel.setFont(bigFont)
+            self.companiesHiredText.setFont(bigFont)
+
+            self.companiesVisitedLabel.setFont(bigFont)
+            self.companiesVisitedText.setFont(bigFont)
+
+            self.companiesNotHiredtext.setFont(bigFont)
+            self.companiesNotHiredLabel.setFont(bigFont)
+
+            self.companiesNotVisitedText.setFont(bigFont)
+            self.companiesNotVisitedLabel.setFont(bigFont)
+
 
     def showTableViewModal(self, event):
         self.companymodulemodal.exec()
@@ -115,8 +214,6 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
         self.lineChart.setAxisX(axis_x,series)
         self.lineChart.legend().setVisible(True)
-
-
 
     def initBarChart(self,lpaRanges,companiesInRange):
         self.barChart = QChart()
@@ -170,7 +267,8 @@ class CompanyPlacementStatisticsView(Ui_MainWindow, QMainWindow):
 
     def initPieChart(self,visitedData,hiredData):
 
-        self.pieChart.removeAllSeries()
+        self.pieChart = QChart()
+        self.pieChartView.setChart(self.pieChart)
         self.pieChart.setAnimationOptions(QChart.SeriesAnimations)
         self.pieChart.setAnimationEasingCurve(QEasingCurve.OutQuint)
         self.pieChart.setAnimationDuration(2000)
