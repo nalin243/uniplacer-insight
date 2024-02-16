@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis
-from PySide6.QtCore import Qt,QEasingCurve
+from PySide6.QtCore import QSize, Qt,QEasingCurve
 from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont
 
 import functools
@@ -39,6 +39,170 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.departmentComboBox.currentTextChanged.connect(self.filterChanged)
 		self.courseComboBox.currentTextChanged.connect(self.filterChanged)
 		self.genderComboBox.currentTextChanged.connect(self.filterChanged)
+
+		self.MainWindow.resizeEvent = self.resizing
+
+	def resizing(self,event):
+		bigFont = QFont()
+		bigFont.setPointSize(18)
+		bigFont.setBold(True)
+
+		smallFont = QFont()
+		smallFont.setPointSize(15)
+		smallFont.setBold(True)
+
+		if int(self.MainWindow.size().height()) <= 770:
+			self.verticalLayoutLeftSide.setSpacing(2)
+			self.verticalLayoutRightSide.setSpacing(2)
+
+		if self.pieChartDisplay.size().width() <= 860:
+			self.pieChartDisplay.setMinimumWidth(self.pieChartDisplay.size().width()-100)
+
+		if int(self.MainWindow.size().height()) <= 900  or  int(self.MainWindow.size().width()) <= 1700:
+
+			self.pieChart.legend().setFont(QFont("Serif", 15, QFont.Normal))
+
+			self.genderComboBox.setMinimumSize(QSize(177,47))
+			self.courseComboBox.setMinimumSize(QSize(177,47))
+			self.departmentComboBox.setMinimumSize(QSize(177,47))
+			self.batchComboBox.setMinimumSize(QSize(177,47))
+			self.campusComboBox.setMinimumSize(QSize(177,47))
+			self.genderComboBox.setMinimumSize(QSize(177,47))
+			self.courseComboBox.setMinimumSize(QSize(177,47))
+			self.departmentComboBox.setMinimumSize(QSize(177,47))
+			self.batchComboBox.setMinimumSize(QSize(177,47))
+			self.campusComboBox.setMinimumSize(QSize(177,47))
+
+
+			self.totalStudentsNumber.setFont(smallFont)
+			self.totalStudentsText.setFont(smallFont)
+
+			self.studentsNotEnrolledNumber.setFont(smallFont)
+			self.studentsNotEnrolledText.setFont(smallFont)
+
+			self.studentsEnrolledNumber.setFont(smallFont)
+			self.studentsEnrolledText.setFont(smallFont)
+
+			self.studentsPlacedNumber.setFont(smallFont)
+			self.studentsPlacedText.setFont(smallFont)
+
+			self.studentsNotPlacedNumber.setFont(smallFont)
+			self.studentsNotPlacedText.setFont(smallFont)
+
+			self.totalDisqualifiedNumber.setFont(smallFont)
+			self.totalDisqualifiedText.setFont(smallFont)
+
+			self.totalStudents.setMaximumHeight(120)
+			self.totalStudents.setMinimumHeight(120)
+
+			self.studentsEnrolled.setMaximumHeight(120)
+			self.studentsEnrolled.setMinimumHeight(120)
+
+			self.studentsNotEnrolled.setMaximumHeight(120)
+			self.studentsNotEnrolled.setMinimumHeight(120)
+
+			self.studentsNotPlaced.setMaximumHeight(120)
+			self.studentsNotPlaced.setMinimumHeight(120)
+
+			self.totalStudentsPlaced.setMaximumHeight(120)
+			self.totalStudentsPlaced.setMinimumHeight(120)
+
+			self.totalDisqualified.setMaximumHeight(120)
+			self.totalDisqualified.setMinimumHeight(120)	
+
+			self.totalStudentsImage.setMinimumSize(QSize(70, 70))
+			self.totalStudentsImage.setMaximumSize(QSize(70, 70))
+
+			self.studentsEnrolledImage.setMinimumSize(QSize(70, 70))
+			self.studentsEnrolledImage.setMaximumSize(QSize(70, 70))
+
+			self.studentsNotEnrolledImage.setMinimumSize(QSize(70, 70))
+
+			self.totalDisqualifiedImage.setMinimumSize(QSize(70, 70))
+			self.totalDisqualifiedImage.setMaximumSize(QSize(70, 70))
+
+			self.studentsPlacedImage.setMinimumSize(QSize(70, 70))
+			self.studentsPlacedImage.setMaximumSize(QSize(70, 70))
+
+			self.studentsNotPlacedImage.setMinimumSize(QSize(70, 70))
+			self.studentsNotPlacedImage.setMaximumSize(QSize(70, 70))
+
+			self.barGraphDisplay.setMinimumSize(QSize(100, 200))
+
+		elif int(self.MainWindow.size().width()) >= 1700 or int(self.MainWindow.size().height()) >= 860:
+
+			# if int(self.MainWindow.size().width()) >= 1632:
+			self.verticalLayoutLeftSide.setSpacing(72)
+			self.verticalLayoutRightSide.setSpacing(72)
+
+			self.pieChart.legend().setFont(QFont("Serif", 20, QFont.Normal))
+
+			self.genderComboBox.setMinimumSize(QSize(227,47))
+			self.courseComboBox.setMinimumSize(QSize(227,47))
+			self.departmentComboBox.setMinimumSize(QSize(227,47))
+			self.batchComboBox.setMinimumSize(QSize(227,47))
+			self.campusComboBox.setMinimumSize(QSize(227,47))
+			self.genderComboBox.setMinimumSize(QSize(227,47))
+			self.courseComboBox.setMinimumSize(QSize(227,47))
+			self.departmentComboBox.setMinimumSize(QSize(227,47))
+			self.batchComboBox.setMinimumSize(QSize(227,47))
+			self.campusComboBox.setMinimumSize(QSize(227,47))
+
+			self.totalStudentsNumber.setFont(bigFont)
+			self.totalStudentsText.setFont(bigFont)
+
+			self.studentsNotEnrolledNumber.setFont(bigFont)
+			self.studentsNotEnrolledText.setFont(bigFont)
+
+			self.studentsEnrolledNumber.setFont(bigFont)
+			self.studentsEnrolledText.setFont(bigFont)
+
+			self.studentsPlacedNumber.setFont(bigFont)
+			self.studentsPlacedText.setFont(bigFont)
+
+			self.studentsNotPlacedNumber.setFont(bigFont)
+			self.studentsNotPlacedText.setFont(bigFont)
+
+			self.totalDisqualifiedNumber.setFont(bigFont)
+			self.totalDisqualifiedText.setFont(bigFont)
+
+			self.totalStudents.setMaximumHeight(122)
+			self.totalStudents.setMinimumHeight(122)
+
+			self.studentsEnrolled.setMaximumHeight(122)
+			self.studentsEnrolled.setMinimumHeight(122)
+
+			self.studentsNotEnrolled.setMaximumHeight(122)
+			self.studentsNotEnrolled.setMinimumHeight(122)
+
+			self.studentsNotPlaced.setMaximumHeight(122)
+			self.studentsNotPlaced.setMinimumHeight(122)
+
+			self.totalStudentsPlaced.setMaximumHeight(122)
+			self.totalStudentsPlaced.setMinimumHeight(122)
+
+			self.totalDisqualified.setMaximumHeight(122)
+			self.totalDisqualified.setMinimumHeight(122)	
+
+			self.totalStudentsImage.setMinimumSize(QSize(95, 95))
+			self.totalStudentsImage.setMaximumSize(QSize(95, 95))
+
+			self.studentsEnrolledImage.setMinimumSize(QSize(95, 95))
+			self.studentsEnrolledImage.setMaximumSize(QSize(95, 95))
+
+			self.studentsNotEnrolledImage.setMinimumSize(QSize(95, 95))
+			self.studentsNotEnrolledImage.setMaximumSize(QSize(95, 95))
+
+			self.totalDisqualifiedImage.setMinimumSize(QSize(95, 95))
+			self.totalDisqualifiedImage.setMaximumSize(QSize(95, 95))
+
+			self.studentsPlacedImage.setMinimumSize(QSize(95, 95))
+			self.studentsPlacedImage.setMaximumSize(QSize(95, 95))
+
+			self.studentsNotPlacedImage.setMinimumSize(QSize(95, 95))
+			self.studentsNotPlacedImage.setMaximumSize(QSize(95, 95))
+
+			self.barGraphDisplay.setMinimumSize(QSize(100, 345))
 
 	def closeEvent(self, event):
 		self.controller.returnToLanding()

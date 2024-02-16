@@ -8,7 +8,7 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCharts import QChartView,QChart 
+from PySide6.QtCharts import QChartView
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,
     QSize, QTime, QUrl, Qt)
@@ -16,40 +16,63 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QLabel, QMainWindow,
-    QSizePolicy, QWidget,QHBoxLayout,QGraphicsWidget,QGraphicsView)
+from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout,
+    QLabel, QMainWindow, QSizePolicy, QSpacerItem,
+    QVBoxLayout, QWidget,QFrame)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1920, 1060)
-        MainWindow.setMinimumSize(QSize(1920, 1060))
-        MainWindow.setMaximumSize(QSize(1920, 1060))
-        self.centralwidget = QWidget(MainWindow)
-        self.centralwidget.setObjectName(u"centralwidget")
-        self.centralwidget.setStyleSheet(u"#centralwidget {\n"
-"	background-image: url(:/icons/studentStatbg.png);\n"
-"}\n"
-"")
+        MainWindow.setMinimumSize(QSize(960, 540))
         MainWindow.setWindowIcon(QIcon(":/icons/iconlogo.png"))
 
-        self.LOGO = QLabel(self.centralwidget)
-        self.LOGO.setObjectName(u"LOGO")
-        self.LOGO.setGeometry(QRect(100, 0, 258, 165))
-        self.LOGO.setStyleSheet(u"")
-        self.LOGO.setPixmap(QPixmap(u":/icons/applogo.png"))
+        self.MainWindow = MainWindow
+
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setStyleSheet(u"#centralwidget{\n"
+"background-image:url(:/icons/studentStatbg.png);\n"
+"}")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(60, -1, 60, 90)
+        self.verticalSpacer_4 = QSpacerItem(20, 1, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.gridLayout.addItem(self.verticalSpacer_4, 4, 0, 1, 1)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.gridLayout.addItem(self.verticalSpacer_3, 2, 0, 1, 1)
+
+        self.horizontalLayout_2 = QHBoxLayout()
+        self.horizontalLayout_2.setSpacing(0)
+        self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
+        self.horizontalLayout_2.setContentsMargins(-1, -1, -1, 0)
         self.lineGraphView = QChartView(self.centralwidget)
         self.lineGraphView.setObjectName(u"lineGraphView")
-        self.lineGraphView.setGeometry(QRect(40, 140, 751, 421))
         self.lineGraphView.setStyleSheet(u"border-radius:10px;")
-        self.widget = QWidget(self.centralwidget)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(890, 140, 381, 101))
-        self.widget.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+        # self.lineGraphView.setMinimumHeight(431)
+        self.lineGraphView.setMaximumHeight(431)
+
+        self.horizontalLayout_2.addWidget(self.lineGraphView)
+
+        self.horizontalSpacer = QSpacerItem(50, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer)
+
+        self.verticalLayout = QVBoxLayout()
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.totalcompaniesWidget = QWidget(self.centralwidget)
+        self.totalcompaniesWidget.setObjectName(u"totalcompaniesWidget")
+        self.totalcompaniesWidget.setMinimumSize(QSize(379, 101))
+        self.totalcompaniesWidget.setMaximumSize(QSize(381, 101))
+        self.totalcompaniesWidget.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px;\n"
 "")
-        self.totalCompaniesText = QLabel(self.widget)
+        self.totalCompaniesText = QLabel(self.totalcompaniesWidget)
+        self.totalCompaniesText.setWordWrap(True)
         self.totalCompaniesText.setObjectName(u"totalCompaniesText")
         self.totalCompaniesText.setGeometry(QRect(120, 50, 241, 31))
         font = QFont()
@@ -57,80 +80,142 @@ class Ui_MainWindow(object):
         font.setPointSize(18)
         font.setBold(True)
         self.totalCompaniesText.setFont(font)
-        self.totalCompaniesLabel = QLabel(self.widget)
+        self.totalCompaniesLabel = QLabel(self.totalcompaniesWidget)
+        self.totalCompaniesLabel.setWordWrap(True)
         self.totalCompaniesLabel.setObjectName(u"totalCompaniesLabel")
         self.totalCompaniesLabel.setGeometry(QRect(120, 20, 51, 31))
         self.totalCompaniesLabel.setFont(font)
-        self.label_19 = QLabel(self.widget)
-        self.label_19.setObjectName(u"label_19")
-        self.label_19.setGeometry(QRect(40, 20, 60, 60))
-        self.label_19.setStyleSheet(u"")
-        self.label_19.setPixmap(QPixmap(u":/icons/totalCompanyImg.png"))
+        self.totalCompaniesImage = QLabel(self.totalcompaniesWidget)
+        self.totalCompaniesImage.setObjectName(u"totalCompaniesImage")
+        self.totalCompaniesImage.setGeometry(QRect(40, 20, 60, 60))
+        self.totalCompaniesImage.setStyleSheet(u"")
+        self.totalCompaniesImage.setPixmap(QPixmap(u":/icons/totalCompanyImg.png"))
+        self.totalCompaniesImage.setScaledContents(True)
 
-        self.pieChart = QChart()
-        self.pieChartView = QChartView(self.pieChart,self.centralwidget)
-        self.pieChartView.setObjectName(u"pieChartView")
-        self.pieChartView.setGeometry(QRect(1370, 140, 501, 421))
+        self.verticalLayout.addWidget(self.totalcompaniesWidget)
 
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
 
+        self.verticalLayout.addItem(self.verticalSpacer)
 
-        self.widget_4 = QWidget(self.centralwidget)
-        self.widget_4.setObjectName(u"widget_4")
-        self.widget_4.setGeometry(QRect(1370, 630, 501, 331))
-        self.widget_4.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+        self.companVisitedWidgets = QWidget(self.centralwidget)
+        self.companVisitedWidgets.setObjectName(u"companVisitedWidgets")
+        self.companVisitedWidgets.setMinimumSize(QSize(379, 101))
+        self.companVisitedWidgets.setMaximumSize(QSize(381, 101))
+        self.companVisitedWidgets.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px;\n"
 "")
-        self.tableButton = QLabel(self.widget_4)
-        self.tableButton.setObjectName(u"tableButton")
-        self.tableButton.setGeometry(QRect(455, 12, 30, 30))
-        self.tableButton.setCursor(QCursor(Qt.PointingHandCursor))
-        self.tableButton.setPixmap(QPixmap(u":/icons/arrow.png"))
-        self.tableButton.setScaledContents(True)
+        self.companiesVisitedText = QLabel(self.companVisitedWidgets)
+        self.companiesVisitedText.setWordWrap(True)
+        self.companiesVisitedText.setObjectName(u"companiesVisitedText")
+        self.companiesVisitedText.setGeometry(QRect(120, 50, 241, 31))
+        self.companiesVisitedText.setFont(font)
+        self.companiesVisitedLabel = QLabel(self.companVisitedWidgets)
+        self.companiesVisitedLabel.setWordWrap(True)
+        self.companiesVisitedLabel.setObjectName(u"companiesVisitedLabel")
+        self.companiesVisitedLabel.setGeometry(QRect(120, 20, 51, 31))
+        self.companiesVisitedLabel.setFont(font)
+        self.companiesVisitedImage = QLabel(self.companVisitedWidgets)
+        self.companiesVisitedImage.setObjectName(u"companiesVisitedImage")
+        self.companiesVisitedImage.setGeometry(QRect(40, 20, 60, 60))
+        self.companiesVisitedImage.setStyleSheet(u"")
+        self.companiesVisitedImage.setPixmap(QPixmap(u":/icons/companiesVisitedImg.png"))
+        self.companiesVisitedImage.setScaledContents(True)
+
+        self.verticalLayout.addWidget(self.companVisitedWidgets)
+
+        self.verticalSpacer_2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Fixed)
+
+        self.verticalLayout.addItem(self.verticalSpacer_2)
+
+        self.companiesHiredWidgets = QWidget(self.centralwidget)
+        self.companiesHiredWidgets.setObjectName(u"companiesHiredWidgets")
+        self.companiesHiredWidgets.setMinimumSize(QSize(371, 101))
+        self.companiesHiredWidgets.setMaximumSize(QSize(381, 101))
+        self.companiesHiredWidgets.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
+        self.companiesHiredText = QLabel(self.companiesHiredWidgets)
+        self.companiesHiredText.setWordWrap(True)
+        self.companiesHiredText.setObjectName(u"companiesHiredText")
+        self.companiesHiredText.setGeometry(QRect(120, 50, 241, 31))
+        self.companiesHiredText.setFont(font)
+        self.companiesHiredLabel = QLabel(self.companiesHiredWidgets)
+        self.companiesHiredLabel.setWordWrap(True)
+        self.companiesHiredLabel.setObjectName(u"companiesHiredLabel")
+        self.companiesHiredLabel.setGeometry(QRect(120, 20, 51, 31))
+        self.companiesHiredLabel.setFont(font)
+        self.companiesHiredImage = QLabel(self.companiesHiredWidgets)
+        self.companiesHiredImage.setObjectName(u"companiesHiredImage")
+        self.companiesHiredImage.setGeometry(QRect(40, 20, 60, 60))
+        self.companiesHiredImage.setStyleSheet(u"")
+        self.companiesHiredImage.setPixmap(QPixmap(u":/icons/companiesHiredImg.png"))
+        self.companiesHiredImage.setScaledContents(True)
+
+        self.hiredTableButton = QLabel(self.companiesHiredWidgets)
+        self.hiredTableButton.setObjectName(u"hiredTableButton")
+        self.hiredTableButton.setGeometry(QRect(350, 10, 18, 18))
+        self.hiredTableButton.setPixmap(QPixmap(u":/icons/arrow.png"))
+        self.hiredTableButton.setScaledContents(True)
+        self.hiredTableButton.setCursor(Qt.PointingHandCursor)
+
+        self.verticalLayout.addWidget(self.companiesHiredWidgets)
 
 
-        self.companiesNotVisitedText = QLabel(self.widget_4)
-        self.companiesNotVisitedText.setObjectName(u"companiesNotVisitedText")
-        self.companiesNotVisitedText.setGeometry(QRect(140, 90, 311, 31))
-        self.companiesNotVisitedText.setFont(font)
-        self.companiesNotVisitedLabel = QLabel(self.widget_4)
-        self.companiesNotVisitedLabel.setObjectName(u"companiesNotVisitedLabel")
-        self.companiesNotVisitedLabel.setGeometry(QRect(140, 60, 51, 31))
-        self.companiesNotVisitedLabel.setFont(font)
-        self.companiesNotHiredtext = QLabel(self.widget_4)
-        self.companiesNotHiredtext.setObjectName(u"companiesNotHiredtext")
-        self.companiesNotHiredtext.setGeometry(QRect(140, 250, 311, 31))
-        self.companiesNotHiredtext.setFont(font)
-        self.companiesNotHiredLabel = QLabel(self.widget_4)
-        self.companiesNotHiredLabel.setObjectName(u"companiesNotHiredLabel")
-        self.companiesNotHiredLabel.setGeometry(QRect(140, 220, 51, 31))
-        self.companiesNotHiredLabel.setFont(font)
-        self.label_17 = QLabel(self.widget_4)
-        self.label_17.setObjectName(u"label_17")
-        self.label_17.setGeometry(QRect(50, 60, 60, 60))
-        self.label_17.setStyleSheet(u"")
-        self.label_17.setPixmap(QPixmap(u":/icons/companiesDidNotVistImg.png"))
-        self.label_18 = QLabel(self.widget_4)
-        self.label_18.setObjectName(u"label_18")
-        self.label_18.setGeometry(QRect(50, 220, 60, 60))
-        self.label_18.setStyleSheet(u"")
-        self.label_18.setPixmap(QPixmap(u":/icons/companiesDidNotHireImg.png"))
-        self.barGraphView = QChartView(self.centralwidget)
-        self.barGraphView.setObjectName(u"barGraphView")
-        self.barGraphView.setGeometry(QRect(40, 630, 1231, 331))
-        self.barGraphView.setStyleSheet(u"border-radius:10px;")
+        self.horizontalLayout_2.addLayout(self.verticalLayout)
+
+        self.horizontalSpacer_2 = QSpacerItem(60, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_2.addItem(self.horizontalSpacer_2)
+
+        self.pieChartView = QChartView(self.centralwidget)
+        self.pieChartView.setObjectName(u"pieChartView")
+        self.pieChartView.setMaximumSize(QSize(501, 16777215))
+        self.pieChartView.setStyleSheet(u"border-radius:10px;")
+
+        self.horizontalLayout_2.addWidget(self.pieChartView)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
+
+        self.logoAndComboboxLayout = QHBoxLayout()
+        self.logoAndComboboxLayout.setObjectName(u"logoAndComboboxLayout")
+        self.LOGO = QLabel(self.centralwidget)
+        self.LOGO.setObjectName(u"LOGO")
+        self.LOGO.setMinimumSize(QSize(238, 195))
+        self.LOGO.setMaximumSize(QSize(238, 195))
+        self.LOGO.setStyleSheet(u"")
+        self.LOGO.setPixmap(QPixmap(u":/icons/applogo.png"))
+
+        self.logoAndComboboxLayout.addWidget(self.LOGO)
+
+        self.horizontalSpacer_4 = QSpacerItem(115, 10, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.logoAndComboboxLayout.addItem(self.horizontalSpacer_4)
+
+        self.layoutOfComboBoxes = QHBoxLayout()
+        self.layoutOfComboBoxes.setSpacing(70)
+        self.layoutOfComboBoxes.setObjectName(u"layoutOfComboBoxes")
         self.batchComboBox = QComboBox(self.centralwidget)
         self.batchComboBox.addItem("")
         self.batchComboBox.addItem("")
         self.batchComboBox.addItem("")
+        self.batchComboBox.addItem("")
         self.batchComboBox.setObjectName(u"batchComboBox")
-        self.batchComboBox.setGeometry(QRect(470, 50, 201, 31))
+        self.batchComboBox.setMinimumSize(QSize(81, 41))
         self.batchComboBox.setEditable(False)
+
+        self.layoutOfComboBoxes.addWidget(self.batchComboBox)
+
         self.typeOfJobCombobox = QComboBox(self.centralwidget)
         self.typeOfJobCombobox.addItem("")
         self.typeOfJobCombobox.addItem("")
         self.typeOfJobCombobox.addItem("")
         self.typeOfJobCombobox.setObjectName(u"typeOfJobCombobox")
-        self.typeOfJobCombobox.setGeometry(QRect(770, 50, 201, 31))
+        self.typeOfJobCombobox.setMinimumSize(QSize(81, 41))
+
+        self.layoutOfComboBoxes.addWidget(self.typeOfJobCombobox)
+
         self.ctcCombobox = QComboBox(self.centralwidget)
         self.ctcCombobox.addItem("")
         self.ctcCombobox.addItem("")
@@ -142,7 +227,10 @@ class Ui_MainWindow(object):
         self.ctcCombobox.addItem("")
         self.ctcCombobox.addItem("")
         self.ctcCombobox.setObjectName(u"ctcCombobox")
-        self.ctcCombobox.setGeometry(QRect(1070, 50, 201, 31))
+        self.ctcCombobox.setMinimumSize(QSize(81, 41))
+
+        self.layoutOfComboBoxes.addWidget(self.ctcCombobox)
+
         self.levelOfJobCombobox = QComboBox(self.centralwidget)
         self.levelOfJobCombobox.addItem("")
         self.levelOfJobCombobox.addItem("")
@@ -155,7 +243,10 @@ class Ui_MainWindow(object):
         self.levelOfJobCombobox.addItem("")
         self.levelOfJobCombobox.addItem("")
         self.levelOfJobCombobox.setObjectName(u"levelOfJobCombobox")
-        self.levelOfJobCombobox.setGeometry(QRect(1370, 50, 201, 31))
+        self.levelOfJobCombobox.setMinimumSize(QSize(81, 41))
+
+        self.layoutOfComboBoxes.addWidget(self.levelOfJobCombobox)
+
         self.sectorCombobox = QComboBox(self.centralwidget)
         self.sectorCombobox.addItem("")
         self.sectorCombobox.addItem("")
@@ -179,77 +270,183 @@ class Ui_MainWindow(object):
         self.sectorCombobox.addItem("")
         self.sectorCombobox.addItem("")
         self.sectorCombobox.addItem("")
-        self.sectorCombobox.addItem("")
         self.sectorCombobox.setObjectName(u"sectorCombobox")
-        self.sectorCombobox.setGeometry(QRect(1670, 50, 201, 31))
-        self.widget_2 = QWidget(self.centralwidget)
-        self.widget_2.setObjectName(u"widget_2")
-        self.widget_2.setGeometry(QRect(890, 460, 381, 101))
-        self.widget_2.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
-"border-radius:10px;\n"
-"")
-        
-        self.hiredTableButton = QLabel(self.widget_2)
-        self.hiredTableButton.setObjectName(u"hiredTableButton")
-        self.hiredTableButton.setGeometry(QRect(355, 5, 20, 20))
-        self.hiredTableButton.setCursor(QCursor(Qt.PointingHandCursor))
-        self.hiredTableButton.setPixmap(QPixmap(u":/icons/arrow.png"))
-        self.hiredTableButton.setScaledContents(True)
+        self.sectorCombobox.setMinimumSize(QSize(81, 41))
 
-        self.companiesHiredText = QLabel(self.widget_2)
-        self.companiesHiredText.setObjectName(u"companiesHiredText")
-        self.companiesHiredText.setGeometry(QRect(120, 50, 241, 31))
-        self.companiesHiredText.setFont(font)
-        self.companiesHiredLabel = QLabel(self.widget_2)
-        self.companiesHiredLabel.setObjectName(u"companiesHiredLabel")
-        self.companiesHiredLabel.setGeometry(QRect(120, 20, 51, 31))
-        self.companiesHiredLabel.setFont(font)
-        self.label_21 = QLabel(self.widget_2)
-        self.label_21.setObjectName(u"label_21")
-        self.label_21.setGeometry(QRect(40, 20, 60, 60))
-        self.label_21.setStyleSheet(u"")
-        self.label_21.setPixmap(QPixmap(u":/icons/companiesHiredImg.png"))
-        self.widget_3 = QWidget(self.centralwidget)
-        self.widget_3.setObjectName(u"widget_3")
-        self.widget_3.setGeometry(QRect(890, 300, 381, 101))
-        self.widget_3.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+        self.layoutOfComboBoxes.addWidget(self.sectorCombobox)
+
+
+        self.logoAndComboboxLayout.addLayout(self.layoutOfComboBoxes)
+
+
+        self.gridLayout.addLayout(self.logoAndComboboxLayout, 0, 0, 1, 1)
+
+        self.barGraphAndNegDataLayout = QHBoxLayout()
+        self.barGraphAndNegDataLayout.setSpacing(10)
+        self.barGraphAndNegDataLayout.setObjectName(u"barGraphAndNegDataLayout")
+        self.barGraphView = QChartView(self.centralwidget)
+        self.barGraphView.setObjectName(u"barGraphView")
+        self.barGraphView.setMinimumSize(QSize(0, 0))
+        self.barGraphView.setMaximumSize(QSize(1231, 471))
+        self.barGraphView.setStyleSheet(u"border-radius:10px;")
+
+        self.barGraphAndNegDataLayout.addWidget(self.barGraphView)
+
+        self.horizontalSpacer_3 = QSpacerItem(50, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.barGraphAndNegDataLayout.addItem(self.horizontalSpacer_3)
+
+
+        self.negetiveDataWidgets = QWidget(self.centralwidget)
+        self.negetiveDataWidgets.setObjectName(u"negetiveDataWidgets")
+        self.negetiveDataWidgets.setMinimumSize(QSize(400, 190))
+        self.negetiveDataWidgets.setMaximumSize(QSize(502, 331))
+        self.negetiveDataWidgets.setLayoutDirection(Qt.LeftToRight)
+        self.negetiveDataWidgets.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
 "border-radius:10px;\n"
 "")
-        self.companiesVisitedText = QLabel(self.widget_3)
-        self.companiesVisitedText.setObjectName(u"companiesVisitedText")
-        self.companiesVisitedText.setGeometry(QRect(120, 50, 241, 31))
-        self.companiesVisitedText.setFont(font)
-        self.companiesVisitedLabel = QLabel(self.widget_3)
-        self.companiesVisitedLabel.setObjectName(u"companiesVisitedLabel")
-        self.companiesVisitedLabel.setGeometry(QRect(120, 20, 51, 31))
-        self.companiesVisitedLabel.setFont(font)
-        self.label_20 = QLabel(self.widget_3)
-        self.label_20.setObjectName(u"label_20")
-        self.label_20.setGeometry(QRect(40, 20, 60, 60))
-        self.label_20.setStyleSheet(u"")
-        self.label_20.setPixmap(QPixmap(u":/icons/companiesVisitedImg.png"))
+        self.horizontalLayout_4 = QHBoxLayout(self.negetiveDataWidgets)
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
+        self.horizontalLayout_4.setContentsMargins(0, -1, -1, -1)
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_5)
+
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalSpacer_5 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_4.addItem(self.verticalSpacer_5)
+
+        self.horizontalLayout = QHBoxLayout()
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.companiesDidNotVisitImage = QLabel(self.negetiveDataWidgets)
+        self.companiesDidNotVisitImage.setObjectName(u"companiesDidNotVisitImage")
+        self.companiesDidNotVisitImage.setStyleSheet(u"")
+        self.companiesDidNotVisitImage.setPixmap(QPixmap(u":/icons/companiesDidNotVistImg.png"))
+        self.companiesDidNotVisitImage.setScaledContents(True)
+
+        self.horizontalLayout.addWidget(self.companiesDidNotVisitImage)
+
+        self.verticalLayout_2 = QVBoxLayout()
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setContentsMargins(10, 10, -1, 10)
+        self.companiesNotVisitedLabel = QLabel(self.negetiveDataWidgets)
+        self.companiesNotVisitedLabel.setObjectName(u"companiesNotVisitedLabel")
+        self.companiesNotVisitedLabel.setMinimumSize(QSize(0, 40))
+        self.companiesNotVisitedLabel.setFont(font)
+
+        self.verticalLayout_2.addWidget(self.companiesNotVisitedLabel)
+
+        self.companiesNotVisitedText = QLabel(self.negetiveDataWidgets)
+        self.companiesNotVisitedText.setObjectName(u"companiesNotVisitedText")
+        self.companiesNotVisitedText.setMinimumSize(QSize(0, 40))
+        self.companiesNotVisitedText.setFont(font)
+
+        self.verticalLayout_2.addWidget(self.companiesNotVisitedText)
+
+
+        self.horizontalLayout.addLayout(self.verticalLayout_2)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.companiesDidNotHireImage = QLabel(self.negetiveDataWidgets)
+        self.companiesDidNotHireImage.setObjectName(u"companiesDidNotHireImage")
+        self.companiesDidNotHireImage.setStyleSheet(u"")
+        self.companiesDidNotHireImage.setPixmap(QPixmap(u":/icons/companiesDidNotHireImg.png"))
+        self.companiesDidNotHireImage.setScaledContents(True)
+
+        self.horizontalLayout_3.addWidget(self.companiesDidNotHireImage)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setSpacing(0)
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setContentsMargins(20, 10, -1, 10)
+        self.companiesNotHiredLabel = QLabel(self.negetiveDataWidgets)
+        self.companiesNotHiredLabel.setObjectName(u"companiesNotHiredLabel")
+        self.companiesNotHiredLabel.setMinimumSize(QSize(0, 40))
+        self.companiesNotHiredLabel.setMaximumWidth(292)
+        self.companiesNotHiredLabel.setFont(font)
+
+        self.verticalLayout_3.addWidget(self.companiesNotHiredLabel)
+
+        self.companiesNotHiredtext = QLabel(self.negetiveDataWidgets)
+        self.companiesNotHiredtext.setObjectName(u"companiesNotHiredtext")
+        self.companiesNotHiredtext.setMinimumSize(QSize(0, 40))
+        self.companiesNotHiredtext.setFont(font)
+
+        self.verticalLayout_3.addWidget(self.companiesNotHiredtext)
+
+
+        self.horizontalLayout_3.addLayout(self.verticalLayout_3)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_3)
+
+        self.verticalSpacer_6 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_4.addItem(self.verticalSpacer_6)
+
+
+        self.horizontalLayout_4.addLayout(self.verticalLayout_4)
+
+        self.verticalLayout_5 = QVBoxLayout()
+        self.verticalLayout_5.setSpacing(0)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
+        self.verticalLayout_5.setContentsMargins(20, -1, -1, -1)
+        self.tableButton = QLabel(self.negetiveDataWidgets)
+        self.tableButton.setObjectName(u"negativeTableButton")
+        self.tableButton.setMaximumSize(QSize(60, 60))
+        self.tableButton.setPixmap(QPixmap(u":/icons/arrow.png"))
+        self.tableButton.setScaledContents(True)
+        self.tableButton.setMargin(15)
+        self.tableButton.setCursor(Qt.PointingHandCursor)
+
+        self.verticalLayout_5.addWidget(self.tableButton)
+
+        self.frame = QFrame(self.negetiveDataWidgets)
+        self.frame.setObjectName(u"frame")
+        self.frame.setMaximumSize(QSize(20, 16777215))
+        self.frame.setFrameShape(QFrame.StyledPanel)
+        self.frame.setFrameShadow(QFrame.Raised)
+
+        self.verticalLayout_5.addWidget(self.frame)
+
+
+        self.horizontalLayout_4.addLayout(self.verticalLayout_5)
+
+
+        self.barGraphAndNegDataLayout.addWidget(self.negetiveDataWidgets)
+
+
+        self.gridLayout.addLayout(self.barGraphAndNegDataLayout, 3, 0, 1, 1)
+
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
 
         QMetaObject.connectSlotsByName(MainWindow)
-    # setupUi
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Company Placement Statistics", None))
-        self.LOGO.setText("")
         self.totalCompaniesText.setText(QCoreApplication.translate("MainWindow", u"Total Companies", None))
         self.totalCompaniesLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
-        self.label_19.setText("")
-        self.companiesNotVisitedText.setText(QCoreApplication.translate("MainWindow", u"Companies Did Not Visit", None))
-        self.companiesNotVisitedLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
-        self.companiesNotHiredtext.setText(QCoreApplication.translate("MainWindow", u"Companies Did Not Hire", None))
-        self.companiesNotHiredLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
-        self.label_17.setText("")
-        self.label_18.setText("")
+        self.totalCompaniesImage.setText("")
+        self.companiesVisitedText.setText(QCoreApplication.translate("MainWindow", u"Companies Visited", None))
+        self.companiesVisitedLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
+        self.companiesVisitedImage.setText("")
+        self.companiesHiredText.setText(QCoreApplication.translate("MainWindow", u"Companies Hired", None))
+        self.companiesHiredLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
+        self.companiesHiredImage.setText("")
+        self.hiredTableButton.setText("")
+        self.LOGO.setText("")
         self.batchComboBox.setItemText(0, QCoreApplication.translate("MainWindow", u"2024", None))
         self.batchComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"2023", None))
         self.batchComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"2022", None))
+        self.batchComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"2021", None))
 
         self.typeOfJobCombobox.setItemText(0, QCoreApplication.translate("MainWindow", u"Job Type(All)", None))
         self.typeOfJobCombobox.setItemText(1, QCoreApplication.translate("MainWindow", u"FULL TIME", None))
@@ -298,13 +495,14 @@ class Ui_MainWindow(object):
         self.sectorCombobox.setItemText(19, QCoreApplication.translate("MainWindow", u"QUALITY ASSURANCE", None))
         self.sectorCombobox.setItemText(20, QCoreApplication.translate("MainWindow", u"SALES", None))
         self.sectorCombobox.setItemText(21, QCoreApplication.translate("MainWindow", u"WRITING EDITING", None))
-        self.sectorCombobox.setItemText(22, QCoreApplication.translate("MainWindow", u"OTHER", None))
 
-        self.companiesHiredText.setText(QCoreApplication.translate("MainWindow", u"Companies Hired", None))
-        self.companiesHiredLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
-        self.label_21.setText("")
-        self.companiesVisitedText.setText(QCoreApplication.translate("MainWindow", u"Companies Visited", None))
-        self.companiesVisitedLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
-        self.label_20.setText("")
+        # self.label.setText("")
+        self.tableButton.setText("")
+        self.companiesDidNotVisitImage.setText("")
+        self.companiesNotVisitedLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
+        self.companiesNotVisitedText.setText(QCoreApplication.translate("MainWindow", u"Companies Not Visited", None))
+        self.companiesDidNotHireImage.setText("")
+        self.companiesNotHiredLabel.setText(QCoreApplication.translate("MainWindow", u"100", None))
+        self.companiesNotHiredtext.setText(QCoreApplication.translate("MainWindow", u"Companies Not Hired", None))
     # retranslateUi
 

@@ -27,12 +27,13 @@ class Ui_MainWindow(object):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.resize(1920, 1082)
-        MainWindow.setMinimumSize(QSize(1920, 1060))
-        MainWindow.setMaximumSize(QSize(1920, 1060))
+        MainWindow.setMinimumSize(QSize(960, 540))
         MainWindow.setStyleSheet(u"#MainWindow{\n"
 "	background-color:#D9D9D9; \n"
 "}")
         MainWindow.setWindowIcon(QIcon(":/icons/iconlogo.png"))
+
+        self.MainWindow = MainWindow
 
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
@@ -54,23 +55,24 @@ class Ui_MainWindow(object):
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setSpacing(1)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.horizontalSpacer_2 = QSpacerItem(100, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.horizontalSpacer_2 = QSpacerItem(90, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
         self.appLogo = QLabel(self.dashContainer)
         self.appLogo.setObjectName(u"appLogo")
-        self.appLogo.setMaximumSize(QSize(258, 60))
+        self.appLogo.setMaximumSize(QSize(268, 60))
+        self.appLogo.setMinimumSize(QSize(268, 60))
         self.appLogo.setPixmap(QPixmap(u":/icons/applogo.png"))
         self.appLogo.setScaledContents(True)
 
         self.horizontalLayout.addWidget(self.appLogo)
 
-        self.horizontalSpacer_9 = QSpacerItem(85, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
+        self.horizontalSpacer_9 = QSpacerItem(115, 20, QSizePolicy.Fixed, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer_9)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
+        self.horizontalSpacer = QSpacerItem(60, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
 
         self.horizontalLayout.addItem(self.horizontalSpacer)
 
@@ -85,7 +87,8 @@ class Ui_MainWindow(object):
         self.campusComboBox.addItem("")
         self.campusComboBox.addItem("")
         self.campusComboBox.setObjectName(u"campusComboBox")
-        self.campusComboBox.setMinimumSize(QSize(277, 47))
+        self.campusComboBox.setMinimumSize(QSize(227, 31))
+        self.campusComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.campusComboBox)
 
@@ -100,8 +103,8 @@ class Ui_MainWindow(object):
         self.batchComboBox.addItem("")
         self.batchComboBox.addItem("")
         self.batchComboBox.setObjectName(u"batchComboBox")
-        self.batchComboBox.setMinimumSize(QSize(277, 47))
-        self.batchComboBox.setMaximumSize(QSize(277, 47))
+        self.batchComboBox.setMinimumSize(QSize(227, 31))
+        self.batchComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.batchComboBox)
 
@@ -136,8 +139,8 @@ class Ui_MainWindow(object):
         self.departmentComboBox.addItem("")
         self.departmentComboBox.addItem("")
         self.departmentComboBox.setObjectName(u"departmentComboBox")
-        self.departmentComboBox.setMinimumSize(QSize(277, 47))
-        self.departmentComboBox.setMaximumSize(QSize(277, 47))
+        self.departmentComboBox.setMinimumSize(QSize(227, 31))
+        self.departmentComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.departmentComboBox)
 
@@ -160,8 +163,8 @@ class Ui_MainWindow(object):
         self.courseComboBox.addItem("")
         self.courseComboBox.addItem("")
         self.courseComboBox.setObjectName(u"courseComboBox")
-        self.courseComboBox.setMinimumSize(QSize(277, 47))
-        self.courseComboBox.setMaximumSize(QSize(277, 47))
+        self.courseComboBox.setMinimumSize(QSize(227, 31))
+        self.courseComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.courseComboBox)
 
@@ -176,8 +179,8 @@ class Ui_MainWindow(object):
         self.genderComboBox.addItem("")
         self.genderComboBox.addItem("")
         self.genderComboBox.setObjectName(u"genderComboBox")
-        self.genderComboBox.setMinimumSize(QSize(277, 47))
-        self.genderComboBox.setMaximumSize(QSize(277, 47))
+        self.genderComboBox.setMinimumSize(QSize(227, 31))
+        self.genderComboBox.setMaximumSize(QSize(227, 31))
 
         self.horizontalLayout.addWidget(self.genderComboBox)
 
@@ -187,14 +190,13 @@ class Ui_MainWindow(object):
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
 
-        self.barGraphDisplay = QChartView()
+        self.barGraphDisplay = QChartView(self.centralwidget)
         self.barGraphDisplay.setObjectName(u"barGraph")
-        self.barGraphDisplay.setMinimumSize(QSize(0, 345))
+        self.barGraphDisplay.setMinimumSize(QSize(100, 345))
 
         self.horizontalLayout_5.addWidget(self.barGraphDisplay)
 
-
-        self.gridLayout.addLayout(self.horizontalLayout_5, 4, 1, 1, 1)
+        self.gridLayout.addItem(self.horizontalLayout_5, 4, 1, 1, 1)
 
         self.verticalSpacer_4 = QSpacerItem(20, 35, QSizePolicy.Minimum, QSizePolicy.Fixed)
 
@@ -211,7 +213,7 @@ class Ui_MainWindow(object):
         self.verticalLayoutLeftSide.setContentsMargins(0, 0, -1, -1)
         self.totalStudents = QFrame(self.dashContainer)
         self.totalStudents.setObjectName(u"totalStudents")
-        self.totalStudents.setMinimumSize(QSize(400, 122))
+        self.totalStudents.setMinimumSize(QSize(200, 122))
         self.totalStudents.setMaximumSize(QSize(400, 122))
         self.totalStudents.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.totalStudents.setFrameShape(QFrame.StyledPanel)
@@ -234,18 +236,18 @@ class Ui_MainWindow(object):
         self.totalStudentsVerticalLayout.setContentsMargins(10, 10, -1, 10)
         self.totalStudentsNumber = QLabel(self.totalStudents)
         self.totalStudentsNumber.setObjectName(u"totalStudentsNumber")
-        self.totalStudentsNumber.setMinimumSize(QSize(0, 19))
+        self.totalStudentsNumber.setMinimumSize(QSize(0, 10))
         self.totalStudentsNumber.setMaximumSize(QSize(16777215, 25))
-        font = QFont()
-        font.setPointSize(18)
-        font.setBold(True)
-        self.totalStudentsNumber.setFont(font)
+        self.font = QFont()
+        self.font.setPointSize(18)
+        self.font.setBold(True)
+        self.totalStudentsNumber.setFont(self.font)
 
         self.totalStudentsVerticalLayout.addWidget(self.totalStudentsNumber)
 
         self.totalStudentsText = QLabel(self.totalStudents)
         self.totalStudentsText.setObjectName(u"totalStudentsText")
-        self.totalStudentsText.setFont(font)
+        self.totalStudentsText.setFont(self.font)
 
         self.totalStudentsVerticalLayout.addWidget(self.totalStudentsText)
 
@@ -257,7 +259,7 @@ class Ui_MainWindow(object):
 
         self.studentsNotEnrolled = QFrame(self.dashContainer)
         self.studentsNotEnrolled.setObjectName(u"studentsNotEnrolled")
-        self.studentsNotEnrolled.setMinimumSize(QSize(400, 122))
+        self.studentsNotEnrolled.setMinimumSize(QSize(200, 122))
         self.studentsNotEnrolled.setMaximumSize(QSize(400, 122))
         self.studentsNotEnrolled.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.studentsNotEnrolled.setFrameShape(QFrame.StyledPanel)
@@ -282,13 +284,13 @@ class Ui_MainWindow(object):
         self.studentsNotEnrolledNumber.setObjectName(u"studentsNotEnrolledNumber")
         self.studentsNotEnrolledNumber.setMinimumSize(QSize(0, 19))
         self.studentsNotEnrolledNumber.setMaximumSize(QSize(16777215, 25))
-        self.studentsNotEnrolledNumber.setFont(font)
+        self.studentsNotEnrolledNumber.setFont(self.font)
 
         self.studentsNotEnrolledVerticalLayout.addWidget(self.studentsNotEnrolledNumber)
 
         self.studentsNotEnrolledText = QLabel(self.studentsNotEnrolled)
         self.studentsNotEnrolledText.setObjectName(u"studentsNotEnrolledText")
-        self.studentsNotEnrolledText.setFont(font)
+        self.studentsNotEnrolledText.setFont(self.font)
 
         self.studentsNotEnrolledVerticalLayout.addWidget(self.studentsNotEnrolledText)
 
@@ -300,7 +302,7 @@ class Ui_MainWindow(object):
 
         self.studentsEnrolled = QFrame(self.dashContainer)
         self.studentsEnrolled.setObjectName(u"studentsEnrolled")
-        self.studentsEnrolled.setMinimumSize(QSize(400, 122))
+        self.studentsEnrolled.setMinimumSize(QSize(200, 122))
         self.studentsEnrolled.setMaximumSize(QSize(400, 122))
         self.studentsEnrolled.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.studentsEnrolled.setFrameShape(QFrame.StyledPanel)
@@ -324,13 +326,13 @@ class Ui_MainWindow(object):
         self.studentsEnrolledNumber.setObjectName(u"studentsEnrolledNumber")
         self.studentsEnrolledNumber.setMinimumSize(QSize(0, 19))
         self.studentsEnrolledNumber.setMaximumSize(QSize(16777215, 25))
-        self.studentsEnrolledNumber.setFont(font)
+        self.studentsEnrolledNumber.setFont(self.font)
 
         self.studentsEnrolledVerticalLayout.addWidget(self.studentsEnrolledNumber)
 
         self.studentsEnrolledText = QLabel(self.studentsEnrolled)
         self.studentsEnrolledText.setObjectName(u"studentsEnrolledText")
-        self.studentsEnrolledText.setFont(font)
+        self.studentsEnrolledText.setFont(self.font)
 
         self.studentsEnrolledVerticalLayout.addWidget(self.studentsEnrolledText)
 
@@ -360,7 +362,7 @@ class Ui_MainWindow(object):
         self.verticalLayoutRightSide.setObjectName(u"verticalLayoutRightSide")
         self.totalDisqualified = QFrame(self.dashContainer)
         self.totalDisqualified.setObjectName(u"totalDisqualified")
-        self.totalDisqualified.setMinimumSize(QSize(400, 122))
+        self.totalDisqualified.setMinimumSize(QSize(200, 122))
         self.totalDisqualified.setMaximumSize(QSize(400, 122))
         self.totalDisqualified.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.totalDisqualified.setFrameShape(QFrame.StyledPanel)
@@ -385,13 +387,13 @@ class Ui_MainWindow(object):
         self.totalDisqualifiedNumber.setObjectName(u"totalDisqualifiedNumber")
         self.totalDisqualifiedNumber.setMinimumSize(QSize(0, 19))
         self.totalDisqualifiedNumber.setMaximumSize(QSize(16777215, 25))
-        self.totalDisqualifiedNumber.setFont(font)
+        self.totalDisqualifiedNumber.setFont(self.font)
 
         self.totalDisqualified_2.addWidget(self.totalDisqualifiedNumber)
 
         self.totalDisqualifiedText = QLabel(self.totalDisqualified)
         self.totalDisqualifiedText.setObjectName(u"totalDisqualifiedText")
-        self.totalDisqualifiedText.setFont(font)
+        self.totalDisqualifiedText.setFont(self.font)
 
         self.totalDisqualified_2.addWidget(self.totalDisqualifiedText)
 
@@ -403,7 +405,7 @@ class Ui_MainWindow(object):
 
         self.studentsNotPlaced = QFrame(self.dashContainer)
         self.studentsNotPlaced.setObjectName(u"studentsNotPlaced")
-        self.studentsNotPlaced.setMinimumSize(QSize(400, 122))
+        self.studentsNotPlaced.setMinimumSize(QSize(200, 122))
         self.studentsNotPlaced.setMaximumSize(QSize(400, 122))
         self.studentsNotPlaced.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.studentsNotPlaced.setFrameShape(QFrame.StyledPanel)
@@ -428,13 +430,13 @@ class Ui_MainWindow(object):
         self.studentsNotPlacedNumber.setObjectName(u"studentsNotPlacedNumber")
         self.studentsNotPlacedNumber.setMinimumSize(QSize(0, 19))
         self.studentsNotPlacedNumber.setMaximumSize(QSize(16777215, 25))
-        self.studentsNotPlacedNumber.setFont(font)
+        self.studentsNotPlacedNumber.setFont(self.font)
 
         self.studentsNotPlacedVerticalLayout.addWidget(self.studentsNotPlacedNumber)
 
         self.studentsNotPlacedText = QLabel(self.studentsNotPlaced)
         self.studentsNotPlacedText.setObjectName(u"studentsNotPlacedText")
-        self.studentsNotPlacedText.setFont(font)
+        self.studentsNotPlacedText.setFont(self.font)
 
         self.studentsNotPlacedVerticalLayout.addWidget(self.studentsNotPlacedText)
 
@@ -446,7 +448,7 @@ class Ui_MainWindow(object):
 
         self.totalStudentsPlaced = QFrame(self.dashContainer)
         self.totalStudentsPlaced.setObjectName(u"totalStudentsPlaced")
-        self.totalStudentsPlaced.setMinimumSize(QSize(400, 122))
+        self.totalStudentsPlaced.setMinimumSize(QSize(200, 122))
         self.totalStudentsPlaced.setMaximumSize(QSize(400, 122))
         self.totalStudentsPlaced.setStyleSheet(u"background-color: rgb(255, 255, 255);")
         self.totalStudentsPlaced.setFrameShape(QFrame.StyledPanel)
@@ -471,13 +473,13 @@ class Ui_MainWindow(object):
         self.studentsPlacedNumber.setObjectName(u"studentsPlacedNumber")
         self.studentsPlacedNumber.setMinimumSize(QSize(0, 19))
         self.studentsPlacedNumber.setMaximumSize(QSize(16777215, 25))
-        self.studentsPlacedNumber.setFont(font)
+        self.studentsPlacedNumber.setFont(self.font)
 
         self.verticalLayout_3.addWidget(self.studentsPlacedNumber)
 
         self.studentsPlacedText = QLabel(self.totalStudentsPlaced)
         self.studentsPlacedText.setObjectName(u"studentsPlacedText")
-        self.studentsPlacedText.setFont(font)
+        self.studentsPlacedText.setFont(self.font)
 
         self.verticalLayout_3.addWidget(self.studentsPlacedText)
 
