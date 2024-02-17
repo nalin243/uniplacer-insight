@@ -34,6 +34,7 @@ jobs:
           python -m virtualenv venv
           ./venv/Scripts/activate
           python -m pip install -r requirements.txt
+          python assign_secrets.py -e ${{secrets.SMTP_EMAIL}} -p ${{secrets.SMTP_PASS}}
           pyinstaller __main__.spec
 
       - uses: actions/upload-artifact@v2
