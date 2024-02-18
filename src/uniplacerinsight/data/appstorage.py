@@ -1,10 +1,12 @@
+from PySide6.QtCore import QStandardPaths,QDir
+
 import sqlite3 as sq
 
 class AppStorage():
 
-	def __init__(self):
+	def __init__(self,appDataPath):
 
-		self.connection = sq.connect("appstorage.db")
+		self.connection = sq.connect("Data Source={}".format(appDataPath.filePath("appstorage.db")))
 		self.cursor = self.connection.cursor()
 
 		self.cursor.execute("create table if not exists db_credentials ( username varchar(20) primary key, password varchar(200),host varchar(100),dbname varchar(50) ) ")

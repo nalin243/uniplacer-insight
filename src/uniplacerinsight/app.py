@@ -3,7 +3,7 @@
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QApplication
 from mysql.connector import errorcode
-from PySide6.QtCore import Slot,QObject
+from PySide6.QtCore import Slot,QObject,QDir,QStandardPaths
 
 from views.landingPageView import LandingPageView
 from views.studentPlacementStatPageView import StudentPlacementStatPageView
@@ -39,6 +39,13 @@ class Application(QApplication):
 
 		self.setQuitOnLastWindowClosed(False)
 
+		self.setOrganizationName("ASN")
+		self.setApplicationName("UniplacerInsight")
+
+		#creating the path if it does not already exist
+		appDataPath = QDir(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation))
+		QDir().mkpath(appDataPath.filePath(""))
+
 		try:
 			from ctypes import windll
 			appid = "customcompany.uniplacerinsight.app.version1"
@@ -48,7 +55,7 @@ class Application(QApplication):
 
 		self.loadinganimationdialog = LoadingAnimationDialog()
 
-		self.appstorage = AppStorage()
+		self.appstorage = AppStorage(appDataPath)
 
 		self.loginauth = LoginAuth(self.appstorage)
 
