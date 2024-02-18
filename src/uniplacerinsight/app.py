@@ -1,9 +1,10 @@
 #This is the main controller file that will create instantiate all the controllers and views. 
 
 from PySide6 import QtWidgets
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication, QSplashScreen
 from mysql.connector import errorcode
 from PySide6.QtCore import Slot,QObject
+from PySide6.QtGui import QPixmap
 
 from views.landingPageView import LandingPageView
 from views.studentPlacementStatPageView import StudentPlacementStatPageView
@@ -28,6 +29,9 @@ from data.loginauth import LoginAuth
 
 from functools import partial
 
+import images
+import time
+
 class Application(QApplication):
 
 	_currentPage = -1      # -1 indidcates that current page is landing page
@@ -45,6 +49,8 @@ class Application(QApplication):
 			windll.shell32.SetCurrentProcessExplicitAppUserModelID(appid)
 		except ImportError:
 			pass
+
+		self.splashscreen = QSplashScreen(pixmap=QPixmap(":/icons/splashscreen.png"))
 
 		self.loadinganimationdialog = LoadingAnimationDialog()
 
@@ -70,6 +76,10 @@ class Application(QApplication):
 
 		self.dialog = ErrorModal(self.landingpageview.widget)
 		self.loginmodal = LoginModal(self.loginauth,self.landingpageview.widget)
+
+		self.splashscreen.show()
+		time.sleep(3)
+		self.splashscreen.close()
 
 		self.displayView(-1)#first page is always landing page
 

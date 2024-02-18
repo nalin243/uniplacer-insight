@@ -10,7 +10,11 @@ import os
 import sys
 
 from pathlib import Path
-from data.appsecrets import SMTP_EMAIL,SMTP_PASS
+
+try:
+    from data.appsecrets import SMTP_EMAIL,SMTP_PASS
+except Exception as e:
+    print(e)
 
 class LoginAuth():
     
@@ -24,8 +28,11 @@ class LoginAuth():
         self.connection  = None
         self.cursor = None
 
-        self.smtpEmail = "{}".format(SMTP_EMAIL)
-        self.smtpPass = "{}".format(SMTP_PASS)
+        try:
+            self.smtpEmail = "{}".format(SMTP_EMAIL)
+            self.smtpPass = "{}".format(SMTP_PASS)
+        except Exception as e:
+            print(e)
 
         try:
             self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)

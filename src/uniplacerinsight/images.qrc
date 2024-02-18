@@ -30,5 +30,6 @@
     <file alias="companiesHiredImg.png">assets/companiesHiredImg.png</file>
     <file alias="companiesVisitedImg.png">assets/companiesVisitedImg.png</file>
     <file alias="totalCompanyImg.png">assets/totalCompanyImg.png</file>
+    <file alias="splashscreen.png">assets/splashscreen.png</file>
 </qresource>
 </RCC>
