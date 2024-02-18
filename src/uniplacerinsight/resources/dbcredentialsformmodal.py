@@ -25,6 +25,8 @@ class DbCredentialsFormModal(QDialog):
         super().__init__(parent)
         self.setupUi(self)
 
+        self.setModal(True)
+
     def setupUi(self, Form):
         if not Form.objectName():
             Form.setObjectName(u"Form")

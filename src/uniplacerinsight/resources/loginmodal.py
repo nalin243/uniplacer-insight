@@ -32,6 +32,8 @@ class LoginModal(QDialog):
 
         self.loginauth = loginauth
 
+        self.setModal(True)
+
         self.stackedWidget.setTransitionDirection(QtCore.Qt.Horizontal)
         self.stackedWidget.setTransitionSpeed(100)
         self.stackedWidget.setTransitionEasingCurve(QtCore.QEasingCurve.Linear)
