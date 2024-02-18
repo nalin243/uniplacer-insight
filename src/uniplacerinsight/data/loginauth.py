@@ -10,6 +10,7 @@ import os
 import sys
 
 from pathlib import Path
+from data.appsecrets import SMTP_EMAIL,SMTP_PASS
 
 class LoginAuth():
     
@@ -22,6 +23,9 @@ class LoginAuth():
 
         self.connection  = None
         self.cursor = None
+
+        self.smtpEmail = "{}".format(SMTP_EMAIL)
+        self.smtpPass = "{}".format(SMTP_PASS)
 
         try:
             self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
@@ -65,10 +69,8 @@ class LoginAuth():
 
     # OTP Authentication Module
     def sendOtp(self):
+        self.userid, self.password, self.Host, self.dbName = self.appstorage.getDbCredentials()
         self.cursor.reset()
-
-        smtpEmail = os.environ.get("SMTP_EMAIL")
-        smtpPass = os.environ.get("SMTP_PASS")
 
         self.query = "select * from users where username = '{}'".format(self.username) 
         self.cursor.execute(self.query)
@@ -83,11 +85,14 @@ class LoginAuth():
         msg['From'] = "Uni-Placer Insight"
         msg['To'] = "{}".format(mail)
 
-        self.s = smtplib.SMTP('smtp.gmail.com', 587)
-        self.s.starttls()
-        self.s.login(smtpEmail, smtpPass)
-        self.s.send_message(msg)
-        self.s.quit()
+        try:
+            self.s = smtplib.SMTP('smtp.gmail.com', 587)
+            self.s.starttls()
+            self.s.login(self.smtpEmail, self.smtpPass)
+            self.s.send_message(msg)
+            self.s.quit()
+        except:
+            pass
 
     def checkOtp(self, otp):
         if str(self.otp) == str(otp):
