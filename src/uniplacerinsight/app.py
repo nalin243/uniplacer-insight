@@ -3,7 +3,7 @@
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QApplication, QSplashScreen
 from mysql.connector import errorcode
-from PySide6.QtCore import Slot,QObject
+from PySide6.QtCore import Slot,QObject,QDir,QStandardPaths
 from PySide6.QtGui import QPixmap
 
 from views.landingPageView import LandingPageView
@@ -43,6 +43,13 @@ class Application(QApplication):
 
 		self.setQuitOnLastWindowClosed(False)
 
+		self.setOrganizationName("ASN")
+		self.setApplicationName("UniplacerInsight")
+
+		#creating the path if it does not already exist
+		appDataPath = QDir(QStandardPaths.writableLocation(QStandardPaths.AppDataLocation))
+		QDir().mkpath(appDataPath.filePath(""))
+
 		try:
 			from ctypes import windll
 			appid = "customcompany.uniplacerinsight.app.version1"
@@ -54,7 +61,7 @@ class Application(QApplication):
 
 		self.loadinganimationdialog = LoadingAnimationDialog()
 
-		self.appstorage = AppStorage()
+		self.appstorage = AppStorage(appDataPath)
 
 		self.loginauth = LoginAuth(self.appstorage)
 
@@ -166,7 +173,7 @@ class Application(QApplication):
 
 		authStatus = self.loginauth.checkAuth(username, password)
 
-		if(authStatus): 
+		if(authStatus==1): 
 			self.loginmodal.close()
 			match Application._currentPage:
 				case 0:
@@ -178,8 +185,10 @@ class Application(QApplication):
 				case 2:
 					pass
 
-		else:
+		elif(authStatus==0):
 			self.loginmodal.wrongCredLabel.setText("Wrong Credentials")
+		elif(authStatus==-1):
+			self.loginmodal.stackedWidget.slideToWidgetIndex(2)
 
 	def newCredentials(self, dbConnStatus):
 		self.loginauth.establishConn()
