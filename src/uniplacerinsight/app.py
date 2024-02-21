@@ -163,7 +163,7 @@ class Application(QApplication):
 
 		authStatus = self.loginauth.checkAuth(username, password)
 
-		if(authStatus): 
+		if(authStatus==1): 
 			self.loginmodal.close()
 			match Application._currentPage:
 				case 0:
@@ -175,8 +175,10 @@ class Application(QApplication):
 				case 2:
 					pass
 
-		else:
+		elif(authStatus==0):
 			self.loginmodal.wrongCredLabel.setText("Wrong Credentials")
+		elif(authStatus==-1):
+			self.loginmodal.stackedWidget.slideToWidgetIndex(2)
 
 	def newCredentials(self, dbConnStatus):
 		self.loginauth.establishConn()

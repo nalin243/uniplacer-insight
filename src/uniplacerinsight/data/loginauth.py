@@ -27,13 +27,18 @@ class LoginAuth():
         self.smtpEmail = "{}".format(SMTP_EMAIL)
         self.smtpPass = "{}".format(SMTP_PASS)
 
+        defaultHashedPass = bcrypt.hashpw("admin".encode('utf-8') ,bcrypt.gensalt())
+        defaultUsername = "admin"
+
         try:
             self.connection = connect(host=self.Host, user=self.userid, password =self.password, database = self.dbName)
             self.cursor = self.connection.cursor()
-            self.cursor.execute("create table if not exists users ( username varchar(20), email varchar(100), password varchar(100), smtpEmail varchar(100), smtpPass varchar(200) )")
+            self.cursor.execute("create table if not exists users (username varchar(20) primary key, email varchar(100), password varchar(100) )")
+            self.cursor.execute("insert into users (username,password) values('{}','{}'); ".format(defaultUsername,str(defaultHashedPass.decode("utf-8"))))
+            self.connection.commit()
         except Exception as e:
             pass
-
+            
         self.username = None
         self.otp = None
 
@@ -57,12 +62,15 @@ class LoginAuth():
         self.cursor.execute(self.query)
 
         try:
-            _,self.mail,hashedpass= self.cursor.fetchall()[0]
+            username,self.mail,hashedpass= self.cursor.fetchall()[0]
 
             if bcrypt.checkpw(password.encode('utf-8'), hashedpass.encode('utf-8')):
-                return True
+                if(password == "admin" and username == "admin"):
+                    return -1
+                else:
+                    return 1
             else:
-                return False
+                return 0
 
         except Exception as e:
             return False
