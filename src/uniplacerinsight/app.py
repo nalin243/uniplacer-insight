@@ -4,7 +4,7 @@ from PySide6 import QtWidgets
 from PySide6.QtWidgets import QApplication, QSplashScreen
 from mysql.connector import errorcode
 from PySide6.QtCore import Slot,QObject,QDir,QStandardPaths
-from PySide6.QtGui import QPixmap
+from PySide6.QtGui import QPixmap,QColor
 
 from views.landingPageView import LandingPageView
 from views.studentPlacementStatPageView import StudentPlacementStatPageView
@@ -85,8 +85,8 @@ class Application(QApplication):
 		self.loginmodal = LoginModal(self.loginauth,self.landingpageview.widget)
 
 		self.splashscreen.show()
-		time.sleep(3)
-		self.splashscreen.close()
+		self.splashscreen.finish(self.landingpageview)
+
 
 		self.displayView(-1)#first page is always landing page
 
