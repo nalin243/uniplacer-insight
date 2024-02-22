@@ -373,7 +373,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		super().show()	
 
 	def barChartFiltersChanged(self):
-		self.campusFilter = None if self.campusComboBox.currentText()=="All" else self.campusComboBox.currentText()
+		self.campusFilter = None if self.campusComboBox.currentText()=="Campus(All)" else self.campusComboBox.currentText()
 		self.batchFilter = None if self.batchComboBox.currentText()=="All" else self.batchComboBox.currentText()
 
 		self.controller.updateBarChartValues(self.campusFilter,self.batchFilter)
