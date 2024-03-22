@@ -44,10 +44,12 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 
 	def resizing(self,event):
 		bigFont = QFont()
+		bigFont.setFamilies([u"Lucida Sans"])
 		bigFont.setPointSize(18)
 		bigFont.setBold(True)
 
 		smallFont = QFont()
+		smallFont.setFamilies([u"Lucida Sans"])
 		smallFont.setPointSize(15)
 		smallFont.setBold(True)
 

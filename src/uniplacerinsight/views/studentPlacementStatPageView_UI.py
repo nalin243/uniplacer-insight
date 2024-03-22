@@ -215,7 +215,9 @@ class Ui_MainWindow(object):
         self.totalStudents.setObjectName(u"totalStudents")
         self.totalStudents.setMinimumSize(QSize(200, 122))
         self.totalStudents.setMaximumSize(QSize(400, 122))
-        self.totalStudents.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.totalStudents.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
         self.totalStudents.setFrameShape(QFrame.StyledPanel)
         self.totalStudents.setFrameShadow(QFrame.Raised)
         self.gridLayout_5 = QGridLayout(self.totalStudents)
@@ -239,6 +241,7 @@ class Ui_MainWindow(object):
         self.totalStudentsNumber.setMinimumSize(QSize(0, 10))
         self.totalStudentsNumber.setMaximumSize(QSize(16777215, 25))
         self.font = QFont()
+        self.font.setFamilies([u"Lucida Sans"])
         self.font.setPointSize(18)
         self.font.setBold(True)
         self.totalStudentsNumber.setFont(self.font)
@@ -261,7 +264,9 @@ class Ui_MainWindow(object):
         self.studentsNotEnrolled.setObjectName(u"studentsNotEnrolled")
         self.studentsNotEnrolled.setMinimumSize(QSize(200, 122))
         self.studentsNotEnrolled.setMaximumSize(QSize(400, 122))
-        self.studentsNotEnrolled.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.studentsNotEnrolled.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
         self.studentsNotEnrolled.setFrameShape(QFrame.StyledPanel)
         self.studentsNotEnrolled.setFrameShadow(QFrame.Raised)
         self.gridLayout_6 = QGridLayout(self.studentsNotEnrolled)
@@ -304,7 +309,9 @@ class Ui_MainWindow(object):
         self.studentsEnrolled.setObjectName(u"studentsEnrolled")
         self.studentsEnrolled.setMinimumSize(QSize(200, 122))
         self.studentsEnrolled.setMaximumSize(QSize(400, 122))
-        self.studentsEnrolled.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.studentsEnrolled.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
         self.studentsEnrolled.setFrameShape(QFrame.StyledPanel)
         self.studentsEnrolled.setFrameShadow(QFrame.Raised)
         self.gridLayout_7 = QGridLayout(self.studentsEnrolled)
@@ -364,7 +371,9 @@ class Ui_MainWindow(object):
         self.totalDisqualified.setObjectName(u"totalDisqualified")
         self.totalDisqualified.setMinimumSize(QSize(200, 122))
         self.totalDisqualified.setMaximumSize(QSize(400, 122))
-        self.totalDisqualified.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.totalDisqualified.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
         self.totalDisqualified.setFrameShape(QFrame.StyledPanel)
         self.totalDisqualified.setFrameShadow(QFrame.Raised)
         self.gridLayout_3 = QGridLayout(self.totalDisqualified)
@@ -407,7 +416,9 @@ class Ui_MainWindow(object):
         self.studentsNotPlaced.setObjectName(u"studentsNotPlaced")
         self.studentsNotPlaced.setMinimumSize(QSize(200, 122))
         self.studentsNotPlaced.setMaximumSize(QSize(400, 122))
-        self.studentsNotPlaced.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.studentsNotPlaced.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
         self.studentsNotPlaced.setFrameShape(QFrame.StyledPanel)
         self.studentsNotPlaced.setFrameShadow(QFrame.Raised)
         self.gridLayout_2 = QGridLayout(self.studentsNotPlaced)
@@ -450,7 +461,9 @@ class Ui_MainWindow(object):
         self.totalStudentsPlaced.setObjectName(u"totalStudentsPlaced")
         self.totalStudentsPlaced.setMinimumSize(QSize(200, 122))
         self.totalStudentsPlaced.setMaximumSize(QSize(400, 122))
-        self.totalStudentsPlaced.setStyleSheet(u"background-color: rgb(255, 255, 255);")
+        self.totalStudentsPlaced.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"border-radius:10px;\n"
+"")
         self.totalStudentsPlaced.setFrameShape(QFrame.StyledPanel)
         self.totalStudentsPlaced.setFrameShadow(QFrame.Raised)
         self.gridLayout_4 = QGridLayout(self.totalStudentsPlaced)
@@ -579,24 +592,25 @@ class Ui_MainWindow(object):
         self.genderComboBox.setItemText(1, QCoreApplication.translate("MainWindow", u"Male", None))
         self.genderComboBox.setItemText(2, QCoreApplication.translate("MainWindow", u"Female", None))
         self.genderComboBox.setItemText(3, QCoreApplication.translate("MainWindow", u"Other", None))
-
         self.genderComboBox.setPlaceholderText(QCoreApplication.translate("MainWindow", u"Gender", None))
+
+
         self.totalStudentsImage.setText("")
         # self.totalStudentsNumber.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.totalStudentsText.setText(QCoreApplication.translate("MainWindow", u"TOTAL STUDENTS", None))
+        self.totalStudentsText.setText(QCoreApplication.translate("MainWindow", u"Total Students", None))
         self.studentsNotPlacedImage.setText("")
         # self.studentsNotPlacedNumber.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.studentsNotEnrolledText.setText(QCoreApplication.translate("MainWindow", u"NOT ENROLLED", None))
+        self.studentsNotEnrolledText.setText(QCoreApplication.translate("MainWindow", u"Not Enrolled", None))
         self.studentsEnrolledImage.setText("")
         # self.studentsEnrolledNumber.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.studentsEnrolledText.setText(QCoreApplication.translate("MainWindow", u"ENROLLED STUDENTS", None))
+        self.studentsEnrolledText.setText(QCoreApplication.translate("MainWindow", u"Enrolled Students", None))
         self.totalDisqualifiedImage.setText("")
         # self.totalDisqualifiedNumber.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.totalDisqualifiedText.setText(QCoreApplication.translate("MainWindow", u"REMOVED/BLOCKED", None))
+        self.totalDisqualifiedText.setText(QCoreApplication.translate("MainWindow", u"Removed/Blocked", None))
         self.studentsNotEnrolledImage.setText("")
         # self.studentsNotEnrolledNumber.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.studentsNotPlacedText.setText(QCoreApplication.translate("MainWindow", u"NOT PLACED", None))
+        self.studentsNotPlacedText.setText(QCoreApplication.translate("MainWindow", u"Not Placed", None))
         self.studentsPlacedImage.setText("")
         # self.studentsPlacedNumber.setText(QCoreApplication.translate("MainWindow", u"0", None))
-        self.studentsPlacedText.setText(QCoreApplication.translate("MainWindow", u"PLACED STUDENTS", None))
+        self.studentsPlacedText.setText(QCoreApplication.translate("MainWindow", u"Placed Students", None))
     # retranslateUi
