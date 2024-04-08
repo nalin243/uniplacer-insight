@@ -242,6 +242,39 @@ class DataManager():
 				pass
 			print(e)
 
+	def getPlacedData(self, campusFilter, batchFilter, departmentFilter, courseFilter, genderFilter):
+		
+		placedStudents = "select Student_Name,Placed from students_{} where Placed is not null and Office_Name like '{}' and  Branch like '{}' and Course_Name like '{}' and Gender like '{}';".format(batchFilter,"%" if campusFilter==None else campusFilter,"%" if departmentFilter==None else departmentFilter,"%" if courseFilter==None else courseFilter,"%" if genderFilter==None else genderFilter)
+
+		try:
+			connection = connect(host=self._dbHost,user=self._dbUsername,password=self._dbPassword,database=self._dbName)
+			cursor = connection.cursor()
+
+			cursor.execute(placedStudents)
+			finalPlacedStudents = cursor.fetchall()
+			cursor.reset()
+
+			studentName = []
+			placed = []
+
+			for stud in finalPlacedStudents:
+				
+				studentName.append(stud[0])
+				placed.append(stud[1])
+			
+
+			placedData = { 'Student Name' : studentName,
+				'Company Name':placed
+
+			}
+
+			df2 = pd.DataFrame(placedData)
+
+			return df2
+		
+		except Exception as e:
+			print(e,"datamanager")
+
 
 	def getCompanyAggregates(self,jobTypeFilter,jobSectorFilter,ctcFilter,companyLevelFilter, batchFilter):
 		#getting company aggregates for second module according to the filters

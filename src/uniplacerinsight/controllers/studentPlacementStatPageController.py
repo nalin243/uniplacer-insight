@@ -9,6 +9,7 @@ class StudentPlacementStatPageController():
 
 	def changeFilter(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
 		self.viewmodel.setStudentAggregates(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
+		self.viewmodel.setPlacedData(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
 
 	def updateBarChartValues(self,campusFilter,batchFilter):
 		self.viewmodel.setBarChartValues(campusFilter,batchFilter)

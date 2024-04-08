@@ -1,4 +1,4 @@
-
+from models.tablemodel import TableModel
 
 class StudentPlacementStatPageViewModel():
 
@@ -18,6 +18,25 @@ class StudentPlacementStatPageViewModel():
 		self.categories = []
 
 		self.barChartYaxisRange = 0
+
+		self.placedTableData = None
+
+
+	def getPlacedData(self):
+
+		return self.placedTableData
+
+	def setPlacedData(self,campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter):
+		try:
+
+			placedTableData = self.datamanager.getPlacedData(campusFilter,batchFilter,departmentFilter,courseFilter,genderFilter)
+			self.placedTableData = TableModel(placedTableData)
+
+		except Exception as e:
+			print(e)
+			if "cannot unpack non-iterable NoneType" in str(e):
+				self.placedTableData = None
+
 
 	def getStudentAggregates(self):
 		#getting aggregate code
