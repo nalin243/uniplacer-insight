@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtCharts import QPieSeries,QChart,QPieSlice,QLegend,QBarSeries,QBarSet,QBarCategoryAxis,QValueAxis
-from PySide6.QtCore import QSize, Qt,QEasingCurve
+from PySide6.QtCore import QSize, Qt,QEasingCurve, QRect
 from PySide6.QtGui import QCloseEvent, QPainter,QColor,QFont
 
 import functools
@@ -81,6 +81,7 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 			self.batchComboBox.setMinimumSize(QSize(177,47))
 			self.campusComboBox.setMinimumSize(QSize(177,47))
 
+			self.studentsPlacedButton.setGeometry(QRect(229, 10, 18, 18))
 
 			self.totalStudentsNumber.setFont(smallFont)
 			self.totalStudentsText.setFont(smallFont)
@@ -155,6 +156,8 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 			self.departmentComboBox.setMinimumSize(QSize(227,47))
 			self.batchComboBox.setMinimumSize(QSize(227,47))
 			self.campusComboBox.setMinimumSize(QSize(227,47))
+
+			self.studentsPlacedButton.setGeometry(QRect(320, 10, 18, 18))
 
 			self.totalStudentsNumber.setFont(bigFont)
 			self.totalStudentsText.setFont(bigFont)
