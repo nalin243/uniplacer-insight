@@ -27,6 +27,8 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 		self.courseFilter = None if self.courseComboBox.currentText()=="Course(All)" else self.courseComboBox.currentText()
 		self.genderFilter = None if self.genderComboBox.currentText()=="Gender(All)" else self.genderComboBox.currentText()
 
+		
+
 		self.studentsEligiblePercent = 0
 		self.studentsAppliedPercent = 0
 		self.studentsNotAppliedPercent = 0
@@ -205,6 +207,9 @@ class StudentPlacementStatPageView(QMainWindow,Ui_MainWindow):
 			self.studentsNotPlacedImage.setMaximumSize(QSize(95, 95))
 
 			self.barGraphDisplay.setMinimumSize(QSize(100, 345))
+
+
+		
 
 	def closeEvent(self, event):
 		self.controller.returnToLanding()

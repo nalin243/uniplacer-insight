@@ -466,6 +466,7 @@ class Ui_MainWindow(object):
 "")
         self.totalStudentsPlaced.setFrameShape(QFrame.StyledPanel)
         self.totalStudentsPlaced.setFrameShadow(QFrame.Raised)
+
         self.gridLayout_4 = QGridLayout(self.totalStudentsPlaced)
         self.gridLayout_4.setObjectName(u"gridLayout_4")
         self.gridLayout_4.setContentsMargins(-1, 9, -1, -1)
@@ -487,6 +488,13 @@ class Ui_MainWindow(object):
         self.studentsPlacedNumber.setMinimumSize(QSize(0, 19))
         self.studentsPlacedNumber.setMaximumSize(QSize(16777215, 25))
         self.studentsPlacedNumber.setFont(self.font)
+
+        self.studentsPlacedButton = QLabel(self.totalStudentsPlaced)
+        self.studentsPlacedButton.setObjectName(u"studentsPlacedButton")
+        self.studentsPlacedButton.setGeometry(QRect(320, 10, 18, 18))
+        self.studentsPlacedButton.setPixmap(QPixmap(u":/icons/arrow.png"))
+        self.studentsPlacedButton.setScaledContents(True)
+        self.studentsPlacedButton.setCursor(Qt.PointingHandCursor)
 
         self.verticalLayout_3.addWidget(self.studentsPlacedNumber)
 
